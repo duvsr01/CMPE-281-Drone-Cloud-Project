@@ -1,41 +1,38 @@
-import React from 'react';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import LandingPage from "./components/appEntry/LandingPage";
+import "bootstrap/dist/css/bootstrap.css"; // To include React bootstrap's design.   https://react-bootstrap.github.io/getting-started/introduction/
+import "font-awesome/css/font-awesome.css"; // To include font anwesome's design.     https://fontawesome.com/how-to-use/on-the-web/setup/using-package-managers
+import firebase from "firebase";
+import "./App.css";
 
-import Login from "./components/login.component";
-import SignUp from "./components/signup.component";
 
-function App() {
-  return (<Router>
-    <div className="App">
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          <Link className="navbar-brand" to={"/sign-in"}>RemoteStack</Link>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/sign-in"}>Sign in</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
-              </li>
-            </ul>
-          </div>
+firebase.initializeApp({
+  apiKey: "AIzaSyAv8KuODStE3ziKqsnviKZzLyPByaPZEPU",
+  authDomain: "cmpe-281-drone.firebaseapp.com",
+  databaseURL: "https://cmpe-281-drone.firebaseio.com",
+  projectId: "cmpe-281-drone",
+  storageBucket: "cmpe-281-drone.appspot.com",
+  messagingSenderId: "385553130955",
+  appId: "1:385553130955:web:98d10bb10d8cb17d72024e",
+  measurementId: "G-K65XWBP3YC"
+});
+
+
+class App extends Component {
+  render() {
+    return (
+      <main>
+        <div className="content">
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+            </Switch>
+          </BrowserRouter>
         </div>
-      </nav>
-
-      <div className="outer">
-        <div className="inner">
-          <Switch>
-            <Route exact path='/' component={Login} />
-            <Route path="/sign-in" component={Login} />
-            <Route path="/sign-up" component={SignUp} />
-          </Switch>
-        </div>
-      </div>
-    </div></Router>
-  );
+      </main>
+    );
+  }
 }
 
 export default App;
