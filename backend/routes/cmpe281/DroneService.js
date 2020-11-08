@@ -3,7 +3,7 @@ const router = express.Router();
 const config = require("../../config/sqlConnection.js");
 const db=config.db;
 
-router.get('/drones', (req, res) =>{
+router.get('/', (req, res) =>{
     db.query(("select * from drone"), function(error,results){
         if(error)
         throw error;
