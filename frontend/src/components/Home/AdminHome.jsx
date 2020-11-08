@@ -7,6 +7,9 @@ class AdminHome extends Component {
     
     return (
       <div>
+         <br/>
+        <br/>
+        <br/>
        Welcome to AdminHome
       </div>
     );

@@ -4,6 +4,7 @@ import LandingPage from "./components/appEntry/LandingPage";
 import "bootstrap/dist/css/bootstrap.css"; // To include React bootstrap's design.   https://react-bootstrap.github.io/getting-started/introduction/
 import "font-awesome/css/font-awesome.css"; // To include font anwesome's design.     https://fontawesome.com/how-to-use/on-the-web/setup/using-package-managers
 import firebase from "firebase";
+import Main from "./components/Main/Main";
 import "./App.css";
 
 
@@ -27,6 +28,7 @@ class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={LandingPage} />
+              <Route  path="/main" component={Main} />
             </Switch>
           </BrowserRouter>
         </div>

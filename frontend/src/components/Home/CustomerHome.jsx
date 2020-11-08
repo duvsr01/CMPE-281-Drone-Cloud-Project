@@ -7,6 +7,9 @@ class CustomerHome extends Component {
     
     return (
       <div>
+        <br/>
+        <br/>
+        <br/>
        Welcome to CustomerHome
       </div>
     );

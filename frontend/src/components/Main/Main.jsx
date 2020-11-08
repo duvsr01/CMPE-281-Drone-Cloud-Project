@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { getUserProfile } from "../_actions/profileActions";
 import Home from "../Home/Home";
-
+import NavBar from "../navBar/NavBar";
 
 class Main extends Component {
    componentDidMount() {
@@ -14,10 +11,12 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <div className="container"></div>
+        <NavBar />
+        <div className="container">
+        </div>
         <BrowserRouter>
           <Switch>
-            <Route path="/main/home" Component={Home} />
+            <Route path="/main/home" component={Home} />
           </Switch>
         </BrowserRouter>
       </div>

@@ -20,26 +20,23 @@ router.post("/register", (req, res) => {
   else{
       usertype="customer";
   }
-  //console.log("user details:  " +email,password,uid,displayName,usertype);
+  console.log("user details:  " +uid,displayName,email,password,usertype);
 
-  db.query ('select * from user where email =? or uid=?', [email,uid], function(error, results){
+  db.query ('select * from user where email =? and uid=?', [email,uid], function(error, results){
     if (results.length>0){
       console.log(results[0]);
-      var email=results[0].email;
-      var displayName=results[0].displayName;
-      var usertype=results[0].usertype;
+      console.log("User already exists");
       res.send({email,displayName,usertype});
+       
     }
     else{
       console.log("insert the user record");
-           db.query(
-          "insert into user (uid,displayName,email,password,usertype) values (?,?,?,?,?)",
-          [uid,displayName, email, password, usertype],
+           db.query('INSERT INTO user (uid,displayName,email,password,usertype) VALUES (?,?,?,?,?)',[uid,displayName,email,password,usertype],
           function(err, result) {
             if (err) throw err;
             console.log("Number of records inserted: " + result.affectedRows);
+            console.log(JSON.stringify(result));
             res.send({email,displayName,usertype});
-            
           }
         );
     }

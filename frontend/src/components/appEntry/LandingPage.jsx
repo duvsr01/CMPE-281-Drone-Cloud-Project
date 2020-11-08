@@ -13,7 +13,6 @@ class LandingPage extends Component {
                  <div className="header-wrapper header-full">
               {/* <div  styles={{backgroundImage: `url(${drone_image})`}}></div> */}
                  <img
-        
                   src={agriculturaldrones}
                   width="800"
                   height="500"
