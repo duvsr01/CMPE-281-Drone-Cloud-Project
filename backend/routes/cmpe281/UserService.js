@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 var passwordHash = require("password-hash");
 const config = require("../../config/sqlConnection.js");
-const { response } = require("../../index.js");
 const db=config.db;
 
 router.get("/test", (req, res) => res.json({ msg: "backend connection works" }));
 
+// user register and login api
 router.post("/register", (req, res) => {
   console.log("Inside register api");
   var email = req.body.email;
@@ -35,7 +35,6 @@ router.post("/register", (req, res) => {
           function(err, result) {
             if (err) throw err;
             console.log("Number of records inserted: " + result.affectedRows);
-            console.log(JSON.stringify(result));
             res.send({email,displayName,usertype});
           }
         );
