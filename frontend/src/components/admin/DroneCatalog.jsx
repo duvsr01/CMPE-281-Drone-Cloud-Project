@@ -1,8 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { createDrone } from "../_actions/droneActions";
-import { Col, Form } from "react-bootstrap";
+import {  Form } from "react-bootstrap";
 
 class DroneCatalog extends Component {
 
@@ -12,7 +12,8 @@ class DroneCatalog extends Component {
           name: "",
           size: "",
           type: "",
-          description: ""
+          description: "",
+          base64TextString:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +24,25 @@ class DroneCatalog extends Component {
           [e.target.name]: e.target.value,
         });
       };
+
+      handleImageChange = (e) => {
+        console.log("files to upload: " , e.target.files[0]);
+        const file =  e.target.files[0];
+        if(file) {
+          const reader = new FileReader();
+          reader.onload = this._handleReaderLoaded.bind(this);
+          reader.readAsBinaryString(file);
+        }
+      }
+
+      _handleReaderLoaded = (readerEvt) => {
+        const binaryString = readerEvt.target.result
+        this.setState({
+          base64TextString : btoa(binaryString)
+        })
+      }
+
+
 
       handleSubmit = (e) => {
         //prevent page from refresh
@@ -36,8 +56,11 @@ class DroneCatalog extends Component {
             name: this.state.name,
             size: this.state.size,
             type: this.state.type,
-            description: this.state.description
+            description: this.state.description,
+            image:this.state.base64TextString
           };
+
+          //console.log("data to send:" + data.image);
     
           this.props.createDrone(data);
         
@@ -89,10 +112,16 @@ class DroneCatalog extends Component {
                     onChange={this.handleChange}
                   /></Form.Group>
 
-                
-                  
-                
-    
+              <Form.Group controlId="image">
+                  <Form.Label>Upload Image</Form.Label>
+                  <Form.Control
+                    name="image"
+                    type="file"
+                    accept=".jpeg,.jpg,.png"
+                    value={this.state.image}
+                    onChange={(e) => this.handleImageChange(e)}
+                  /></Form.Group>
+              
               <Button
                 className="btn btn-primary"
                 onClick={this.handleSubmit}

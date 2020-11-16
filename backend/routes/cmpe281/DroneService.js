@@ -12,8 +12,12 @@ router.get('/', (req, res) =>{
     })
 });
 
-router.get('/drone/:id',(req,res) =>{
-    db.query(('select * from drone where drone_id=?'),[req.params.id], function(error,results){
+router.get('/getDroneById',(req,res) =>{
+    console.log("backend get details");
+
+    var id = req.query.id;
+    console.log("id: " + id);
+    db.query(('select * from drone where drone_id=?'),[id], function(error,results){
         if(error) throw error;
         console.log("results : " +JSON.stringify(results));
         res.end(JSON.stringify(results));
@@ -32,8 +36,10 @@ router.post('/createdrone',(req,res) =>{
 });
 
 router.put('/updatedrone',(req,res) =>{
-
-    db.query(('update drone SET '),[], function(error,results){
+    var drone = {};
+    drone = req.body;
+    console.log("update drone : " + JSON.stringify(drone));
+    db.query(('UPDATE drone SET name=?,size=?,type=?,description=? where drone_id = ?'),[drone.name,drone.size,drone.type,drone.description,drone.id],function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })

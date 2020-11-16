@@ -1,33 +1,37 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Card, Col, Row, Button } from "react-bootstrap";
+import {withRouter } from "react-router-dom";
+import { Card, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getDroneDetails } from "../_actions/droneActions";
 import PropTypes from "prop-types";
+import Spinner from "../../common/Spinner";
 
 class DroneCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    
     
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  state={
+    drone:{}
   }
   
   handleSubmit = (drone_id) => {
     //prevent page from refresh
    // e.preventDefault();
-    this.setState({
-      text: "",
-      errors: ""
-    });
    
     const params = {
       id : drone_id
     };
 
-      this.props.getDroneDetails(params);
-    
+     this.props.getDroneDetails(params);
+
+     console.log("get state:" + this.props.drone.drone_id);
+
+     this.props.history.push("/main/dronedetails",this.props.drone);
+ 
   };
 
   render() {
@@ -49,7 +53,8 @@ class DroneCard extends Component {
 }
 
 DroneCard.propTypes={
-  drone:PropTypes.any,
+  drones:PropTypes.array,
+  drone:PropTypes.any
 }
 
 const mapStateToProps = (state) => ({
@@ -59,4 +64,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getDroneDetails })(DroneCard);
+export default withRouter(connect(mapStateToProps, { getDroneDetails }) (DroneCard));

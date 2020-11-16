@@ -4,16 +4,10 @@ import {
   Navbar,
   Nav,
   Dropdown,
-  Button,
-  Label,
-  Container,
-  Row,
-  Card,
-  Col
+  Button
 } from "react-bootstrap";
 import firebase from "firebase";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import agriculturaldrones from "../../common/images/agriculturaldrones.jpg";
 
 
 class Navigationbar extends Component {
@@ -51,7 +45,7 @@ class Navigationbar extends Component {
     }
  
 
-    var logoutButton, menuButtons, profile, searchButton;
+    var logoutButton, menuButtons, searchButton;
 
     logoutButton = (
       <div className="collapse navbar-collapse navbar-right" id="navbarNav">

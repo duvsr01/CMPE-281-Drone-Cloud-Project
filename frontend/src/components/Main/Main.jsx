@@ -5,7 +5,7 @@ import NavBar from "../navBar/NavBar";
 import DroneCatalog from "../admin/DroneCatalog";
 import SearchDrones from "../admin/SearchDrones";
 import ViewAllDrones from "../admin/ViewAllDrones";
-
+import DroneDetails from "../Home/DroneDetails";
 
 class Main extends Component {
    componentDidMount() {
@@ -24,6 +24,7 @@ class Main extends Component {
             <Route path="/main/admin/createdrone" component={DroneCatalog} />
             <Route path="/main/admin/searchdrones" component={SearchDrones} />
             <Route path="/main/admin/viewalldrones" component={ViewAllDrones} />
+            <Route path="/main/dronedetails" component={DroneDetails}/> 
           </Switch>
         </BrowserRouter>
       </div>

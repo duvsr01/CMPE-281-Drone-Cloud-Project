@@ -42,10 +42,11 @@ import {
   };
 
   // Get Drone details by id
-  export const getDroneDetails = (id) => (dispatch) => {
+  export const getDroneDetails = (params) => (dispatch) => {
+    console.log("get drone details");
     dispatch(setLoading());
     axios
-      .get(backendurl + "drones/drone",id)
+      .get(backendurl + "drones/getDroneById",{params})
       .then((response) => {
         dispatch({
           type: GET_DRONE_DETAILS,
@@ -81,10 +82,10 @@ import {
   };
 
    // update a drone
-   export const updateDrone = () => (dispatch) => {
+   export const updateDrone = (data) => (dispatch) => {
     dispatch(setLoading());
     axios
-      .put(backendurl + "drones/updatedrone")
+      .put(backendurl + "drones/updatedrone",data)
       .then((response) => {
         dispatch({
           type: UPDATE_DRONE,
