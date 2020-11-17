@@ -28,9 +28,17 @@ class DroneCard extends Component {
 
      this.props.getDroneDetails(params);
 
-     console.log("get state:" + this.props.drone.drone_id);
+     if (
+      localStorage.getItem("usertype") === "admin"
+    ) {
+      this.props.history.push("/main/admindronedetails",this.props.drone);
+    } else if (
+      localStorage.getItem("usertype") === "customer"
+    ) {
+      this.props.history.push("/main/customerdronedetails",this.props.drone);
+    }
 
-     this.props.history.push("/main/dronedetails",this.props.drone);
+     
  
   };
 

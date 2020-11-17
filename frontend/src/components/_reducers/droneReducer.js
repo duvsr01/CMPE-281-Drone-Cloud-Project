@@ -5,12 +5,17 @@ import {
     REMOVE_DRONE,
     UPDATE_DRONE,
     SEARCH_DRONES,
-    GET_DRONE_DETAILS
+    GET_DRONE_DETAILS,
+    GET_AGRICULTURE_SERVICES,
+    CREATE_AGRICULTURE_SERVICE,
+    UPDATE_AGRICULTURE_SERVICE
   } from "../_actions/types";
   
   const initialState = {
     drone : {},
     drones: [],
+    agricultureservice : {},
+    agricultureservices: [],
     loading: false,
     
   };
@@ -56,6 +61,25 @@ import {
         return {
           ...state,
           drones: action.payload,
+          loading: false,
+        };
+        case GET_AGRICULTURE_SERVICES:
+          console.log("action payload set state: " + action.payload);
+        return {
+          ...state,
+          agricultureservices: action.payload,
+          loading: false,
+        };
+        case CREATE_AGRICULTURE_SERVICE:
+        return {
+          ...state,
+          agricultureservice: action.payload,
+          loading: false,
+        };
+        case UPDATE_AGRICULTURE_SERVICE:
+        return {
+          ...state,
+          agricultureservice: action.payload,
           loading: false,
         };
         default:

@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { searchDrones } from "../_actions/droneActions";
-import {Row, Col, Form } from "react-bootstrap";
-import Spinner from "../../common/Spinner";
-import DroneCard from "../Home/DroneCard";
-import PropTypes from "prop-types";
+import { createAgricultureService } from "../_actions/droneActions";
+import {  Form } from "react-bootstrap";
 
-class SearchDrones extends Component {
+class CreateAgricultureService extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
           name: "",
-          description: ""
+          description: "",
+          basecost: "",
+          drone_id: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,7 +24,8 @@ class SearchDrones extends Component {
         });
       };
 
-      handleSubmit = (e) => {
+
+      handleSubmit = (e,drone_id)  => {
         //prevent page from refresh
         e.preventDefault();
         this.setState({
@@ -33,42 +33,35 @@ class SearchDrones extends Component {
           errors: "",
         });
        
-          const params = {
+          const data = {
             name: this.state.name,
-            description: this.state.description
+            basecost: this.state.basecost,
+            description: this.state.description,
+            drone_id:drone_id,
+            servicestatus:'active'
           };
+
+          //console.log("data to send:" + data.image);
     
-          this.props.searchDrones(params);
+          this.props.createAgricultureService(data);
         
       };
 
       render() {
         const { text, errors } = this.state;
-        
-        const {drones,loading} = this.props.droneState;
-        let droneContent;
-        if(drones==null || loading){
-          <Spinner />
-        }
-        else{
-          
-        droneContent = drones.map((drone,index)=>{
-          return(
-              <Col key={index} sm={5}>
-              <DroneCard drone={drone} />
-            </Col>)
-          
-        })}
 
+        const drone_id = this.props.location.state;
+    
         return (
-          <div class="container">
-          <div class="row justify-content-center">
-              <div class="col-md-8">
-                      <div class="card">
-                          <div class="card-header">Update Agriculture Service</div>
-                          <div class="card-body">
+            <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">Create Agriculture Service</div>
+                            <div class="card-body">
             <Form>
-               
+                
+            
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
@@ -76,6 +69,15 @@ class SearchDrones extends Component {
                     value={this.state.name}
                     onChange={this.handleChange}
                   /></Form.Group>
+
+                <Form.Group controlId="basecost">
+                  <Form.Label>Base Cost</Form.Label>
+                  <Form.Control
+                    name="basecost"
+                    value={this.state.basecost}
+                    onChange={this.handleChange}
+                  /></Form.Group>
+                 
                
                 <Form.Group controlId="description">
                   <Form.Label>Description</Form.Label>
@@ -84,12 +86,11 @@ class SearchDrones extends Component {
                     value={this.state.description}
                     onChange={this.handleChange}
                   /></Form.Group>
+              
               <Button
-                className="btn btn-primary"
-                onClick={this.handleSubmit}
-                type="submit"
-              >
-                Search Drones
+                className="btn btn-primary" type="submit"
+                onClick={e => this.handleSubmit(e,drone_id)}>
+                Create Agriculture Service
               </Button>
               <br />
               <p className="text-danger"> {errors}</p>
@@ -100,30 +101,15 @@ class SearchDrones extends Component {
                           </div>
                   </div>
               </div>
-
-              <div className="container">
-           <div>
-             
-             <Row>{droneContent}</Row>
-           </div>
           </div>
-          </div>
-          
-          
-          
         );
       }
 
 
 } 
 
-SearchDrones.propTypes={
-    drones:PropTypes.array,
-}
-
   const mapStateToProps = (state) => ({
     store: state.storeState,
     errors: state.errorState,
-    droneState:state.droneState
   });
-  export default connect(mapStateToProps, { searchDrones })(SearchDrones);
+  export default connect(mapStateToProps, { createAgricultureService })(CreateAgricultureService);

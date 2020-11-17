@@ -4,7 +4,7 @@ const config = require("../../config/sqlConnection.js");
 const db=config.db;
 
 router.get('/', (req, res) =>{
-    db.query(("select * from drone"), function(error,results){
+    db.query(("select * from drone where status='active'"), function(error,results){
         if(error)
         throw error;
         console.log("results : " +JSON.stringify(results));
@@ -13,7 +13,6 @@ router.get('/', (req, res) =>{
 });
 
 router.get('/getDroneById',(req,res) =>{
-    console.log("backend get details");
 
     var id = req.query.id;
     console.log("id: " + id);
@@ -38,7 +37,6 @@ router.post('/createdrone',(req,res) =>{
 router.put('/updatedrone',(req,res) =>{
     var drone = {};
     drone = req.body;
-    console.log("update drone : " + JSON.stringify(drone));
     db.query(('UPDATE drone SET name=?,size=?,type=?,description=? where drone_id = ?'),[drone.name,drone.size,drone.type,drone.description,drone.id],function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
@@ -46,8 +44,12 @@ router.put('/updatedrone',(req,res) =>{
 
 });
 
-router.delete('/removedrone/:id',(req,res) =>{
-    db.query(('delete from drone where drone_id=?'),[req.params.id], function(error,results){
+router.patch('/removedrone',(req,res) =>{
+
+    var id = req.query.id;
+    console.log("id: " + id);
+
+    db.query(('update drone set status="inactive" where drone_id=?'),[id], function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })
@@ -73,7 +75,10 @@ router.get('/searchdrones',(req,res) =>{
           conditions.push("description LIKE ?");
           values.push("%" + req.query.description + "%");
         }
-      
+        
+        conditions.push("status = ?");
+        values.push('active');
+
         var conditions = {
           where: conditions.length ?
                    conditions.join(' AND ') : '1',

@@ -6,7 +6,10 @@ import {
     UPDATE_DRONE,
     REMOVE_DRONE,
     SEARCH_DRONES,
-    GET_DRONE_DETAILS
+    GET_DRONE_DETAILS,
+    GET_AGRICULTURE_SERVICES,
+    CREATE_AGRICULTURE_SERVICE,
+    UPDATE_AGRICULTURE_SERVICE
   } from "./types";
   import axios from "axios";
   import swal from "sweetalert";
@@ -101,10 +104,10 @@ import {
   };
 
    // delete a drone
-   export const removeDrone = () => (dispatch) => {
+   export const removeDrone = (params) => (dispatch) => {
     dispatch(setLoading());
     axios
-      .post(backendurl + "drones/removedrone")
+      .patch(backendurl + "drones/removedrone",{params})
       .then((response) => {
         dispatch({
           type: REMOVE_DRONE,
@@ -128,6 +131,65 @@ import {
       .then((response) => {
         dispatch({
           type: SEARCH_DRONES,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: error.response.data,
+        });
+      });
+  };
+
+   // Get all services by drone id
+   export const getAgricultureServicesByDroneId = (params) => (dispatch) => {
+    console.log("get service details");
+    dispatch(setLoading());
+    axios
+      .get(backendurl + "agriservices/getServicesByDroneId",{params})
+      .then((response) => {
+        dispatch({
+          type: GET_AGRICULTURE_SERVICES,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: error.response.data,
+        });
+      });
+  };
+
+  // create a service
+  export const createAgricultureService = (data) => (dispatch) => {
+    console.log("dispatched");
+    dispatch(setLoading());
+    axios
+      .post(backendurl + "agriservices/createagricultureservice",data)
+      .then((response) => {
+        dispatch({
+          type: CREATE_AGRICULTURE_SERVICE,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: error.response.data,
+        });
+      });
+  };
+
+   // update a drone
+   export const updateAgricultureService = (data) => (dispatch) => {
+    dispatch(setLoading());
+    axios
+      .put(backendurl + "agriservices/updateagricultureservice",data)
+      .then((response) => {
+        dispatch({
+          type: UPDATE_AGRICULTURE_SERVICE,
           payload: response.data,
         });
       })

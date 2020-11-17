@@ -44,6 +44,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // defining routes
 const UserService = require("./routes/cmpe281/UserService");
 const DroneService = require("./routes/cmpe281/DroneService");
+const AgricultureService = require("./routes/cmpe281/AgricultureService");
 
 app.get("/", function(request, response) {
   console.log("Inside Node Home");
@@ -53,6 +54,7 @@ app.get("/", function(request, response) {
 // use routes
 app.use("/cmpe281/users", UserService);
 app.use("/cmpe281/drones",DroneService);
+app.use("/cmpe281/agriservices",AgricultureService);
 
 
 const port = process.env.PORT || 3001;

@@ -6,10 +6,10 @@ import { Card, Button,Accordion } from "react-bootstrap";
 import {  Form } from "react-bootstrap";
 
 import { connect } from "react-redux";
-import { updateDrone } from "../_actions/droneActions";
+import { updateDrone,removeDrone } from "../_actions/droneActions";
 
 
-class DroneDetails extends Component {
+class AdminDroneDetails extends Component {
   
   constructor(props) {
     super(props);
@@ -49,6 +49,38 @@ handleChange = (e) => {
       this.props.updateDrone(data);
     
   };
+
+  handleAgricultureServices = (e,drone_id) => {
+    //prevent page from refresh
+    //e.preventDefault();
+
+   this.props.history.push("/main/servicecatalog",drone_id);
+    
+  };
+
+  createAgricultureService = (e,drone_id) => {
+   this.props.history.push("/main/createservice",drone_id);
+    
+  };
+
+  handleDeleteDrone = (e,drone_id) => {
+    //prevent page from refresh
+   // e.preventDefault();
+    this.setState({
+      text: "",
+      errors: "",
+    });
+
+      const params = {
+        id:drone_id
+      };
+
+      this.props.removeDrone(params);
+     
+   };
+
+  
+
   render() {
    const dronedetails = this.props.location.state;
    var imageuri = null;
@@ -60,7 +92,12 @@ handleChange = (e) => {
   // console.log(dronedetails);
   
    return(
-       <div>
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Drone Details</div>
+                    <div class="card-body">
         {[dronedetails].map(dronedetails => <div>
           <Accordion>
         <Card>
@@ -74,6 +111,7 @@ handleChange = (e) => {
             <p>Drone Type - {dronedetails.type} </p>
             <p>Drone Image -  <img src={imageuri} alt="drone"/> </p>
           </Card.Text>
+
         
           </Card.Body>
           <Card.Header>
@@ -83,9 +121,13 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
+                <div class="container">
+              <div class="row justify-content-right">
+                  <div class="col-md-12">
+                          <div class="card">
+                              <div class="card-header">Update Drone</div>
+                              <div class="card-body">
                 <Form>
-                <h2>Update Drone</h2>
-                <hr />
             
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
@@ -130,7 +172,11 @@ handleChange = (e) => {
                 Update Drone
               </Button>
               <br />
-            </Form>
+            </Form></div>
+                          </div>
+                  </div>
+              </div>
+          </div>
                   
                 </Card.Body>
               </Accordion.Collapse>
@@ -144,13 +190,43 @@ handleChange = (e) => {
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
                   <Card.Text><h4>Are you sure you want to delete this drone from the catalog?</h4></Card.Text>
+                  <Button
+                className="btn btn-primary" type="submit"
+                onClick={e => this.handleDeleteDrone(e,dronedetails.drone_id)}>
+                Remove Drone
+              </Button>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                  Agriculture Services
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                <Button
+                className="btn btn-primary" type="submit"
+                onClick={(e) => this.handleAgricultureServices(e,dronedetails.drone_id)}>
+                View All Agriculture Services
+              </Button>
 
+              <Button
+                className="btn btn-primary" type="submit"
+                onClick={(e) => this.createAgricultureService(e,dronedetails.drone_id)}>
+                Create Agriculture Service
+              </Button>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
           </Accordion>
           </div>)}
-       </div>
+          </div>
+                          </div>
+                  </div>
+              </div>
+          </div>
    )
    
   }
@@ -160,4 +236,5 @@ const mapStateToProps = (state) => ({
   store: state.storeState,
   errors: state.errorState,
 });
-export default connect(mapStateToProps, { updateDrone })(DroneDetails);
+
+export default connect(mapStateToProps, { updateDrone,removeDrone})(AdminDroneDetails);

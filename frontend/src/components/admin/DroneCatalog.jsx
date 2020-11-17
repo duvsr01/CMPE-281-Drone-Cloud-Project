@@ -57,7 +57,8 @@ class DroneCatalog extends Component {
             size: this.state.size,
             type: this.state.type,
             description: this.state.description,
-            image:this.state.base64TextString
+            image:this.state.base64TextString,
+            status:'active'
           };
 
           //console.log("data to send:" + data.image);
@@ -70,11 +71,14 @@ class DroneCatalog extends Component {
         const { text, errors } = this.state;
     
         return (
-            <div class="row">
-            <div className="col-md-5 center">
-            <Form>
-                <h2>Create Drone</h2>
-                <hr />
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-md-8">
+                          <div class="card">
+                              <div class="card-header">Create Drone</div>
+                              <div class="card-body">
+                              <Form>
+              
             
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
@@ -106,7 +110,7 @@ class DroneCatalog extends Component {
                
                 <Form.Group controlId="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control
+                  <Form.Control as="textarea" rows={6}
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}
@@ -134,8 +138,14 @@ class DroneCatalog extends Component {
               <p className="text-success"> {text}</p>
               <br />
             </Form>
+                              </div>
+                          </div>
+                  </div>
+              </div>
           </div>
-          </div>
+      
+
+      
         );
       }
 
