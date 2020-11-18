@@ -9,7 +9,8 @@ import {
     GET_DRONE_DETAILS,
     GET_AGRICULTURE_SERVICES,
     CREATE_AGRICULTURE_SERVICE,
-    UPDATE_AGRICULTURE_SERVICE
+    UPDATE_AGRICULTURE_SERVICE,
+    REMOVE_AGRICULTURE_SERVICE
   } from "./types";
   import axios from "axios";
   import swal from "sweetalert";
