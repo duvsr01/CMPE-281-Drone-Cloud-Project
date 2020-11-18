@@ -37,7 +37,8 @@ router.post('/createdrone',(req,res) =>{
 router.put('/updatedrone',(req,res) =>{
     var drone = {};
     drone = req.body;
-    db.query(('UPDATE drone SET name=?,size=?,type=?,description=? where drone_id = ?'),[drone.name,drone.size,drone.type,drone.description,drone.id],function(error,results){
+
+    db.query(('UPDATE drone SET name=?,size=?,type=?,description=?,image=? where drone_id = ?'),[drone.name,drone.size,drone.type,drone.description,drone.image,drone.id],function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })

@@ -60,7 +60,6 @@ class ViewAllDrones extends Component {
 
 
 ViewAllDrones.propTypes={
-  errors: PropTypes.object.isRequired,
   drones:PropTypes.array,
 }
 const mapStateToProps =(state)=>({

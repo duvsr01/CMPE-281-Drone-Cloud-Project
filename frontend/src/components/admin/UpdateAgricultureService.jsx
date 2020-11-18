@@ -18,6 +18,19 @@ class UpdateAgricultureService extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        const service = this.props.location.state;
+        [service].map(service => 
+            this.setState({
+                name:service.name,
+                description:service.description,
+                basecost:service.basecost
+              })
+        )
+    }
+
+   
+
     handleChange = (e) => {
         this.setState({
           [e.target.name]: e.target.value,
@@ -30,7 +43,7 @@ class UpdateAgricultureService extends Component {
         e.preventDefault();
         this.setState({
           text: "",
-          errors: "",
+          errors: ""
         });
     
           const data = {
@@ -41,14 +54,14 @@ class UpdateAgricultureService extends Component {
           };
     
           this.props.updateAgricultureService(data);
+
         
       };
 
       render() {
         const { text, errors } = this.state;
-        console.log("service_id: " + this.props.location.state)
 
-        const service_id = this.props.location.state;
+        const agricultureservice = this.props.location.state;
     
         return (
             <div class="container">
@@ -56,9 +69,10 @@ class UpdateAgricultureService extends Component {
                 <div class="col-md-8">
                         <div class="card">
                             <div class="card-header">Update Agriculture Service</div>
-                            <div class="card-body">
-            <Form>
-               
+                            {[agricultureservice].map(agricultureservice =>      <div class="card-body">
+            <Form name="myForm">
+                <h2>Update Agriculture Service</h2>
+                <hr />
             
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
@@ -71,15 +85,15 @@ class UpdateAgricultureService extends Component {
                 <Form.Group controlId="basecost">
                   <Form.Label>Base Cost</Form.Label>
                   <Form.Control
-                    name="basecost"
+                    name="basecost"       
                     value={this.state.basecost}
                     onChange={this.handleChange}
                   /></Form.Group>
                  
                
-                <Form.Group controlId="description">
+                 <Form.Group controlId="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control
+                  <Form.Control as="textarea" rows={3}
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}
@@ -87,7 +101,7 @@ class UpdateAgricultureService extends Component {
               
               <Button
                 className="btn btn-primary" type="submit"
-                onClick={e => this.handleSubmit(e,service_id)}>
+                onClick={e => this.handleSubmit(e,agricultureservice.service_id)}>
                 Update Agriculture Service
               </Button>
               <br />
@@ -95,7 +109,7 @@ class UpdateAgricultureService extends Component {
               <p className="text-success"> {text}</p>
               <br />
             </Form>
-            </div>
+            </div>)}
                           </div>
                   </div>
               </div>

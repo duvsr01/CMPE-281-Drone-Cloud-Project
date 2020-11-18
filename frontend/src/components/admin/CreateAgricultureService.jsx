@@ -79,9 +79,9 @@ class CreateAgricultureService extends Component {
                   /></Form.Group>
                  
                
-                <Form.Group controlId="description">
+                 <Form.Group controlId="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control
+                  <Form.Control as="textarea" rows={6}
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}

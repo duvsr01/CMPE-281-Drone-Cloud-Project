@@ -25,11 +25,11 @@ class AdminAgricultureServiceCatalog extends Component {
     this.props.getAgricultureServicesByDroneId(params);
   }
 
-  updateService = (e,service_id) => {
+  updateService = (e,agricultureservice) => {
     //prevent page from refresh
     //e.preventDefault();
 
-   this.props.history.push("/main/updateservice",service_id);
+   this.props.history.push("/main/updateservice",agricultureservice);
     
   };
 
@@ -41,6 +41,7 @@ class AdminAgricultureServiceCatalog extends Component {
         id : service_id
       };
     this.props.removeService(params);
+    window.location.reload();
   };
 
 
@@ -59,7 +60,7 @@ const {agricultureservices,loading} = this.props.droneState;
            <td>{agricultureservice.description}</td>
            <td><Button
                 className="btn btn-primary" type="submit"
-                onClick={e => this.updateService(e,agricultureservice.service_id)}>
+                onClick={e => this.updateService(e,agricultureservice)}>
                 Update Service
               </Button></td>
               <td><Button
