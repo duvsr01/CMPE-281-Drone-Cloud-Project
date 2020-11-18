@@ -4,16 +4,10 @@ import {
   Navbar,
   Nav,
   Dropdown,
-  Button,
-  Label,
-  Container,
-  Row,
-  Card,
-  Col,
+  Button
 } from "react-bootstrap";
 import firebase from "firebase";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import agriculturaldrones from "../../common/images/agriculturaldrones.jpg";
 
 
 class Navigationbar extends Component {
@@ -51,7 +45,7 @@ class Navigationbar extends Component {
     }
  
 
-    var logoutButton, menuButtons, profile, searchButton;
+    var logoutButton, menuButtons, searchButton;
 
     logoutButton = (
       <div className="collapse navbar-collapse navbar-right" id="navbarNav">
@@ -127,7 +121,11 @@ class Navigationbar extends Component {
           </Nav>
           <Nav className="mr-auto-right mr-sm-2">
           <Nav.Link href="/main/home">Home</Nav.Link>
-          <Nav.Link href="/main/admin/search">Search</Nav.Link>
+          <DropdownButton id="dropdown-basic-button" title="Drone Catalog">
+          <Dropdown.Item href="/main/admin/viewalldrones">View All Drones</Dropdown.Item>
+          <Dropdown.Item href="/main/admin/createdrone">Create Drone</Dropdown.Item>
+          <Dropdown.Item href="/main/admin/searchdrones">Search Drones</Dropdown.Item>
+        </DropdownButton>
           </Nav>
         </div>
       );
