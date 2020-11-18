@@ -107,7 +107,7 @@ import {
    export const removeDrone = (params) => (dispatch) => {
     dispatch(setLoading());
     axios
-      .patch(backendurl + "drones/removedrone",{params})
+      .put(backendurl + "drones/removedrone",params)
       .then((response) => {
         dispatch({
           type: REMOVE_DRONE,
@@ -190,6 +190,25 @@ import {
       .then((response) => {
         dispatch({
           type: UPDATE_AGRICULTURE_SERVICE,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: error.response.data,
+        });
+      });
+  };
+
+  // delete a service
+  export const removeService = (params) => (dispatch) => {
+    dispatch(setLoading());
+    axios
+      .put(backendurl + "agriservices/removeagricultureservice",params)
+      .then((response) => {
+        dispatch({
+          type: REMOVE_AGRICULTURE_SERVICE,
           payload: response.data,
         });
       })

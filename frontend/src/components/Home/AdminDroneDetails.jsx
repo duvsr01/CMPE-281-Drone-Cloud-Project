@@ -3,11 +3,21 @@ import React, { Component } from "react";
 import { Card, Button,Accordion } from "react-bootstrap";
 
 
-import {  Form } from "react-bootstrap";
+import { Col, Row, Form } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import { updateDrone,removeDrone } from "../_actions/droneActions";
 
+const styles = {
+  cardImage: {
+    
+    objectFit: 'cover',
+    height:"auto"
+  },
+  imgContainer: {
+    height: "10px"
+  }
+}
 
 class AdminDroneDetails extends Component {
   
@@ -84,9 +94,12 @@ handleChange = (e) => {
   render() {
    const dronedetails = this.props.location.state;
    var imageuri = null;
+   var droneidparam = null;
 
    [dronedetails].map(dronedetails => 
-   imageuri ="data:image/png;base64," + dronedetails.image
+   imageuri ="data:image/png;base64," + dronedetails.image,
+  droneidparam = dronedetails.drone_id
+
    )
 
   // console.log(dronedetails);
@@ -94,26 +107,36 @@ handleChange = (e) => {
    return(
     <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Drone Details</div>
                     <div class="card-body">
         {[dronedetails].map(dronedetails => <div>
           <Accordion>
-        <Card>
-        <Card.Img variant="top" src="holder.js/100px180" />
+        <Card className="m-5 border-0 shadow">
+         
+        
           <Card.Body>
           <Card.Title>{dronedetails.name}</Card.Title>
-          <Card.Text>
-            <p>Drone Description - {dronedetails.description} </p>
-            <p>Drone Name - {dronedetails.name} </p>
-            <p>Drone Size - {dronedetails.size} </p>
-            <p>Drone Type - {dronedetails.type} </p>
-            <p>Drone Image -  <img src={imageuri} alt="drone"/> </p>
-          </Card.Text>
+          <Row>
 
+          <Col>
+          <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
+          <Col>
+          <Card.Text>
+            {dronedetails.size}
+          </Card.Text>
+          </Col>
+          </Row>
+         
+
+          <Card.Text>
+            {dronedetails.description}
+          </Card.Text>
         
           </Card.Body>
+          </Card>
+          <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
               Update Drone
@@ -122,7 +145,7 @@ handleChange = (e) => {
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
                 <div class="container">
-              <div class="row justify-content-right">
+              <div class="row justify-content-center">
                   <div class="col-md-12">
                           <div class="card">
                               <div class="card-header">Update Drone</div>
@@ -192,7 +215,7 @@ handleChange = (e) => {
                   <Card.Text><h4>Are you sure you want to delete this drone from the catalog?</h4></Card.Text>
                   <Button
                 className="btn btn-primary" type="submit"
-                onClick={e => this.handleDeleteDrone(e,dronedetails.drone_id)}>
+                onClick={e => this.handleDeleteDrone(e,droneidparam)}>
                 Remove Drone
               </Button>
                 </Card.Body>
@@ -200,11 +223,11 @@ handleChange = (e) => {
             </Card>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                <Accordion.Toggle as={Button} variant="link" eventKey="2">
                   Agriculture Services
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey="1">
+              <Accordion.Collapse eventKey="2">
                 <Card.Body>
                 <Button
                 className="btn btn-primary" type="submit"

@@ -8,7 +8,7 @@ router.get('/getServicesByDroneId',(req,res) =>{
 
     var id = req.query.id;
     console.log("id: " + id);
-    db.query(('select * from service where drone_id=?'),[id], function(error,results){
+    db.query(('select * from service where drone_id=? and servicestatus="active"'),[id], function(error,results){
         if(error) throw error;
         console.log("results : " +JSON.stringify(results));
         res.end(JSON.stringify(results));
@@ -30,6 +30,18 @@ router.put('/updateagricultureservice',(req,res) =>{
     var agriservice = {};
     agriservice = req.body;
     db.query(('UPDATE service SET name=?,basecost=?,description=? where service_id = ?'),[agriservice.name,agriservice.basecost,agriservice.description,agriservice.id],function(error,results){
+        if(error) throw error;
+        //res.end(JSON.stringify(results));
+    })
+
+});
+
+router.put('/removeagricultureservice',(req,res) =>{
+
+    var body = req.body;
+    console.log("id: " + body.id);
+
+    db.query(('update service set servicestatus="inactive" where service_id=?'),[body.id], function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })
