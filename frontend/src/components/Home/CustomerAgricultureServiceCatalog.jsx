@@ -6,7 +6,7 @@ import Spinner from "../../common/Spinner";
 
 import Button from "react-bootstrap/Button";
  
-class AgricultureServiceCatalog extends Component {
+class CustomerAgricultureServiceCatalog extends Component {
   state={
     drone_id:"",
     service_id:"",
@@ -46,16 +46,7 @@ const {agricultureservices,loading} = this.props.droneState;
            <td>{agricultureservice.name}</td>
            <td>{agricultureservice.basecost}</td>
            <td>{agricultureservice.description}</td>
-           <td><Button
-                className="btn btn-primary" type="submit"
-                onClick={e => this.updateService(e,agricultureservice.service_id)}>
-                Update Service
-              </Button></td>
-              <td><Button
-                className="btn btn-primary" type="submit"
-                onClick={e => this.deleteService(e,agricultureservice.service_id)}>
-                Delete Service
-              </Button></td>
+          
        </tr>
     )
     
@@ -97,7 +88,7 @@ const {agricultureservices,loading} = this.props.droneState;
 }
 
 
-AgricultureServiceCatalog.propTypes={
+CustomerAgricultureServiceCatalog.propTypes={
   errors: PropTypes.object.isRequired,
   agricultureServices:PropTypes.array,
 }
@@ -107,4 +98,4 @@ const mapStateToProps =(state)=>({
 
 })
 
-export default connect(mapStateToProps,{getAgricultureServicesByDroneId}) (AgricultureServiceCatalog);
+export default connect(mapStateToProps,{getAgricultureServicesByDroneId}) (CustomerAgricultureServiceCatalog);
