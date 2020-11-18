@@ -8,7 +8,8 @@ import {
     GET_DRONE_DETAILS,
     GET_AGRICULTURE_SERVICES,
     CREATE_AGRICULTURE_SERVICE,
-    UPDATE_AGRICULTURE_SERVICE
+    UPDATE_AGRICULTURE_SERVICE,
+    REMOVE_AGRICULTURE_SERVICE
   } from "../_actions/types";
   
   const initialState = {
@@ -82,6 +83,12 @@ import {
           agricultureservice: action.payload,
           loading: false,
         };
+        case REMOVE_AGRICULTURE_SERVICE:
+          return {
+            ...state,
+            agricultureservice: action.payload,
+            loading: false,
+          };
         default:
         return { ...state };
     }

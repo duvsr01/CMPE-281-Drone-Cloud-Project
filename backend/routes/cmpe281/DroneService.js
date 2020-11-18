@@ -44,12 +44,12 @@ router.put('/updatedrone',(req,res) =>{
 
 });
 
-router.patch('/removedrone',(req,res) =>{
+router.put('/removedrone',(req,res) =>{
 
-    var id = req.query.id;
-    console.log("id: " + id);
+    var body = req.body;
+    console.log("id: " + body.id);
 
-    db.query(('update drone set status="inactive" where drone_id=?'),[id], function(error,results){
+    db.query(('update drone set status="inactive" where drone_id=?'),[body.id], function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })

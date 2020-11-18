@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {getAgricultureServicesByDroneId} from "../_actions/droneActions";
+import {removeService} from "../_actions/droneActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
@@ -30,6 +31,16 @@ class AdminAgricultureServiceCatalog extends Component {
 
    this.props.history.push("/main/updateservice",service_id);
     
+  };
+
+  deleteService = (e,service_id) => {
+    //prevent page from refresh
+    //e.preventDefault();
+
+    const params = {
+        id : service_id
+      };
+    this.props.removeService(params);
   };
 
 
@@ -107,4 +118,4 @@ const mapStateToProps =(state)=>({
 
 })
 
-export default connect(mapStateToProps,{getAgricultureServicesByDroneId}) (AdminAgricultureServiceCatalog);
+export default connect(mapStateToProps,{getAgricultureServicesByDroneId,removeService}) (AdminAgricultureServiceCatalog);
