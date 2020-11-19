@@ -41,12 +41,12 @@ class CustomerDroneDetails extends Component {
   // console.log(dronedetails);
   
    return(
-    <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Drone Details</div>
-                    <div class="card-body">
+    <div className="container">
+    <div className="row justify-content-center">
+        <div className="col-md-8">
+                <div className="card">
+                    <div className="card-header">Drone Details</div>
+                    <div className="card-body">
         {[dronedetails].map(dronedetails => <div>
           <Accordion>
         <Card>
@@ -76,9 +76,9 @@ class CustomerDroneDetails extends Component {
           </Accordion>
           </div>)}
           </div>
-                          </div>
-                  </div>
-              </div>
+           </div>
+           </div>
+           </div>
           </div>
    )
    

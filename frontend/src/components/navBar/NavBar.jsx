@@ -100,14 +100,14 @@ class Navigationbar extends Component {
               Billing
             </Dropdown.Item>
           </DropdownButton>
-          <Nav.Link href="/main/cart">
+           <Nav.Link href="/main/cart">
             <Button>
               {" "}
               <i className="fa fa-shopping-cart" aria-hidden="true">
                 Cart{" "}
               </i>
             </Button>
-          </Nav.Link>
+          </Nav.Link> 
           </Nav>
         </div>
       );
