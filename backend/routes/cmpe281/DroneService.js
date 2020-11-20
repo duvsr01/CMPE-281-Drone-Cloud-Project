@@ -62,8 +62,11 @@ router.post('/createdrone',uploadS3.single('image'),(req,res) =>{
 
     var drone = {};
     drone = req.body;
-    drone.image = JSON.stringify(req.file.location);
-    console.log("req.file" + JSON.stringify(req.file.location));
+    if(req.file != undefined || req.file != null) {
+        drone.image = JSON.stringify(req.file.location);
+    }
+   
+   // console.log("req.file" + JSON.stringify(req.file.location));
    // console.log("image: " + drone.file.image);
    // const file = drone.files.image;
     
@@ -102,7 +105,7 @@ router.put('/updatedrone',uploadS3.single('image'),(req,res) =>{
     var drone = {};
     drone = req.body;
 
-    console.log("req file : " + req.file);
+    //console.log("req file : " + req.file);
 
     console.log("image from frontend : " + drone.imageUrl);
     if(req.file != undefined || req.file != null) {
