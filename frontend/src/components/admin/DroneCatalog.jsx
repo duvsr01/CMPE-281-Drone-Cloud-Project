@@ -72,7 +72,6 @@ class DroneCatalog extends Component {
             softwarespecs:this.state.softwarespecs,
             hardwarespecs:this.state.hardwarespecs,
             image:this.state.image,
-            imageUrl:this.state.imageUrl,
             //image:this.state.base64TextString,
             status:'active'
           };
@@ -82,6 +81,8 @@ class DroneCatalog extends Component {
           //console.log("data to send:" + data.image);
     
           this.props.createDrone(data);
+
+          this.props.history.push("/main/admin/viewalldrones");
         
       };
 

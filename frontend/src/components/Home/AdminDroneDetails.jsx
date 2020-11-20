@@ -31,7 +31,9 @@ class AdminDroneDetails extends Component {
       base64TextString:"",
       setImage:false,
       image:null,
-      imageUrl:""
+      imageUrl:"",
+      softwarespecs: "",
+          hardwarespecs: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,7 +49,9 @@ componentDidMount(){
           description:dronedet.description,
           size:dronedet.size,
           type:dronedet.type,
-          imageUrl:dronedet.image
+          imageUrl:dronedet.image,
+          hardwarespecs:dronedet.hardwarespecs,
+          softwarespecs:dronedet.softwarespecs
         })
   )
 }
@@ -101,6 +105,8 @@ handleChange = (e) => {
         //image:this.state.base64TextString,
         image:this.state.image,
         imageUrl:this.state.imageUrl,
+        softwarespecs: this.state.softwarespecs,
+          hardwarespecs: this.state.hardwarespecs,
         id:drone_id
       };
 
@@ -190,8 +196,8 @@ handleChange = (e) => {
           <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
           <Col>
           <Card.Text>
-            Drone Size - {dronedetails.size}<br/>
-            Drone Type - {dronedetails.type}
+             <h3>Size - {dronedetails.size}</h3><br/>
+             <h3>Type - {dronedetails.type}</h3>
           </Card.Text>
           </Col>
           </Row>
@@ -207,7 +213,7 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
-               <Card.Text>{dronedetails.description}</Card.Text>
+               <Card.Text><h3>{dronedetails.description}</h3></Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -220,7 +226,7 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
-               <Card.Text>{dronedetails.hardwarespecs}</Card.Text>
+               <Card.Text><h3>{dronedetails.hardwarespecs}</h3></Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -232,7 +238,7 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="2">
                 <Card.Body>
-               <Card.Text>{dronedetails.softwarespecs}</Card.Text>
+               <Card.Text><h3>{dronedetails.softwarespecs}</h3></Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -288,8 +294,24 @@ handleChange = (e) => {
                     onChange={this.handleChange}
                   /></Form.Group>
 
+<Form.Group controlId="hardwarespecs">
+                  <Form.Label>Hardware Specifications</Form.Label>
+                  <Form.Control as="textarea" rows={6}
+                    name="hardwarespecs"
+                    value={this.state.hardwarespecs}
+                    onChange={this.handleChange}
+                  /></Form.Group>
+
+<Form.Group controlId="softwarespecs">
+                  <Form.Label>Software Specifications</Form.Label>
+                  <Form.Control as="textarea" rows={6}
+                    name="softwarespecs"
+                    value={this.state.softwarespecs}
+                    onChange={this.handleChange}
+                  /></Form.Group>
+
 `             <Form.Group controlId="image">
-                  <Form.Label>Upload Image</Form.Label>
+                  <Form.Label>Change Image</Form.Label>
                   <Form.Control
                     name="image"
                     type="file"
