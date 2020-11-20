@@ -103,16 +103,21 @@ class DroneCatalog extends Component {
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     name="name"
+                    type="text"
                     value={this.state.name}
                     onChange={this.handleChange}
+                    placeholder="Name"
+                    required
                   /></Form.Group>
 
                 <Form.Group controlId="type">
                   <Form.Label>Type</Form.Label>
                   <Form.Control
                     name="type"
+                    type="text"
                     value={this.state.dronetype}
                     onChange={this.handleChange}
+                    placeholder="Type"
                   /></Form.Group>
                  
                   
@@ -123,6 +128,7 @@ class DroneCatalog extends Component {
                     name="size"
                     value={this.state.size}
                     onChange={this.handleChange}
+                    placeholder="Size"
                   />
                   
                 </Form.Group>
@@ -133,6 +139,7 @@ class DroneCatalog extends Component {
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}
+                    placeholder="Description"
                   /></Form.Group>
 
 <Form.Group controlId="hardwarespecs">
@@ -141,6 +148,7 @@ class DroneCatalog extends Component {
                     name="hardwarespecs"
                     value={this.state.hardwarespecs}
                     onChange={this.handleChange}
+                    placeholder="Hardware Specifications"
                   /></Form.Group>
 
 <Form.Group controlId="softwarespecs">
@@ -149,6 +157,7 @@ class DroneCatalog extends Component {
                     name="softwarespecs"
                     value={this.state.softwarespecs}
                     onChange={this.handleChange}
+                    placeholder="Software Specifications"
                   /></Form.Group>
 
               <Form.Group controlId="image">

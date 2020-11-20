@@ -71,8 +71,6 @@ class UpdateAgricultureService extends Component {
                             <div class="card-header">Update Agriculture Service</div>
                             {[agricultureservice].map(agricultureservice =>      <div class="card-body">
             <Form name="myForm">
-                <h2>Update Agriculture Service</h2>
-                <hr />
             
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>

@@ -65,17 +65,25 @@ class CreateAgricultureService extends Component {
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
+                  type="text"
                     name="name"
                     value={this.state.name}
                     onChange={this.handleChange}
+                    placeholder="Name"
+                    required
                   /></Form.Group>
 
                 <Form.Group controlId="basecost">
                   <Form.Label>Base Cost</Form.Label>
                   <Form.Control
+                  type="number"
                     name="basecost"
                     value={this.state.basecost}
                     onChange={this.handleChange}
+                    min="0"
+                    step="0.01"
+                    placeholder="Base Cost"
+                    required
                   /></Form.Group>
                  
                
@@ -85,6 +93,7 @@ class CreateAgricultureService extends Component {
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}
+                    placeholder="Description"
                   /></Form.Group>
               
               <Button
