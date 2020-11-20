@@ -7,5 +7,6 @@ module.exports = {
       password: "cmpe281admin",
       database: "cmpe281"
    }
+
   };
   

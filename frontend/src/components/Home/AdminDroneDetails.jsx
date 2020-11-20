@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Card, Button,Accordion } from "react-bootstrap";
 
 
-import { Col, Row, Form } from "react-bootstrap";
+import { Nav,Navbar,Col, Row, Form } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import { updateDrone,removeDrone } from "../_actions/droneActions";
@@ -29,21 +29,25 @@ class AdminDroneDetails extends Component {
       type: "",
       description: "",
       base64TextString:"",
-      setImage:false
+      setImage:false,
+      image:null,
+      imageUrl:""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
 }
 
 componentDidMount(){
   const dronedet = this.props.location.state;
+  console.log("drone details image :" + dronedet.image);
   [dronedet].map(dronedet => 
       this.setState({
           name:dronedet.name,
           description:dronedet.description,
           size:dronedet.size,
           type:dronedet.type,
-          base64TextString:dronedet.image
+          imageUrl:dronedet.image
         })
   )
 }
@@ -54,7 +58,7 @@ handleChange = (e) => {
     });
   };
 
-  handleImageChange = (e) => {
+  /*handleImageChange = (e) => {
     console.log("files to upload: " , e.target.files[0]);
     const file =  e.target.files[0];
     if(file) {
@@ -62,6 +66,15 @@ handleChange = (e) => {
       reader.onload = this._handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
     }
+  }*/
+
+  handleImageChange = (e) => {
+    console.log("files to upload: " , e.currentTarget.files[0]);
+    
+    //const file =  e.currentTarget.files[0];
+    this.setState({ image: e.currentTarget.files[0] }, () => { console.log("files: " + this.state.image) });
+
+    
   }
 
   _handleReaderLoaded = (readerEvt) => {
@@ -85,7 +98,9 @@ handleChange = (e) => {
         size: this.state.size,
         type: this.state.type,
         description: this.state.description,
-        image:this.state.base64TextString,
+        //image:this.state.base64TextString,
+        image:this.state.image,
+        imageUrl:this.state.imageUrl,
         id:drone_id
       };
 
@@ -134,15 +149,26 @@ handleChange = (e) => {
    var droneidparam = null;
 
    [dronedetails].map(dronedetails => 
-   imageuri ="data:image/png;base64," + dronedetails.image,
+   //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
+   
+   imageuri=dronedetails.image,
    droneidparam = dronedetails.drone_id
    )
 
-  // console.log(dronedetails);
+   if(imageuri != null || imageuri != undefined)
+   imageuri = imageuri.replace(/"/g, '');
+
+
+
+  console.log("image url:" + imageuri);
   
    return(
+
+     
+     
     <div class="container">
     <div class="row justify-content-center">
+      
         <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Drone Details</div>
@@ -164,25 +190,59 @@ handleChange = (e) => {
           <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
           <Col>
           <Card.Text>
-            {dronedetails.size}
+            Drone Size - {dronedetails.size}<br/>
+            Drone Type - {dronedetails.type}
           </Card.Text>
           </Col>
           </Row>
-         
 
-          <Card.Text>
-            {dronedetails.description}
-          </Card.Text>
-        
           </Card.Body>
           </Card>
+
           <Card>
-          <Card.Header>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              Update Drone
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                  Description
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
+                <Card.Body>
+               <Card.Text>{dronedetails.description}</Card.Text>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                  Hardware Specification
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+               <Card.Text>{dronedetails.hardwarespecs}</Card.Text>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                  Software Specification
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="2">
+                <Card.Body>
+               <Card.Text>{dronedetails.softwarespecs}</Card.Text>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          <Card>
+          <Card.Header>
+            <Accordion.Toggle as={Button} variant="link" eventKey="3">
+              Update Drone
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="3">
                 <Card.Body>
                 <div class="container">
               <div class="row justify-content-center">
@@ -229,12 +289,11 @@ handleChange = (e) => {
                   /></Form.Group>
 
 `             <Form.Group controlId="image">
-                  <Form.Label>Change Image</Form.Label>
+                  <Form.Label>Upload Image</Form.Label>
                   <Form.Control
                     name="image"
                     type="file"
                     accept=".jpeg,.jpg,.png"
-                    value={this.state.image}
                     onChange={(e) => this.handleImageChange(e)}
                   /></Form.Group>
 
@@ -256,11 +315,11 @@ handleChange = (e) => {
             </Card>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                <Accordion.Toggle as={Button} variant="link" eventKey="4">
                   Delete Drone
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey="1">
+              <Accordion.Collapse eventKey="4">
                 <Card.Body>
                 <h4 class="card-title">Are you sure you want to delete this drone from the catalog?</h4>
                   
@@ -274,11 +333,11 @@ handleChange = (e) => {
             </Card>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                <Accordion.Toggle as={Button} variant="link" eventKey="5">
                   Agriculture Services
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey="2">
+              <Accordion.Collapse eventKey="5">
                 <Card.Body>
                 <Button
                 className="btn btn-primary" type="submit"

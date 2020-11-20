@@ -13,10 +13,14 @@ class DroneCatalog extends Component {
           size: "",
           type: "",
           description: "",
-          base64TextString:""
+          softwarespecs: "",
+          hardwarespecs: "",
+          base64TextString:"",
+          image:null
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleImageChange = this.handleImageChange.bind(this);
     }
 
     handleChange = (e) => {
@@ -26,13 +30,21 @@ class DroneCatalog extends Component {
       };
 
       handleImageChange = (e) => {
-        console.log("files to upload: " , e.target.files[0]);
-        const file =  e.target.files[0];
-        if(file) {
+        console.log("files to upload: " , e.currentTarget.files[0]);
+        
+        //const file =  e.currentTarget.files[0];
+        this.setState({ image: e.currentTarget.files[0] }, () => { console.log("files: " + this.state.image) });
+
+        
+        //console.log(files[0]);
+        
+
+         // console.log("image to upload: " + JSON.stringify(this.state.file));
+        /*if(file) {
           const reader = new FileReader();
           reader.onload = this._handleReaderLoaded.bind(this);
           reader.readAsBinaryString(file);
-        }
+        }*/
       }
 
       _handleReaderLoaded = (readerEvt) => {
@@ -57,9 +69,15 @@ class DroneCatalog extends Component {
             size: this.state.size,
             type: this.state.type,
             description: this.state.description,
-            image:this.state.base64TextString,
+            softwarespecs:this.state.softwarespecs,
+            hardwarespecs:this.state.hardwarespecs,
+            image:this.state.image,
+            imageUrl:this.state.imageUrl,
+            //image:this.state.base64TextString,
             status:'active'
           };
+
+         // data.append(image,this.state.file);
 
           //console.log("data to send:" + data.image);
     
@@ -116,13 +134,28 @@ class DroneCatalog extends Component {
                     onChange={this.handleChange}
                   /></Form.Group>
 
+<Form.Group controlId="hardwarespecs">
+                  <Form.Label>Hardware Specifications</Form.Label>
+                  <Form.Control as="textarea" rows={6}
+                    name="hardwarespecs"
+                    value={this.state.hardwarespecs}
+                    onChange={this.handleChange}
+                  /></Form.Group>
+
+<Form.Group controlId="softwarespecs">
+                  <Form.Label>Software Specifications</Form.Label>
+                  <Form.Control as="textarea" rows={6}
+                    name="softwarespecs"
+                    value={this.state.softwarespecs}
+                    onChange={this.handleChange}
+                  /></Form.Group>
+
               <Form.Group controlId="image">
                   <Form.Label>Upload Image</Form.Label>
                   <Form.Control
                     name="image"
                     type="file"
                     accept=".jpeg,.jpg,.png"
-                    value={this.state.image}
                     onChange={(e) => this.handleImageChange(e)}
                   /></Form.Group>
               
