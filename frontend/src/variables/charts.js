@@ -28,7 +28,7 @@ function hexToRGB(hex, alpha) {
     } else {
       return "rgb(" + r + ", " + g + ", " + b + ")";
     }
-  }
+}
   
   // ##############################
   // // // general variables for charts
@@ -91,7 +91,8 @@ function hexToRGB(hex, alpha) {
   var gradientChartOptionsConfigurationWithNumbersAndGrid = {
     maintainAspectRatio: false,
     legend: {
-      display: false,
+      display: true,
+      position: 'top'
     },
     tooltips: {
       bodySpacing: 4,
@@ -117,21 +118,21 @@ function hexToRGB(hex, alpha) {
       ],
       xAxes: [
         {
-          display: 0,
+          // display: 0,
           ticks: {
-            display: false,
+            display: true,
           },
           gridLines: {
             zeroLineColor: "transparent",
-            drawTicks: false,
-            display: false,
+            drawTicks: true,
+            display: true,
             drawBorder: false,
           },
         },
       ],
     },
     layout: {
-      padding: { left: 0, right: 0, top: 15, bottom: 15 },
+      padding: { left: 0, right: 0, top: 10, bottom: 10 },
     },
   };
   
@@ -139,8 +140,9 @@ function hexToRGB(hex, alpha) {
   // // // Dashboard view - Panel chart
   // #############################
   
-  const dashboardPanelChart = {
-    data: (canvas) => {
+  function getDashboardPanelChart(arr){
+    // console.log(arr);
+    var canvas = document.createElement('canvas');
       const ctx = canvas.getContext("2d");
       var chartColor = "#FFFFFF";
       var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -149,8 +151,9 @@ function hexToRGB(hex, alpha) {
       var gradientFill = ctx.createLinearGradient(0, 200, 0, 50);
       gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
       gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.14)");
-  
-      return {
+      var a = arr;
+  var dashboardPanelChart = {
+    data: {
         labels: [
           "JAN",
           "FEB",
@@ -180,10 +183,9 @@ function hexToRGB(hex, alpha) {
             fill: true,
             backgroundColor: gradientFill,
             borderWidth: 2,
-            data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95],
+            data: [1,2,3,4,5,6,7,8,9,1,1,1],
           },
         ],
-      };
     },
     options: {
       layout: {
@@ -245,7 +247,8 @@ function hexToRGB(hex, alpha) {
       },
     },
   };
-  
+  return dashboardPanelChart;
+  }
   // ##############################
   // // // Dashboard view - Shipped Products - Card
   // #############################
@@ -335,97 +338,93 @@ function hexToRGB(hex, alpha) {
   // // // Dashboard view - Bar Chart - Card
   // #############################
   
-  const dashboard24HoursPerformanceChart = {
-    data: (canvas) => {
-      var ctx = canvas.getContext("2d");
-      var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
-      gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
-      gradientFill.addColorStop(1, hexToRGB("#2CA8FF", 0.6));
-      return {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ],
-        datasets: [
-          {
-            label: "Active Countries",
-            backgroundColor: gradientFill,
-            borderColor: "#2CA8FF",
-            pointBorderColor: "#FFF",
-            pointBackgroundColor: "#2CA8FF",
-            pointBorderWidth: 2,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 1,
-            pointRadius: 4,
-            fill: true,
-            borderWidth: 1,
-            data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155],
-          },
-        ],
-      };
-    },
-    options: {
-      maintainAspectRatio: false,
-      legend: {
-        display: false,
-      },
-      tooltips: {
-        bodySpacing: 4,
-        mode: "nearest",
-        intersect: 0,
-        position: "nearest",
-        xPadding: 10,
-        yPadding: 10,
-        caretPadding: 10,
-      },
-      responsive: 1,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              maxTicksLimit: 7,
+  function getBarChart(){
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext("2d");
+    var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
+    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+    gradientFill.addColorStop(1, hexToRGB("#2CA8FF", 0.6));
+    var dashboard24HoursPerformanceChart = {
+      
+      data:{  
+          labels: [],
+          datasets: [
+            {
+              label: "Total Expenditure",
+              backgroundColor: gradientFill,
+              borderColor: "#2CA8FF",
+              pointBorderColor: "#FFF",
+              pointBackgroundColor: "#2CA8FF",
+              pointBorderWidth: 2,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 1,
+              pointRadius: 4,
+              fill: true,
+              borderWidth: 1,
+              data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155],
             },
-            gridLines: {
-              zeroLineColor: "transparent",
-              drawBorder: false,
-            },
-          },
-        ],
-        xAxes: [
-          {
-            display: 0,
-            ticks: {
-              display: false,
-            },
-            gridLines: {
-              zeroLineColor: "transparent",
-              drawTicks: false,
-              display: false,
-              drawBorder: false,
-            },
-          },
-        ],
+          ],
       },
-      layout: {
-        padding: { left: 0, right: 0, top: 15, bottom: 15 },
+      options: {
+        scaleShowValues: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest",
+          xPadding: 10,
+          yPadding: 10,
+          caretPadding: 10,
+        },
+        responsive: 1,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                maxTicksLimit: 7
+              },
+              gridLines: {
+                zeroLineColor: "transparent",
+                drawBorder: false,
+              },
+            },
+          ],
+          xAxes: [
+            {
+              // display: 0,
+              ticks: {
+                display: true,
+                stepSize: 1,
+                autoSkip: false
+              },
+              gridLines: {
+                zeroLineColor: "transparent",
+                drawTicks: false,
+                display: false,
+                drawBorder: false,
+              },
+            },
+          ],
+        },
+        layout: {
+          padding: { left: 0, right: 0, top: 15, bottom: 15 },
+        },
       },
-    },
-  };
+    };
+    return dashboard24HoursPerformanceChart;
+  }
   
   module.exports = {
-    dashboardPanelChart, // Chart for Dashboard view - Will be rendered in panel
+    getDashboardPanelChart,
+    getBarChart,
+    // dashboardPanelChart, // Chart for Dashboard view - Will be rendered in panel
     dashboardShippedProductsChart, // Chart for Dashboard view - Shipped Products Card
     dashboardAllProductsChart, // Chart for Dashboard view - All products Card
-    dashboard24HoursPerformanceChart, // Chart for Dashboard view - 24 Hours Performance Card
+    // dashboard24HoursPerformanceChart, // Chart for Dashboard view - 24 Hours Performance Card
   };
   

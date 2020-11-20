@@ -22,7 +22,8 @@ class Home extends Component {
 
     return (
       <div>
-        {homeComponent}
+        {<Dashboard />}
+        {/* {homeComponent} */}
       </div>
     );
   }
