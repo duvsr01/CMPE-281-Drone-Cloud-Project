@@ -11,6 +11,10 @@ import AdminAgricultureServiceCatalog from "../admin/AdminAgricultureServiceCata
 import CustomerAgricultureServiceCatalog from "../Home/CustomerAgricultureServiceCatalog";
 import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
+import DashboardServiceView from "../Home/DashboardServiceView";
+import DashboardDroneView from "../Home/DashboardDroneView";
+import DashboardRequestsView from "../Home/DashboardRequestsView";
+import DashboardUsersView from "../Home/DashboardUsersView";
 
 class Main extends Component {
    componentDidMount() {
@@ -34,7 +38,11 @@ class Main extends Component {
             <Route path="/main/adminservicecatalog" component={AdminAgricultureServiceCatalog}/> 
             <Route path="/main/customerservicecatalog" component={CustomerAgricultureServiceCatalog}/>
             <Route path="/main/createservice" component={CreateAgricultureService}/> 
-            <Route path="/main/updateservice" component={UpdateAgricultureService}/> 
+            <Route path="/main/updateservice" component={UpdateAgricultureService}/>
+            <Route path="/main/dashboardServiceView" component={DashboardServiceView}/> 
+            <Route path="/main/dashboardDroneView" component={DashboardDroneView}/> 
+            <Route path="/main/dashboardRequestsView" component={DashboardRequestsView}/> 
+            <Route path="/main/dashboardUsersView" component={DashboardUsersView}/> 
           </Switch>
         </BrowserRouter>
       </div>
