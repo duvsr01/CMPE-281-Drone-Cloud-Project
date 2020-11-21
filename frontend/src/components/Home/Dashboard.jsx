@@ -137,7 +137,7 @@ class Dashboard extends React.Component {
             </tr>
           )
         })
-        this.setState({allUsers: allUsers});
+        this.setState({allUsers: allUsers, allUsersData: res.data});
         console.log("qweqweqwe", this.state.allUsers[0]);
       })
       .catch((err) => {
@@ -161,7 +161,7 @@ class Dashboard extends React.Component {
           allServices[o.service_id]['total'] += total;
           lineChartData[name][month] += total;
           chart[month] = chart[month] + total;
-          var color = (o.request_status === "Approved") ? "Green" : "Black";
+          var color = (o.request_status === "Approved") ? "Green" : "Red";
           allRequests.push(
             <tr className="tableRow" onClick={() => this.handleRequestsClick(o)}>
               <td>{o.request_id}</td>
@@ -196,7 +196,7 @@ class Dashboard extends React.Component {
         var servicesLineChart = {};
         servicesLineChart['labels'] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         servicesLineChart['datasets'] = lineData;
-        this.setState({allService: allServices, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart})
+        this.setState({allService: allServices, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data})
         console.log("linedata", this.state.lineData[0]);
       })
       .catch((err) => {
@@ -216,7 +216,7 @@ class Dashboard extends React.Component {
             </tr>
           )
         })
-        this.setState({allDrones: allDrones})
+        this.setState({allDrones: allDrones, allDronesData: res.data})
       })
       .catch((err) => {
         console.log(err);
@@ -249,6 +249,69 @@ class Dashboard extends React.Component {
       data: o,
       services: this.state.allServices
     })
+  }
+
+  handleUserSearchChange = (e) => {
+    var term = e.target.value.toLowerCase();
+    var data = this.state.allUsersData;
+    var allUsers = [];
+    data.forEach((o) => {
+      if(o.user_id.toString().startsWith(term) || o.displayName.toLowerCase().startsWith(term) || o.email.toLowerCase().startsWith(term)){
+        allUsers.push(
+          <tr className="tableRow" onClick={() => this.handleUsersClick(o)}>
+            <td>{o.user_id}</td>
+            <td>{o.displayName}</td>
+            <td>{o.email}</td>
+            <td className="text-right">{o.usertype}</td>
+          </tr>
+        )
+      }
+    })
+    this.setState({allUsers: allUsers});
+  }
+
+  handleRequestSearchChange = (e) => {
+    var term = e.target.value.toLowerCase();
+    var data = this.state.allRequestsData;
+    console.log("in handle", data);
+    var allServices = this.state.allServices;
+    var allRequests = [];
+    data.forEach((o) => {
+      if(o.request_id.toString().startsWith(term) || allServices[o.service_id]['name'].toLowerCase().startsWith(term) || o.email.toLowerCase().startsWith(term) || (o.request_status && o.request_status.toLowerCase().startsWith(term))){
+        var date = new Date(o.service_date);
+        var color = (o.request_status === "Approved") ? "Green" : "Red";
+        allRequests.push(
+          <tr className="tableRow" onClick={() => this.handleRequestsClick(o)}>
+            <td>{o.request_id}</td>
+            <td>{allServices[o.service_id]['name']}</td>
+            <td>{o.email}</td>
+            <td>{date.toString().split("GMT")[0]}</td>
+            <td>{o.service_totalcost}</td>
+            <td style={{color: color}}>{o.request_status}</td>
+          </tr>
+        )
+      }
+    })
+    this.setState({allRequests: allRequests});
+  }
+
+  handleDroneSearchChange = (e) => {
+    var term = e.target.value.toLowerCase();
+    var data = this.state.allDronesData;
+    var allDrones = [];
+    data.forEach((o) => {
+      if((o.name && o.name.toLowerCase().startsWith(term)) || (o.type && o.type.toLowerCase().startsWith(term)) || (o.status && o.status.toLowerCase().startsWith(term)) || (o.size && o.size.startsWith(term))){
+        allDrones.push(
+          <tr onClick={() => this.handleDroneClick(o)} className="tableRow">
+            <td>{o.name}</td>
+            <td>{o.type}</td>
+            <td>{o.size}</td>
+            <td className="text-right" style={{color: (o.status === "active") ? "green" : "red"}}>{o.status}</td>
+          </tr>
+        )
+      }
+    })
+    this.setState({allDrones: allDrones});
   }
 
   render() {
@@ -404,6 +467,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   {/* <h5 className="card-category">Backend Development</h5> */}
                   <CardTitle tag="h4">All Drones</CardTitle>
+                  <Input type="text" placeholder="Search drone by name, type, status..." onChange={this.handleDroneSearchChange}/>
                 </CardHeader>
                 <CardBody>
                 <Table responsive>
@@ -559,13 +623,13 @@ class Dashboard extends React.Component {
                     </Table>
                   </div> */}
                 </CardBody>
-                <CardFooter>
+                {/* <CardFooter>
                   <hr />
                   <div className="stats">
                     <i className="now-ui-icons loader_refresh spin" /> Updated 3
                     minutes ago
                   </div>
-                </CardFooter>
+                </CardFooter> */}
               </Card>
             </Col>}
             <Col xs={12} md={(isAdmin) ? 6 : 12}>
@@ -573,6 +637,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   {/* <h5 className="card-category">All Persons List</h5> */}
                   <CardTitle tag="h4">{(!isAdmin) ? "All Previous Orders" : "Customers"}</CardTitle>
+                  <Input type="text" placeholder="Search customer by id, name, email..." onChange={this.handleUserSearchChange}/>
                 </CardHeader>
                 <CardBody >
                   <Table responsive>
@@ -610,6 +675,7 @@ class Dashboard extends React.Component {
                 <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Requests</CardTitle>
+                  <Input type="text" placeholder="Search requests by id, service name, requester email, status..." onChange={this.handleRequestSearchChange}/>
                 </CardHeader>
                 <CardBody>
                 <Table responsive>
