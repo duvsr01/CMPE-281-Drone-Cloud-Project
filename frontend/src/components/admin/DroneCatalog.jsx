@@ -81,8 +81,8 @@ class DroneCatalog extends Component {
           //console.log("data to send:" + data.image);
     
           this.props.createDrone(data);
-
-          this.props.history.push("/main/admin/viewalldrones");
+          setTimeout(() => {  this.props.history.push("/main/admin/viewalldrones"); }, 1000);
+    
         
       };
 

@@ -112,6 +112,7 @@ handleChange = (e) => {
 
       this.props.updateDrone(data);
     
+      setTimeout(() => {   this.props.history.push("/main/admin/viewalldrones"); }, 1000);
   };
 
   handleAgricultureServices = (e,drone_id) => {
@@ -141,7 +142,7 @@ handleChange = (e) => {
 
       this.props.removeDrone(params);
 
-      this.props.history.push("/main/admin/viewalldrones");
+      setTimeout(() => {   this.props.history.push("/main/admin/viewalldrones"); }, 1000);
 
      
    };
