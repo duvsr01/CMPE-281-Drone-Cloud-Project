@@ -135,7 +135,7 @@ import {
           payload: response.data,
         });
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch({
           type: GET_ERRORS,
           payload: error.response.data,

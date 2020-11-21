@@ -11,6 +11,8 @@ import AdminAgricultureServiceCatalog from "../admin/AdminAgricultureServiceCata
 import CustomerAgricultureServiceCatalog from "../Home/CustomerAgricultureServiceCatalog";
 import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
+import ReviewServiceRequests  from "../BookingService/ReviewServiceRequests";
+import MyOrders from "../Orders/MyOrders";
 
 class Main extends Component {
    componentDidMount() {
@@ -35,6 +37,8 @@ class Main extends Component {
             <Route path="/main/customerservicecatalog" component={CustomerAgricultureServiceCatalog}/>
             <Route path="/main/createservice" component={CreateAgricultureService}/> 
             <Route path="/main/updateservice" component={UpdateAgricultureService}/> 
+            <Route path="/main/admin/reviewServiceRequests" component={ReviewServiceRequests}/>
+            <Route path="/main/customer/orders" component={MyOrders}/>
           </Switch>
         </BrowserRouter>
       </div>

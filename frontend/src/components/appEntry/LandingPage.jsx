@@ -26,7 +26,7 @@ class LandingPage extends Component {
 
         <div className="col-md-6 p-0 bg-white h-md-100 loginarea">
           <div className="d-md-flex align-items-right h-md-100 p-5 justify-content-center">
-            <div className="container border rounded p-5">
+            <div className="container rounded p-5">
               <div className="container">
                 <span>
                   <br />

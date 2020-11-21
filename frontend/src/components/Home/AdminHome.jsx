@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import  ViewAllDrones  from "../admin/ViewAllDrones";
 
 class AdminHome extends Component {
 
@@ -10,7 +10,7 @@ class AdminHome extends Component {
          <br/>
         <br/>
         <br/>
-       Welcome to AdminHome
+       <ViewAllDrones />
       </div>
     );
   }
