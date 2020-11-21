@@ -53,7 +53,7 @@ componentDidMount(){
     //prevent page from refresh
     //e.preventDefault();
 
-   this.props.history.push("/main/adminservicecatalog",drone_id);
+   this.props.history.push("/main/customerservicecatalog",drone_id);
     
   };
 
