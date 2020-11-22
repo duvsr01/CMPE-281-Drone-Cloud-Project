@@ -74,15 +74,30 @@ class Dashboard extends React.Component {
     var allServices = {}
     axios.get(backendurl + "/getAllServices")
     .then((res) => {
+      var allServicesComponent = [];
       res.data.forEach(o => {
-        if(allServices[o.service_id] == null){
-          allServices[o.service_id] = {}
-          allServices[o.service_id]['name'] = o.name;
-          allServices[o.service_id]['total'] = 0
-          allServices[o.service_id]['data'] = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
-        }
+          if(allServices[o.service_id] == null){
+            allServices[o.service_id] = {}
+            allServices[o.service_id]['name'] = o.name;
+            allServices[o.service_id]['description'] = o.description;
+            allServices[o.service_id]['drone_id'] = o.drone_id;
+            allServices[o.service_id]['basecost'] = o.basecost;
+            allServices[o.service_id]['servicestatus'] = o.servicestatus;
+            allServices[o.service_id]['total'] = 0;
+            allServices[o.service_id]['data'] = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
+          }
+          allServicesComponent.push(
+            <tr>
+              <td>{o.service_id}</td>
+              <td>{o.name}</td>
+              <td>{o.description}</td>
+              <td>{o.drone_id}</td>
+              <td>{o.basecost}</td>
+              <td style={{color: (o.servicestatus === 'active') ? "green" : "red"}}>{o.servicestatus}</td>
+            </tr>
+          );
       })
-      this.setState({allServices: allServices});
+      this.setState({allServices: allServices, allServicesComponent: allServicesComponent});
     })
     .catch((err) => {
       console.log(err);
@@ -312,6 +327,27 @@ class Dashboard extends React.Component {
       }
     })
     this.setState({allDrones: allDrones});
+  }
+
+  handleServicesSearchChange = (e) => {
+    var term = e.target.value.toLowerCase();
+    var data = this.state.allServices;
+    var allServicesComponent = [];
+    for(const o in data){
+      if((o.toString().startsWith(term)) || (data[o].name && data[o].name.toLowerCase().startsWith(term)) || (data[o].description && data[o].description.toLowerCase().startsWith(term)) || (data[o].drone_id && data[o].drone_id.toString().startsWith(term)) || (data[o].servicestatus && data[o].servicestatus.startsWith(term) || (data[o].basecost && data[o].basecost.toString().startsWith(term)))){
+        allServicesComponent.push(
+          <tr>
+            <td>{o}</td>
+            <td>{data[o].name}</td>
+            <td>{data[o].description}</td>
+            <td>{data[o].drone_id}</td>
+            <td>{data[o].basecost}</td>
+            <td className="text-right" style={{color: (data[o].servicestatus === "active") ? "green" : "red"}}>{data[o].servicestatus}</td>
+          </tr>
+        )
+      }
+    }
+    this.setState({allServicesComponent: allServicesComponent});
   }
 
   render() {
@@ -670,6 +706,7 @@ class Dashboard extends React.Component {
           </Row>
 
           {isAdmin && 
+            <div>
             <Row>
               <Col xs={12} md={12}>
                 <Card>
@@ -697,6 +734,34 @@ class Dashboard extends React.Component {
                 </Card>
               </Col>
             </Row>
+              <Row>
+              <Col xs={12} md={12}>
+                <Card>
+                <CardHeader>
+                  <CardTitle tag="h4">All Services Offered</CardTitle>
+                  <Input type="text" placeholder="Search Services by id, service name, drone id, basecost..." onChange={this.handleServicesSearchChange}/>
+                </CardHeader>
+                <CardBody>
+                <Table responsive>
+                    <thead className="text-primary">
+                      <tr>
+                        <th>Service ID</th>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th>Drone ID</th>
+                        <th>Base Cost</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                      {this.state.allServicesComponent}
+                    </tbody>
+                  </Table>
+                </CardBody>
+                </Card>
+              </Col>
+            </Row>
+            </div>
           }
         </div>
       </div>
