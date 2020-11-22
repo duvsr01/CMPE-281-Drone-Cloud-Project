@@ -44,7 +44,7 @@ router.get('/getAllRequests', (req,res) =>{
 })
 
 router.get('/getAllDrones', (req,res) =>{
-    db.query(('SELECT * FROM drone'), function(error,results){
+    db.query(('SELECT * FROM drone WHERE status="active"'), function(error,results){
         if(error) throw error;
         console.log("results : " +JSON.stringify(results));
         res.end(JSON.stringify(results));
