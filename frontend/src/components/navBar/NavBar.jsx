@@ -86,7 +86,7 @@ class Navigationbar extends Component {
           <Nav className="mr-auto-right mr-sm-2">
           <Nav.Link href="/main/home"><h5>Home</h5></Nav.Link>
           <Nav.Link href="/main/dashboard"><h5>Dashboard</h5></Nav.Link>
-          <Nav.Link href="/main/customer/search"><h5>Search Drones</h5></Nav.Link>
+          <Nav.Link href="/main/admin/searchdrones"><h5>Search Drones</h5></Nav.Link>
           <Nav className="mr-auto-right">
           <DropdownButton id="dropdown-basic-button" title="Account">
             <Dropdown.Item href="/main/customer/account">

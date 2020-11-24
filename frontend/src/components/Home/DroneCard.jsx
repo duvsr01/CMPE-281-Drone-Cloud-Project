@@ -46,11 +46,11 @@ class DroneCard extends Component {
   render() {
     const { drone } = this.props;
     var imageuri = drone.image;
-    // if(imageuri !== null || imageuri !== undefined)
-    //  imageuri = imageuri.replace(/"/g, '');
+    
+   
     return (
     <Card bg="white" style={{ width: "25rem", margin: "1rem"}}>
-    <Card.Img variant="top" src={drone.imageuri} />
+    <Card.Img variant="top" src={imageuri} />
     <Card.Body>
     <Card.Title><h4>{drone.name}</h4></Card.Title>
     <Card.Text>
