@@ -13,6 +13,10 @@ import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
 import ReviewServiceRequests  from "../BookingService/ReviewServiceRequests";
 import MyOrders from "../Orders/MyOrders";
+import DashboardServiceView from "../Home/DashboardServiceView";
+import DashboardDroneView from "../Home/DashboardDroneView";
+import DashboardRequestsView from "../Home/DashboardRequestsView";
+import DashboardUsersView from "../Home/DashboardUsersView";
 
 class Main extends Component {
    componentDidMount() {
@@ -39,6 +43,11 @@ class Main extends Component {
             <Route path="/main/updateservice" component={UpdateAgricultureService}/> 
             <Route path="/main/admin/reviewServiceRequests" component={ReviewServiceRequests}/>
             <Route path="/main/customer/orders" component={MyOrders}/>
+            <Route path="/main/updateservice" component={UpdateAgricultureService}/>
+            <Route path="/main/dashboardServiceView" component={DashboardServiceView}/> 
+            <Route path="/main/dashboardDroneView" component={DashboardDroneView}/> 
+            <Route path="/main/dashboardRequestsView" component={DashboardRequestsView}/> 
+            <Route path="/main/dashboardUsersView" component={DashboardUsersView}/> 
           </Switch>
         </BrowserRouter>
       </div>

@@ -65,7 +65,7 @@ class SearchDrones extends Component {
           <div class="row justify-content-center">
               <div class="col-md-8">
                       <div class="card">
-                          <div class="card-header">Update Agriculture Service</div>
+                          <div class="card-header">Search Drones</div>
                           <div class="card-body">
             <Form>
                
@@ -77,9 +77,9 @@ class SearchDrones extends Component {
                     onChange={this.handleChange}
                   /></Form.Group>
                
-                <Form.Group controlId="description">
+               <Form.Group controlId="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control
+                  <Form.Control as="textarea" rows={2}
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}
@@ -103,6 +103,8 @@ class SearchDrones extends Component {
 
               <div className="container">
            <div>
+
+             
              
              <Row>{droneContent}</Row>
            </div>

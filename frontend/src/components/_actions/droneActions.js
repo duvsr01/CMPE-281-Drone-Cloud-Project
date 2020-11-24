@@ -68,9 +68,19 @@ import {
   // create a drone
   export const createDrone = (data) => (dispatch) => {
     console.log("dispatched");
+    const config = {
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+      }
+  }
+    const form = Object.keys(data).reduce((f, k) => {
+      f.append(k, data[k]);
+      return f;
+    }, new FormData());
     dispatch(setLoading());
     axios
-      .post(backendurl + "drones/createdrone",data)
+      .post(backendurl + "drones/createdrone",form,config)
       .then((response) => {
         dispatch({
           type: CREATE_DRONE,
@@ -88,8 +98,18 @@ import {
    // update a drone
    export const updateDrone = (data) => (dispatch) => {
     dispatch(setLoading());
+    const config = {
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+      }
+  }
+    const form = Object.keys(data).reduce((f, k) => {
+      f.append(k, data[k]);
+      return f;
+    }, new FormData());
     axios
-      .put(backendurl + "drones/updatedrone",data)
+      .put(backendurl + "drones/updatedrone",form,config)
       .then((response) => {
         dispatch({
           type: UPDATE_DRONE,
