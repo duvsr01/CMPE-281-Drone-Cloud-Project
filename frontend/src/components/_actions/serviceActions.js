@@ -81,6 +81,7 @@ export const approveRequest = (data) => (dispatch) => {
       });
       swal(response.data.status);
       dispatch(getServiceRequests());
+      dispatch(getServiceRequests());
     })
     .catch((error) => {
       // dispatch({

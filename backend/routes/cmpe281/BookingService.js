@@ -65,11 +65,11 @@ const db=config.db;
 
     // ADMIN APPROVES A SERVICE REQUEST
     router.post('/approveServiceRequest', (req, res) =>{
-        const {serviceRequestId}= req.body;
+        const {serviceRequestId,pilot_assigned}= req.body;
         console.log("enters into approve request api and servicerequestid is"+JSON.stringify(req.body));
         try{
-            db.query('update request set request_status=? where request_id=?'
-            ,["Approved",serviceRequestId],function(error,result){
+            db.query('update request set request_status=?,pilot_assigned=? where request_id=?'
+            ,["Approved",pilot_assigned,serviceRequestId],function(error,result){
                 if(error) throw error;
                 res.status(200).json({status:"Booking Request is Approved"});
             });  

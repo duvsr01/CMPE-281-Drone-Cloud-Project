@@ -25,6 +25,7 @@ class ReviewServiceRequests extends Component {
       no_of_sessions:"",
       service_basecost:"",
       service_totalcost:"",
+      pilot_assigned:"No Pilot",
       droneServiceRequests: [],
       approvalResponse: "",
       rejectionResponse: "",
@@ -36,16 +37,26 @@ class ReviewServiceRequests extends Component {
     this.props.getServiceRequests();
   }
 
+  assignPilot = (e,index) => {
+    this.setState({
+      rowIndex: index,
+      pilot_assigned: e.target.value,
+    });
+  };
+
+
   onApprove(index, serviceRequestId) {
     this.setState({
       rowIndex: index,
     });
 
     let data = {
+      pilot_assigned: this.state.pilot_assigned,
       serviceRequestId: serviceRequestId
     };
   
     this.props.approveRequest(data);
+   
   }
 
   onReject(index, serviceRequestId) {
@@ -73,28 +84,31 @@ class ReviewServiceRequests extends Component {
             <thead className="thead">
               <tr>
                 <th className="text-center  font-weight-bold"  scope="col">
-                  <h6>User Name</h6>
+                  <h5>User Name</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6>Drone Name</h6>
+                <h5>Drone Name</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6>Drone Status</h6>
+                <h5>Drone Status</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6>Serivce Name</h6>
+                <h5>Serivce Name</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6>Service Request Date</h6>
+                <h5>Service Request Date</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6> Requested Session Time</h6>
+                <h5> Requested Session Time</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6>Requested Number of Sessions</h6>
+                <h5>Requested Number of Sessions</h5>
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h6>Service Total Cost</h6>
+                <h5>Service Total Cost</h5>
+                </th>
+                <th className="text-center  font-weight-bold" scope="col">
+                <h5>Assign Pilot</h5>
                 </th>
                 <th scope="col"></th>
               </tr>
@@ -110,16 +124,29 @@ class ReviewServiceRequests extends Component {
                   return (
                     <tr key={index}>
                       <th className="text-center text-primary" scope="row">
-                        <h6>{droneServiceRequest.userName}</h6>
+                        <h5>{droneServiceRequest.userName}</h5>
                       </th>
                       {/* <td className="text-center">{droneServiceRequest.request_id}</td> */}
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.droneName}</h6></td>
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.droneStatus}</h6></td>
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.serviceName}</h6></td>
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.serviceDate}</h6></td>
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.serviceTime}</h6></td>
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.serviceSessionNumber}</h6></td>
-                      <td className="text-center text-primary"><h6>{droneServiceRequest.serviceTotalCost}</h6></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.droneName}</h5></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.droneStatus}</h5></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.serviceName}</h5></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.serviceDate}</h5></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.serviceTime}</h5></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.serviceSessionNumber}</h5></td>
+                      <td className="text-center text-primary"><h5>{droneServiceRequest.serviceTotalCost}</h5></td>
+                      <td className="text-center text-primary"><h5>
+                      <select type="text"
+                      onChange={(e) =>
+                        this.assignPilot(e, index)
+                      }
+                      > 
+                       <option selected value="No Pilot">No Pilot</option>
+                        <option value="Bill Smith">Bill Smith</option>
+                        <option value="Liam Cassidy">Liam Cassidy</option>
+                        <option value="Javier Green">Javier Green</option>
+                        <option value="Joe Garner">Joe Garner</option>
+                      </select></h5>
+                      </td>
                       <td className="text-center">
                         <tr className="text-center">
                           <td>
