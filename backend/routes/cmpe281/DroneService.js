@@ -139,6 +139,7 @@ router.get('/searchdrones',(req,res) =>{
 
     var name = req.query.name;
     var description = req.query.description;
+    
 
 
         var conditions = [];
@@ -152,6 +153,11 @@ router.get('/searchdrones',(req,res) =>{
         if (typeof req.query.description !== 'undefined') {
           conditions.push("description LIKE ?");
           values.push("%" + req.query.description + "%");
+        }
+
+        if (typeof req.query.type !== 'undefined') {
+          conditions.push("type LIKE ?");
+          values.push("%" + req.query.type + "%");
         }
         
         conditions.push("status = ?");
