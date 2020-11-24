@@ -84,10 +84,11 @@ class Navigationbar extends Component {
             </Nav.Item>
           </Nav>
           <Nav className="mr-auto-right mr-sm-2">
-          <Nav.Link href="/main/home"><h5>Home</h5></Nav.Link>
+          <Nav.Link href="/main/home"><h5 >Home</h5></Nav.Link>
           <Nav.Link href="/main/dashboard"><h5>Dashboard</h5></Nav.Link>
-          <Nav.Link href="/main/admin/searchdrones"><h5>Search Drones</h5></Nav.Link>
-          <Nav className="mr-auto-right">
+          <Nav.Link href="/main/customer/search"><h5>Search Drones</h5></Nav.Link>
+          <Nav className="ml-auto">
+          <Nav className="mr-auto-right align-right">
           <DropdownButton id="dropdown-basic-button" title="Account">
             <Dropdown.Item href="/main/customer/account">
             <h5> My Account </h5>
@@ -102,6 +103,7 @@ class Navigationbar extends Component {
             <h5> Billing </h5>
             </Dropdown.Item>
           </DropdownButton>
+          </Nav>      
           </Nav>
            <Nav.Link href="/main/cart">
             {/* <Button>
@@ -125,15 +127,17 @@ class Navigationbar extends Component {
           <Nav className="mr-auto-right mr-sm-2">
           <Nav.Link href="/main/home"><h5>Home</h5></Nav.Link>
           <Nav.Link href="/main/dashboard"><h5>Dashboard</h5></Nav.Link>
+          <Nav className="ml-auto">
          <DropdownButton id="dropdown-basic-button" title="Drone Catalog">
           <Dropdown.Item href="/main/admin/viewalldrones"><h5>View All Drones</h5></Dropdown.Item>
           <Dropdown.Item href="/main/admin/createdrone"><h5>Create Drone</h5></Dropdown.Item>
           <Dropdown.Item href="/main/admin/searchdrones"><h5>Search Drones</h5></Dropdown.Item>
         </DropdownButton>
         <DropdownButton id="dropdown-basic-button" title="Monitoring">
-        <Dropdown.Item href="/main/admin/reviewServiceRequests"><h6>Review Drone Service Requests</h6></Dropdown.Item>
+        <Dropdown.Item href="/main/admin/reviewServiceRequests"><h5>Review Drone Service Requests</h5></Dropdown.Item>
         </DropdownButton>
-          </Nav>
+        </Nav>
+        </Nav>
         </div>
       );
     }

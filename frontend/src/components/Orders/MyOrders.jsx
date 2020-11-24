@@ -99,54 +99,54 @@ class MyOrders extends Component {
                     <thead className="thead">
                       <tr>
                       
-                        <th
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Drone Name</h6>
-                        </th>
-                        <th
+                          <h5>Drone Name</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Drone Status</h6>
-                        </th>
-                        <th
+                          <h5>Drone Status</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                         <h6> Service Name</h6>
-                        </th>
-                        <th
+                         <h5> Service Name</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Service Date</h6>
-                        </th>
-                        <th
+                          <h5>Service Date</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Service Time</h6>
-                        </th>
-                        <th
+                          <h5>Service Time</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Number of Sessions</h6>
-                        </th>
-                        <th
+                          <h5>Number of Sessions</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Service Total Cost</h6>
-                        </th>
-                        <th
+                          <h5>Service Total Cost</h5>
+                        </td>
+                        <td
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h6>Request Status</h6>
-                        </th>
+                          <h5>Request Status</h5>
+                        </td>
                        
                       </tr>
                     </thead>
@@ -156,16 +156,16 @@ class MyOrders extends Component {
                           return (
                             <tr key={rowIndex}>
                                                            
-                             <td className="text-center text-primary"> <h6><b>{order.droneName}</b></h6></td>
-                             <td className="text-center text-primary"><h6>{order.droneStatus}</h6></td>
-                              <td className="text-center text-primary"><h6>{order.serviceName}</h6></td>
+                             <td className="text-center text-primary"> <h5>{order.droneName}</h5></td>
+                             <td className="text-center text-primary"><h5>{order.droneStatus}</h5></td>
+                              <td className="text-center text-primary"><h5>{order.serviceName}</h5></td>
                               <td className="text-center text-primary">
                               <h6>{order.serviceDate}</h6>
                               </td>
-                              <td className="text-center text-primary"><h6>{order.serviceTime}</h6></td>
-                              <td className="text-center text-primary"><h6>{order.serviceSessionNumber}</h6></td>
-                              <td className="text-center text-primary"><h6>{order.serviceTotalCost}</h6></td>
-                              <td className="text-center text-primary"><h6>{order.requestStatus}</h6></td>
+                              <td className="text-center text-primary"><h5>{order.serviceTime}</h5></td>
+                              <td className="text-center text-primary"><h5>{order.serviceSessionNumber}</h5></td>
+                              <td className="text-center text-primary"><h5>{order.serviceTotalCost}</h5></td>
+                              <td className="text-center text-primary"><h5>{order.requestStatus}</h5></td>
                             </tr>
                           );
                         })}
