@@ -83,34 +83,34 @@ class ReviewServiceRequests extends Component {
             {spinner}
             <thead className="thead table-bordered">
               <tr>
-                <th className="text-center  font-weight-bold"  scope="col">
-                  User Name
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Drone Name
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Drone Status
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Serivce Name
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Service Request Date
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                 Requested Session Time
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Requested Number of Sessions
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Service Total Cost
-                </th>
-                <th className="text-center  font-weight-bold" scope="col">
-                Assign Pilot
-                </th>
-                <th scope="col"></th>
+                <td className="text-center  font-weight-bold"  scope="col">
+                  <h5>User Name</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Drone Name</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Drone Status</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Serivce Name</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Service Request Date</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Requested Session Time</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Requested Number of Sessions</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                  <h5>Service Total Cost</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                  <h5>Assign Pilot</h5>
+                </td>
+                <td scope="col"></td>
               </tr>
             </thead>
             <tbody>
@@ -151,13 +151,14 @@ class ReviewServiceRequests extends Component {
                         <tr className="text-center">
                           <td>
                             <Button
-                              className="btn btn-success"
+                              variant="success"
+                              size="lg"
                               onClick={() =>
                                 this.onApprove(index, droneServiceRequest.request_id)
                               }
                               type="submit"
                             >
-                              Approve
+                              <b>Approve</b>
                             </Button>
 
                             {/* {rowIndex === index ? (
@@ -173,13 +174,14 @@ class ReviewServiceRequests extends Component {
 
                           <td>
                             <Button
-                              className="btn btn-danger"
+                               variant="danger"
+                               size="lg"
                               onClick={() => {
                                 this.onReject(index, droneServiceRequest.request_id);
                               }}
                               type="submit"
                             >
-                              Reject
+                              <b>Reject</b> 
                             </Button>
 
                             {/* {rowIndex === index ? (
