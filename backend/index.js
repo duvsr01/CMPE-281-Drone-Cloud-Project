@@ -49,6 +49,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // defining routes
 const UserService = require("./routes/cmpe281/UserService");
 const DroneService = require("./routes/cmpe281/DroneService");
+const DashboardService = require("./routes/cmpe281/DashboardService");
+const BookingService = require("./routes/cmpe281/BookingService");
 const AgricultureService = require("./routes/cmpe281/AgricultureService");
 
 app.get("/", function(request, response) {
@@ -59,6 +61,8 @@ app.get("/", function(request, response) {
 // use routes
 app.use("/cmpe281/users", UserService);
 app.use("/cmpe281/drones",DroneService);
+app.use("/cmpe281/dashboard",DashboardService);
+app.use("/cmpe281/booking",BookingService);
 app.use("/cmpe281/agriservices",AgricultureService);
 
 
