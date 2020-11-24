@@ -81,7 +81,7 @@ class ReviewServiceRequests extends Component {
         <div>
           <table className="table table-bordered table-hover">
             {spinner}
-            <thead className="thead">
+            <thead className="thead table-bordered">
               <tr>
                 <th className="text-center  font-weight-bold"  scope="col">
                   User Name
