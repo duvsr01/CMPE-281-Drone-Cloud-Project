@@ -195,4 +195,4 @@ const mapStateToProps = (state) => ({
   errors: state.errorState,
 });
 
-export default connect(mapStateToProps, { updateDrone,removeDrone})(CustomerDroneDetails);
+export default connect(mapStateToProps, {})(CustomerDroneDetails);
