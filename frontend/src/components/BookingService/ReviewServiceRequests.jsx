@@ -84,31 +84,31 @@ class ReviewServiceRequests extends Component {
             <thead className="thead">
               <tr>
                 <th className="text-center  font-weight-bold"  scope="col">
-                  <h5>User Name</h5>
+                  User Name
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Drone Name</h5>
+                Drone Name
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Drone Status</h5>
+                Drone Status
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Serivce Name</h5>
+                Serivce Name
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Service Request Date</h5>
+                Service Request Date
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5> Requested Session Time</h5>
+                 Requested Session Time
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Requested Number of Sessions</h5>
+                Requested Number of Sessions
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Service Total Cost</h5>
+                Service Total Cost
                 </th>
                 <th className="text-center  font-weight-bold" scope="col">
-                <h5>Assign Pilot</h5>
+                Assign Pilot
                 </th>
                 <th scope="col"></th>
               </tr>
