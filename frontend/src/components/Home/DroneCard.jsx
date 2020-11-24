@@ -46,7 +46,7 @@ class DroneCard extends Component {
     const { drone } = this.props;
     return (
     <Card bg="white" style={{ width: "25rem", margin: "1rem" }}>
-    <Card.Img variant="top" src="holder.js/100px180" />
+
     <Card.Body>
     <Card.Title>{drone.name}</Card.Title>
     <Card.Text>

@@ -3,9 +3,20 @@ import React, { Component } from "react";
 import { Card, Button,Accordion } from "react-bootstrap";
 
 
-import { connect } from "react-redux";
-//import { updateDrone,removeDrone } from "../_actions/droneActions";
+import { Col, Row } from "react-bootstrap";
 
+import { connect } from "react-redux";
+
+const styles = {
+  cardImage: {
+    
+    objectFit: 'cover',
+    height:"auto"
+  },
+  imgContainer: {
+    height: "10px"
+  }
+}
 
 class CustomerDroneDetails extends Component {
   
@@ -16,10 +27,28 @@ class CustomerDroneDetails extends Component {
       size: "",
       type: "",
       description: "",
-      image:""
+      base64TextString:"",
+      setImage:false,
+      image:null,
+      imageUrl:""
     };
 }
 
+componentDidMount(){
+  const dronedet = this.props.location.state;
+  //console.log("drone details image :" + dronedet.image);
+  [dronedet].map(dronedet => 
+      this.setState({
+          name:dronedet.name,
+          description:dronedet.description,
+          size:dronedet.size,
+          type:dronedet.type,
+          imageUrl:dronedet.image
+        })
+  )
+}
+
+  
   handleAgricultureServices = (e,drone_id) => {
     //prevent page from refresh
     //e.preventDefault();
@@ -28,50 +57,119 @@ class CustomerDroneDetails extends Component {
     
   };
 
+ 
+
   
 
   render() {
    const dronedetails = this.props.location.state;
+
    var imageuri = null;
+   var droneidparam = null;
 
    [dronedetails].map(dronedetails => 
-   imageuri ="data:image/png;base64," + dronedetails.image
+   //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
+   
+   imageuri=dronedetails.image,
+   droneidparam = dronedetails.drone_id
    )
 
-  // console.log(dronedetails);
+   if(imageuri != null || imageuri != undefined)
+   imageuri = imageuri.replace(/"/g, '');
+
   
    return(
+
+     
+     
     <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+      
+        <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Drone Details</div>
                     <div class="card-body">
         {[dronedetails].map(dronedetails => <div>
           <Accordion>
-        <Card>
-        <Card.Img variant="top" src="holder.js/100px180" />
-          <Card.Body>
-          <Card.Title>{dronedetails.name}</Card.Title>
-          <Card.Text>
-            <p>Drone Description - {dronedetails.description} </p>
-            <p>Drone Name - {dronedetails.name} </p>
-            <p>Drone Size - {dronedetails.size} </p>
-            <p>Drone Type - {dronedetails.type} </p>
-            <p>Drone Image -  <img src={imageuri} alt="drone"/> </p>
-          </Card.Text>
-
-        
-          </Card.Body>
+        <Card className="m-5 border-0 shadow">
          
+        
+          <Card.Body>
+          <div class="card-block text-center">
+          <h1 class="card-title">{dronedetails.name}</h1>
+           
+        </div>
+          
+          <Row>
+
+          <Col>
+          <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
+          <Col>
+          <Card.Text>
+            <h3>Size - {dronedetails.size}<br/></h3>
+            <h3>Type - {dronedetails.type}</h3>
+          </Card.Text>
+          </Col>
+          </Row>
+
+          </Card.Body>
+          </Card>
+
+          <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                  Description
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+               <Card.Text><h3>{dronedetails.description}</h3></Card.Text>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                  Hardware Specification
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+               <Card.Text><h3>{dronedetails.hardwarespecs}</h3></Card.Text>
+                </Card.Body>
+              </Accordion.Collapse>
             </Card>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="1" onClick={(e) => this.handleAgricultureServices(e,dronedetails.drone_id)}>
+                <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                  Software Specification
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="2">
+                <Card.Body>
+               <Card.Text><h3>{dronedetails.softwarespecs}</h3></Card.Text>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="3">
                   Agriculture Services
                 </Accordion.Toggle>
               </Card.Header>
-             
+              <Accordion.Collapse eventKey="3">
+                <Card.Body>
+                <Button
+                className="btn btn-primary" type="submit"
+                onClick={(e) => this.handleAgricultureServices(e,dronedetails.drone_id)}>
+                View All Agriculture Services
+              </Button>
+
+              
+                </Card.Body>
+              </Accordion.Collapse>
             </Card>
           </Accordion>
           </div>)}

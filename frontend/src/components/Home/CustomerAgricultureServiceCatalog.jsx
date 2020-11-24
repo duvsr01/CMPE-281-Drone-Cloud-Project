@@ -43,9 +43,9 @@ const {agricultureservices,loading} = this.props.droneState;
   serviceContent = agricultureservices.map((agricultureservice,index)=>{
     return(
        <tr>
-           <td>{agricultureservice.name}</td>
-           <td>{agricultureservice.basecost}</td>
-           <td>{agricultureservice.description}</td>
+           <td><h4>{agricultureservice.name}</h4></td>
+           <td><h4>{agricultureservice.basecost}</h4></td>
+           <td><h4>{agricultureservice.description}</h4></td>
           
        </tr>
     )
