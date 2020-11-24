@@ -85,6 +85,7 @@ class Navigationbar extends Component {
           </Nav>
           <Nav className="mr-auto-right mr-sm-2">
           <Nav.Link href="/main/home"><h5>Home</h5></Nav.Link>
+          <Nav.Link href="/main/dashboard"><h5>Dashboard</h5></Nav.Link>
           <Nav.Link href="/main/customer/search"><h5>Search Drones</h5></Nav.Link>
           <Nav className="mr-auto-right">
           <DropdownButton id="dropdown-basic-button" title="Account">
@@ -123,6 +124,7 @@ class Navigationbar extends Component {
           </Nav>
           <Nav className="mr-auto-right mr-sm-2">
           <Nav.Link href="/main/home"><h5>Home</h5></Nav.Link>
+          <Nav.Link href="/main/dashboard"><h5>Dashboard</h5></Nav.Link>
          <DropdownButton id="dropdown-basic-button" title="Drone Catalog">
           <Dropdown.Item href="/main/admin/viewalldrones"><h5>View All Drones</h5></Dropdown.Item>
           <Dropdown.Item href="/main/admin/createdrone"><h5>Create Drone</h5></Dropdown.Item>

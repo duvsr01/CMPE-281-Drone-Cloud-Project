@@ -16,14 +16,11 @@ class Home extends Component {
       localStorage.getItem("usertype") === "customer"
     ) {
       homeComponent = <CustomerHome />;
-    } else {
-      homeComponent = <Dashboard />
-    }
+    } 
 
     return (
       <div>
-        {<Dashboard />}
-        {/* {homeComponent} */}
+        {homeComponent}
       </div>
     );
   }

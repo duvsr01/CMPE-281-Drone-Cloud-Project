@@ -17,6 +17,7 @@ import DashboardServiceView from "../Home/DashboardServiceView";
 import DashboardDroneView from "../Home/DashboardDroneView";
 import DashboardRequestsView from "../Home/DashboardRequestsView";
 import DashboardUsersView from "../Home/DashboardUsersView";
+import Dashboard from "../Home/Dashboard";
 
 class Main extends Component {
    componentDidMount() {
@@ -32,6 +33,7 @@ class Main extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/main/home" component={Home} />
+            <Route path="/main/dashboard" component={Dashboard} />
             <Route path="/main/admin/createdrone" component={DroneCatalog} />
             <Route path="/main/admin/searchdrones" component={SearchDrones} />
             <Route path="/main/admin/viewalldrones" component={ViewAllDrones} />
