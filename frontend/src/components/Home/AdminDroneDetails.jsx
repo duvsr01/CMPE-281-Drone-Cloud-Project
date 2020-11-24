@@ -166,7 +166,6 @@ handleChange = (e) => {
    imageuri = imageuri.replace(/"/g, '');
 
 
-
   console.log("image url:" + imageuri);
   
    return(
