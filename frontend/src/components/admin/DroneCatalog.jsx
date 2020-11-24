@@ -16,12 +16,74 @@ class DroneCatalog extends Component {
           softwarespecs: "",
           hardwarespecs: "",
           base64TextString:"",
-          image:null
+          image:null,
+      errors: "",
+      text: null,
+      formErrors: {},
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
     }
+
+    componentDidUpdate(prevProps) {
+     
+      if (this.props.errors !== prevProps.errors) {
+        console.log("errors are" + this.props.errors);
+        if (this.props.errors) {
+          this.setState({
+            text: "",
+            formErrors: {},
+            errors: this.props.errors.message,
+          });
+        }
+      }
+    }
+
+    validate = () => {
+  
+      let nameError = "";
+      let sizeError = "";
+      let typeError = "";
+      let descriptionError = "";
+  
+      if (!this.state.name) {
+        nameError = "Please enter drone Name";
+      }
+  
+      if (!this.state.size) {
+        sizeError = "Please enter size";
+      }
+  
+      if (!this.state.type) {
+        typeError = "Please enter type";
+      }
+  
+      if (!this.state.description) {
+        descriptionError = "Please enter description";
+      }
+  
+  
+      if (
+        nameError ||
+        sizeError ||
+        typeError ||
+        descriptionError 
+      ) {
+        this.setState((prevState) => ({
+          formErrors: {
+            // object that we want to update
+            ...prevState.formErrors, // keep all other key-value pairs
+            nameError: nameError, // update the value of specific key
+            sizeError: sizeError,
+            typeError: typeError,
+            descriptionError: descriptionError
+          },
+        }));
+        return false;
+      }
+      return true;
+    };
 
     handleChange = (e) => {
         this.setState({
@@ -58,12 +120,13 @@ class DroneCatalog extends Component {
 
       handleSubmit = (e) => {
         //prevent page from refresh
-        e.preventDefault();
-        this.setState({
-          text: "",
-          errors: "",
-        });
-       
+    e.preventDefault();
+    this.setState({
+      text: "",
+      errors: "",
+    });
+    const isValid = this.validate();
+    if (isValid) {
           const data = {
             name: this.state.name,
             size: this.state.size,
@@ -82,8 +145,7 @@ class DroneCatalog extends Component {
     
           this.props.createDrone(data);
           setTimeout(() => {  this.props.history.push("/main/admin/viewalldrones"); }, 1000);
-    
-        
+        }    
       };
 
       render() {
@@ -108,7 +170,13 @@ class DroneCatalog extends Component {
                     onChange={this.handleChange}
                     placeholder="Name"
                     required
-                  /></Form.Group>
+                  />
+                    {this.state.formErrors.nameError ? (
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.formErrors.nameError}
+                </div>
+              ) : null}
+                  </Form.Group>
 
                 <Form.Group controlId="type">
                   <Form.Label>Type</Form.Label>
@@ -118,7 +186,13 @@ class DroneCatalog extends Component {
                     value={this.state.dronetype}
                     onChange={this.handleChange}
                     placeholder="Type"
-                  /></Form.Group>
+                  />
+                  {this.state.formErrors.typeError ? (
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.formErrors.typeError}
+                </div>
+              ) : null}
+                  </Form.Group>
                  
                   
                 <Form.Group controlId="size">
@@ -130,7 +204,11 @@ class DroneCatalog extends Component {
                     onChange={this.handleChange}
                     placeholder="Size"
                   />
-                  
+                  {this.state.formErrors.sizeError ? (
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.formErrors.sizeError}
+                </div>
+              ) : null}
                 </Form.Group>
                
                 <Form.Group controlId="description">
@@ -140,7 +218,13 @@ class DroneCatalog extends Component {
                     value={this.state.description}
                     onChange={this.handleChange}
                     placeholder="Description"
-                  /></Form.Group>
+                  />
+                  {this.state.formErrors.descriptionError ? (
+                <div style={{ fontSize: 12, color: "red" }}>
+                  {this.state.formErrors.descriptionError}
+                </div>
+              ) : null}
+                  </Form.Group>
 
 <Form.Group controlId="hardwarespecs">
                   <Form.Label>Hardware Specifications</Form.Label>
@@ -196,7 +280,7 @@ class DroneCatalog extends Component {
 } 
 
   const mapStateToProps = (state) => ({
-    store: state.storeState,
+    dronestate: state.droneState,
     errors: state.errorState,
   });
   export default connect(mapStateToProps, { createDrone })(DroneCatalog);
