@@ -13,7 +13,8 @@ class SearchDrones extends Component {
         super(props);
         this.state = {
           name: "",
-          description: ""
+          description: "",
+          type:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +36,8 @@ class SearchDrones extends Component {
        
           const params = {
             name: this.state.name,
-            description: this.state.description
+            description: this.state.description,
+            type:this.state.type
           };
     
           this.props.searchDrones(params);
@@ -82,6 +84,14 @@ class SearchDrones extends Component {
                   <Form.Control as="textarea" rows={2}
                     name="description"
                     value={this.state.description}
+                    onChange={this.handleChange}
+                  /></Form.Group>
+
+                <Form.Group controlId="type">
+                  <Form.Label>Type</Form.Label>
+                  <Form.Control
+                    name="type"
+                    value={this.state.type}
                     onChange={this.handleChange}
                   /></Form.Group>
               <Button
