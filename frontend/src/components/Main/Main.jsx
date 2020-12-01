@@ -11,10 +11,13 @@ import AdminAgricultureServiceCatalog from "../admin/AdminAgricultureServiceCata
 import CustomerAgricultureServiceCatalog from "../Home/CustomerAgricultureServiceCatalog";
 import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
+import ReviewServiceRequests  from "../BookingService/ReviewServiceRequests";
+import MyOrders from "../Orders/MyOrders";
 import DashboardServiceView from "../Home/DashboardServiceView";
 import DashboardDroneView from "../Home/DashboardDroneView";
 import DashboardRequestsView from "../Home/DashboardRequestsView";
 import DashboardUsersView from "../Home/DashboardUsersView";
+import Dashboard from "../Home/Dashboard";
 
 class Main extends Component {
    componentDidMount() {
@@ -30,6 +33,7 @@ class Main extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/main/home" component={Home} />
+            <Route path="/main/dashboard" component={Dashboard} />
             <Route path="/main/admin/createdrone" component={DroneCatalog} />
             <Route path="/main/admin/searchdrones" component={SearchDrones} />
             <Route path="/main/admin/viewalldrones" component={ViewAllDrones} />
@@ -38,6 +42,9 @@ class Main extends Component {
             <Route path="/main/adminservicecatalog" component={AdminAgricultureServiceCatalog}/> 
             <Route path="/main/customerservicecatalog" component={CustomerAgricultureServiceCatalog}/>
             <Route path="/main/createservice" component={CreateAgricultureService}/> 
+            <Route path="/main/updateservice" component={UpdateAgricultureService}/> 
+            <Route path="/main/admin/reviewServiceRequests" component={ReviewServiceRequests}/>
+            <Route path="/main/customer/orders" component={MyOrders}/>
             <Route path="/main/updateservice" component={UpdateAgricultureService}/>
             <Route path="/main/dashboardServiceView" component={DashboardServiceView}/> 
             <Route path="/main/dashboardDroneView" component={DashboardDroneView}/> 

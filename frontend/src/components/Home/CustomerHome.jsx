@@ -18,6 +18,7 @@ class CustomerHome extends Component {
 
   componentDidMount(){
     this.props.getDrones();
+    
   }
 
 

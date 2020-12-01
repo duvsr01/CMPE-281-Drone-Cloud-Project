@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 //const mysql = require("mysql");
 const cors = require("cors");
+const fileUpload = require('express-fileupload')
 
 
 const app = express();
@@ -32,14 +33,18 @@ app.use(function(req, res, next) {
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Access-Control-Request-Method, Access-Control-Request-Headers"
   );
   res.setHeader("Cache-Control", "no-cache");
   next();
 });
 
 app.use(bodyParser.json());
+//app.use(express.multipart())
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // defining routes
 const UserService = require("./routes/cmpe281/UserService");
@@ -47,6 +52,7 @@ const DroneService = require("./routes/cmpe281/DroneService");
 const DashboardService = require("./routes/cmpe281/DashboardService");
 const BookingService = require("./routes/cmpe281/BookingService");
 const AgricultureService = require("./routes/cmpe281/AgricultureService");
+const OrderService = require("./routes/cmpe281/OrderService");
 
 app.get("/", function(request, response) {
   console.log("Inside Node Home");
@@ -58,6 +64,7 @@ app.use("/cmpe281/users", UserService);
 app.use("/cmpe281/drones",DroneService);
 app.use("/cmpe281/dashboard",DashboardService);
 app.use("/cmpe281/booking",BookingService);
+app.use("/cmpe281/orders", OrderService);
 app.use("/cmpe281/agriservices",AgricultureService);
 
 
