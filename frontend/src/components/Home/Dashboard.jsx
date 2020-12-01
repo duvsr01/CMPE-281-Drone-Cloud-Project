@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
 
   constructor() {
     super();
-    this.state = {numApprovedRequests: 0, displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: [], allDrones: []};
+    this.state = {allDronesLiveData: [], numApprovedRequests: 0, displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: [], allDrones: []};
   }
 
   componentDidMount = () => {
@@ -278,6 +278,14 @@ class Dashboard extends React.Component {
           )
         })
         this.setState({allDrones: allDrones, allDronesData: res.data})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+      axios.get(backendurl + "/getAllDronesLiveData")
+      .then((res) => {
+        this.setState({allDronesLiveData: res.data});
       })
       .catch((err) => {
         console.log(err);
@@ -538,8 +546,8 @@ class Dashboard extends React.Component {
           <Row>  
             <Col md={12}>
               <div id="droneMap">
-                    <h3><i class="fas fa-map-marked-alt"></i> All Drone Locations</h3>
-                    <DashboardMap data={[{lat: 37.3, lng: -121.8, text: "xyz drone"}]}/>
+                    <h3><i style={{color: "green"}} class="fas fa-map-marked-alt"></i> All Drone Locations</h3>
+                    {this.state.allDronesLiveData.length != 0 && <DashboardMap data={this.state.allDronesLiveData}/>}
               </div>
             </Col>
           </Row>
