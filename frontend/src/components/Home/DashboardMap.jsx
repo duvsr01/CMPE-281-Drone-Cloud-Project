@@ -26,8 +26,8 @@ class SimpleMap extends Component {
             allDrones.push(
                 <DroneMarker
                     lat={drone.lat}
-                    lng={drone.lng}
-                    text={drone.text}
+                    lng={drone.long}
+                    data={drone}
                 />
             );
         }
