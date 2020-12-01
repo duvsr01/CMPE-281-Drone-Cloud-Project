@@ -53,6 +53,7 @@ const DashboardService = require("./routes/cmpe281/DashboardService");
 const BookingService = require("./routes/cmpe281/BookingService");
 const AgricultureService = require("./routes/cmpe281/AgricultureService");
 const OrderService = require("./routes/cmpe281/OrderService");
+const TrackingService = require("./routes/cmpe281/TrackingService");
 
 app.get("/", function(request, response) {
   console.log("Inside Node Home");
@@ -66,6 +67,7 @@ app.use("/cmpe281/dashboard",DashboardService);
 app.use("/cmpe281/booking",BookingService);
 app.use("/cmpe281/orders", OrderService);
 app.use("/cmpe281/agriservices",AgricultureService);
+app.use("/cmpe281/tracking",TrackingService);
 
 
 const port = process.env.PORT || 3001;

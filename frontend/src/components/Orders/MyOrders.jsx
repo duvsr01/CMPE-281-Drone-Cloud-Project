@@ -62,7 +62,7 @@ class MyOrders extends Component {
           <div className="row">
             <div className="col s12 center-align background blue">
               <h2 className="text-center text-white font-italic font-family-sans-serif">
-                My Orders
+              My Service Requests
               </h2>
             </div>
           </div>
@@ -72,7 +72,7 @@ class MyOrders extends Component {
                 <Card style={{ width: "18rem" }}>
                   <Card.Body>
                     <Card.Title>
-                      There are no orders!
+                      There are no service requests!
                     </Card.Title>
                   </Card.Body>
                 </Card>
@@ -87,7 +87,7 @@ class MyOrders extends Component {
           <div className="row">
             <div className="col s12 center-align background blue">
               <h2 className="text-center text-white font-italic font-family-sans-serif">
-                My Orders
+                My Service Requests
               </h2>
             </div>
           </div>
