@@ -29,6 +29,27 @@ Copyright (c) 2015 Daniel Eden
   border-radius: 100px;
 }
 
+.infoCard{
+  width: 95%;
+  border-radius: 5px;
+  /* border: 1px black;
+  border-style: solid; */
+  text-align: center;
+  margin: 20px;
+  padding: 20px;
+  box-shadow:  0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.infoCardInfo{
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.infoCardTitle{
+  font-size: 1.5em;
+  color: blue;
+}
+
 .scrollTable{
   overflow-y: auto;
   /* height: 20%; */

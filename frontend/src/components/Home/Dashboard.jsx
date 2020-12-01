@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
 
   constructor() {
     super();
-    this.state = {displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: []};
+    this.state = {numApprovedRequests: 0, displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: [], allDrones: []};
   }
 
   componentDidMount = () => {
@@ -195,6 +195,8 @@ class Dashboard extends React.Component {
         var allRequests = [];
         var chart = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
         var lineChartData = {};
+        var numNewRequests = 0;
+        var numApprovedRequests = 0;
         res.data.forEach((o) => {
           if(!(o.service_id in allServices)){
             return;
@@ -210,6 +212,12 @@ class Dashboard extends React.Component {
           lineChartData[name][month] += total;
           chart[month] = chart[month] + total;
           var color = (o.request_status === "Approved") ? "Green" : "Red";
+          if(o.request_status === "New"){
+            numNewRequests = numNewRequests + 1;
+          }
+          if(o.request_status === "Approved"){
+            numApprovedRequests = numApprovedRequests + 1;
+          }
           allRequests.push(
             <tr className="tableRow" onClick={() => this.handleRequestsClick(o)}>
               <td>{o.request_id}</td>
@@ -249,7 +257,7 @@ class Dashboard extends React.Component {
         var servicesLineChart = {};
         servicesLineChart['labels'] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         servicesLineChart['datasets'] = lineData;
-        this.setState({colors: colors, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data})
+        this.setState({numApprovedRequests: numApprovedRequests, numNewRequests: numNewRequests, colors: colors, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data})
         console.log("linedata", this.state.lineData[0]);
       })
       .catch((err) => {
@@ -449,7 +457,7 @@ class Dashboard extends React.Component {
     return (
       <div id="mainDiv">
         {/* MAIN REVENUE CHART */}
-        <h2>{(isAdmin) ? "Revenue" : "Expenditure"} history</h2>
+        <h2><i class="fas fa-chart-line"></i> {(isAdmin) ? "Revenue" : "Expenditure"} History</h2>
         <PanelHeader
           size="lg"
           content={
@@ -460,13 +468,39 @@ class Dashboard extends React.Component {
           }
         />
         <div className="content">
+          {this.state.isAdmin && <Row>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.allUsers.length}</div>
+                <div className="infoCardTitle"><i style={{color: "orange"}}class="fas fa-users"></i> Customers</div>
+              </div>
+            </Col>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.numNewRequests}</div>
+                <div className="infoCardTitle"><i style={{color: "red"}}class="fas fa-exclamation-circle"></i> New Service Requests</div>
+              </div>
+            </Col>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.allDrones.length}</div>
+                <div className="infoCardTitle"><i style={{color: "green"}}class="fas fa-helicopter"></i> Total Drones</div>
+              </div>
+            </Col>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.numApprovedRequests}</div>
+                <div className="infoCardTitle"><i style={{color: "violet"}}class="fas fa-plane-departure"></i> Total Flights</div>
+              </div>
+            </Col>
+          </Row>}
           <Row>
             {/* PIE CHART */}
             <Col xs={12} md={6}>  
               <Card className="card-chart">
-                <CardHeader>
+                <CardHeader style={{textAlign: "center"}}>
                   {/* <h5 className="card-category">Email Statistics</h5> */}
-                  <CardTitle tag="h4">{((!isAdmin) ? "Expenditure" : "Revenue") + " by Service Type"}</CardTitle>
+                  <CardTitle tag="h4"><i class="fas fa-chart-pie"></i> {((!isAdmin) ? "Expenditure" : "Revenue") + " by Service Type"}</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
@@ -484,8 +518,8 @@ class Dashboard extends React.Component {
             {/* LINE CHART */}
             <Col xs={12} md={6}>
               <Card className="card-chart">
-                <CardHeader>
-                  <CardTitle tag="h4">Monthly Revenue by Service Type</CardTitle>
+                <CardHeader style={{textAlign: "center"}}>
+                  <CardTitle tag="h4"><i className="fas fa-file-contract"></i> Monthly Revenue by Service Type</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
@@ -504,7 +538,7 @@ class Dashboard extends React.Component {
           <Row>  
             <Col md={12}>
               <div id="droneMap">
-                    <h3>All Drone Locations</h3>
+                    <h3><i class="fas fa-map-marked-alt"></i> All Drone Locations</h3>
                     <DashboardMap data={[{lat: 37.3, lng: -121.8, text: "xyz drone"}]}/>
               </div>
             </Col>
@@ -515,7 +549,7 @@ class Dashboard extends React.Component {
             {isAdmin && <Col xs={12} md={12}>
               <Card className="card-tasks">
                 <CardHeader className="headerTitle" onClick={this.toggleDronesDisplay}>
-                  <CardTitle tag="h4">All Drones</CardTitle>
+                  <CardTitle tag="h4"><i class="fas fa-helicopter"></i> All Drones</CardTitle>
                 </CardHeader>
                 {this.state.displayAllDrones && <CardBody>
                   <Input type="text" placeholder="Search drone by name, type, status..." onChange={this.handleDroneSearchChange}/>
@@ -543,7 +577,7 @@ class Dashboard extends React.Component {
               <Card className="scrollTable">
                 <CardHeader className="headerTitle" onClick={this.toggleDisplayPreviousOrdersCustomers}>
                   {/* <h5 className="card-category">All Persons List</h5> */}
-                  <CardTitle tag="h4">{(!isAdmin) ? "All Previous Orders" : "Customers"}</CardTitle>
+                <CardTitle tag="h4">{(!isAdmin) ? <i class="fas fa-truck"></i> : <i class="fas fa-users"></i>} {(!isAdmin) ? "All Previous Orders" : "Customers"}</CardTitle>
                 </CardHeader>
                 {this.state.displayPreviousOrdersCustomers && <CardBody >
                   <Input type="text" placeholder="Search customer by id, name, email..." onChange={this.handleUserSearchChange}/>
@@ -584,7 +618,7 @@ class Dashboard extends React.Component {
               <Col xs={12} md={12}>
                 <Card>
                 <CardHeader className="headerTitle" onClick={this.toggleDisplayRequests}>
-                  <CardTitle tag="h4">Requests</CardTitle>
+                  <CardTitle tag="h4"><i class="fas fa-list-alt"></i> Requests</CardTitle>
                 </CardHeader>
                 {this.state.displayRequests && <CardBody>
                   <Input type="text" placeholder="Search requests by id, service name, requester email, status..." onChange={this.handleRequestSearchChange}/>
@@ -613,7 +647,7 @@ class Dashboard extends React.Component {
               <Col xs={12} md={12}>
                 <Card>
                 <CardHeader className="headerTitle" onClick={this.toggleDisplayAllServices}>
-                  <CardTitle tag="h4">All Services Offered</CardTitle>
+                  <CardTitle tag="h4"><i class="fas fa-layer-group"></i> All Services Offered</CardTitle>
                 </CardHeader>
                 {this.state.displayAllServices && <CardBody>
                   <Input type="text" placeholder="Search Services by id, service name, drone id, basecost..." onChange={this.handleServicesSearchChange}/>
