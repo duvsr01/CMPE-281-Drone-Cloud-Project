@@ -94,7 +94,7 @@ class Navigationbar extends Component {
             <h5> My Account </h5>
             </Dropdown.Item>
             <Dropdown.Item href="/main/customer/orders">
-            <h5> My Orders </h5>
+            <h5> My Service Requests </h5>
             </Dropdown.Item>
             <Dropdown.Item href="/main/customer/tracking">
             <h5> Tracking and Monitoring </h5>

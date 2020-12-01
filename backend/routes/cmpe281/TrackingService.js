@@ -1,25 +1,35 @@
 const express = require("express");
 const router = express.Router();
-const config = require("../../config/sqlConnection.js");
-const db=config.db;
+// const config = require("../../config/mongoConnection.js");
+// const mongoDB=config.mongoDB;
+const mongoose = require("mongoose");
+// DB config
+const mongoURI = require("../../config/keys").mongoURI;
+// Connect to MongoDB
+mongoose
+  .connect(mongoURI, { poolSize: 10 },{ useNewUrlParser: true })
+  .then(() => console.log("MongoDB Connected from Mongoose"))
+  .catch(err => console.log(err));
 
+//Load Tracking Model
+const Tracking = require("../../models/tracking");
 
-    //getUserOrders
-    router.post('/trackDrone',(req,res) =>{
-        const {email}= req.body;
-        try{
-        db.query('select  r.request_id request_id,u.displayName userName,d.name droneName,d.status droneStatus,s.name serviceName,r.service_date serviceDate,r.session_time serviceTime,r.no_of_sessions serviceSessionNumber,r.service_totalcost serviceTotalCost,r.request_status requestStatus from cmpe281.request r join cmpe281.drone d on r.drone_id=d.drone_id join cmpe281.service s on r.service_id=s.service_id join cmpe281.user u on r.email=u.email where u.email=?'
-        ,[email]
-        ,function(error,results){
-            if(error) throw error;
-            res.status(200).json(results);
-        });  
-        }
-        catch(error){
-            console.log("Error occured: "+error);
-            res.status(400).json(error);
-        } 
-        });
+    //get Drone Trakcing details by user
+    router.post('/getTrackingDetailsByUser',(req,res) =>{
+        console.log("Inside tracking api")
+        const{user_email} = req.body;
+        console.log("user_email is"+user_email);
+
+       let data= [{"drone_id":1,"drone_name":"Phantom RTK","user_email":"sruthi.duvvuri1@gmail.com","description":"Agriculture Drone","speed":50,"altitude":180,"lat":0.99,"long":0.87,"distance":20,"battery":60,"cpu_usage":30,"payload_weight":50,"payload_type":"pesticide"}
+                ,{"drone_id":2,"drone_name":"Agras T16","user_email":"sruthi.duvvuri1@gmail.com","description":"Agriculture Drone","speed":70,"altitude":250,"lat":0.99,"long":0.87,"distance":90,"battery":70,"cpu_usage":90,"payload_weight":30,"payload_type":"water"}];
+        // Tracking.find({ }).then(result => {
+        //     console.log("the result is"+result);
+        //     return res.status(200).json(result);
+        //               })
+        //             .catch(err => console.log(err)); 
+
+        res.status(200).json(data);
+    });
 
 
 module.exports = router;
