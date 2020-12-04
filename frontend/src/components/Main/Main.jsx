@@ -13,13 +13,13 @@ import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
 import ReviewServiceRequests  from "../BookingService/ReviewServiceRequests";
 import MyOrders from "../Orders/MyOrders";
-import DashboardServiceView from "../Home/DashboardServiceView";
-import DashboardDroneView from "../Home/DashboardDroneView";
-import DashboardRequestsView from "../Home/DashboardRequestsView";
-import DashboardUsersView from "../Home/DashboardUsersView";
-import Dashboard from "../Home/Dashboard";
+import DashboardServiceView from "../Dashboard/DashboardServiceView";
+import DashboardDroneView from "../Dashboard/DashboardDroneView";
+import DashboardRequestsView from "../Dashboard/DashboardRequestsView";
+import DashboardUsersView from "../Dashboard/DashboardUsersView";
+import Dashboard from "../Dashboard/Dashboard";
 import userTracking from "../Tracking/userTracking";
-import DashboardDroneLiveDataView from "../Home/DashboardDroneLiveDataView";
+import DashboardDroneLiveDataView from "../Dashboard/DashboardDroneLiveDataView";
 
 class Main extends Component {
    componentDidMount() {
