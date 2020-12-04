@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CustomerHome from "./CustomerHome";
 import AdminHome from "./AdminHome";
-import Dashboard from "./Dashboard";
+//import Dashboard from "../Dashboard";
 
 class Home extends Component {
 
