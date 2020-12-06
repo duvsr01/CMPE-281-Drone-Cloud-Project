@@ -33,7 +33,18 @@ class AdminDroneDetails extends Component {
       image:null,
       imageUrl:"",
       softwarespecs: "",
-          hardwarespecs: ""
+          hardwarespecs: "",
+          wingspan:"",
+          weight:"",
+          battery:"",
+          camera:"",
+          flighttime:"",
+          flightrange:"",
+          flightaltitude:"",
+          flightspeed:"",
+          flightplanningsoftware:"",
+          imagesoftware:"",
+          powerconsumption:""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +62,18 @@ componentDidMount(){
           type:dronedet.type,
           imageUrl:dronedet.image,
           hardwarespecs:dronedet.hardwarespecs,
-          softwarespecs:dronedet.softwarespecs
+          softwarespecs:dronedet.softwarespecs,
+          wingspan:dronedet.wingspan,
+          weight:dronedet.weight,
+          battery:dronedet.battery,
+          camera:dronedet.camera,
+          flighttime:dronedet.flighttime,
+          flightrange:dronedet.flightrange,
+          flightaltitude:dronedet.flightaltitude,
+          flightspeed:dronedet.flightspeed,
+          flightplanningsoftware:dronedet.flightplanningsoftware,
+          imagesoftware:dronedet.imagesoftware,
+          powerconsumption:dronedet.powerconsumption,
         })
   )
 }
@@ -107,6 +129,17 @@ handleChange = (e) => {
         imageUrl:this.state.imageUrl,
         softwarespecs: this.state.softwarespecs,
           hardwarespecs: this.state.hardwarespecs,
+          wingspan:this.state.wingspan,
+          weight:this.state.weight,
+          battery:this.state.battery,
+          camera:this.state.camera,
+          flighttime:this.state.flighttime,
+          flightrange:this.state.flightrange,
+          flightaltitude:this.state.flightaltitude,
+          flightspeed:this.state.flightspeed,
+          flightplanningsoftware:this.state.flightplanningsoftware,
+          imagesoftware:this.state.imagesoftware,
+          powerconsumption:this.state.powerconsumption,
         id:drone_id
       };
 
@@ -123,8 +156,8 @@ handleChange = (e) => {
     
   };
 
-  createAgricultureService = (e,drone_id) => {
-   this.props.history.push("/main/createservice",drone_id);
+  createAgricultureService = (e,dronedetails) => {
+   this.props.history.push("/main/createservice",dronedetails);
     
   };
 
@@ -179,9 +212,30 @@ handleChange = (e) => {
                 <div class="card">
                     <div class="card-header">Drone Details</div>
                     <div class="card-body">
+
+        
         {[dronedetails].map(dronedetails => <div>
+
+          <Button
+                className="btn btn-primary" type="submit"
+                onClick={e => this.handleDeleteDrone(e,droneidparam)}>
+                Remove Drone
+              </Button>
+
+              <Button
+                className="btn btn-primary" type="submit"
+                onClick={(e) => this.handleAgricultureServices(e,dronedetails.drone_id)}>
+                View All Agriculture Services
+              </Button>
+
+              <Button
+                className="btn btn-primary" type="submit"
+                onClick={(e) => this.createAgricultureService(e,dronedetails)}>
+                Create Agriculture Service
+              </Button>
+
           <Accordion>
-        <Card className="m-5 border-0 shadow">
+        <Card className="m-1 border-0 shadow">
          
         
           <Card.Body>
@@ -198,6 +252,7 @@ handleChange = (e) => {
           <Card.Text>
              <h3>Size - {dronedetails.size}</h3><br/>
              <h3>Type - {dronedetails.type}</h3>
+             <h2>{dronedetails.description}</h2>
           </Card.Text>
           </Col>
           </Row>
@@ -205,15 +260,19 @@ handleChange = (e) => {
           </Card.Body>
           </Card>
 
-          <Card>
+            <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Description
+                  Hardware
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
-               <Card.Text><h3>{dronedetails.description}</h3></Card.Text>
+               <Card.Text>WingSpan - {dronedetails.wingspan}</Card.Text>
+               <Card.Text>Weight - {dronedetails.weight}</Card.Text>
+               <Card.Text>Battery - {dronedetails.battery}</Card.Text>
+               <Card.Text>Camera - {dronedetails.camera}</Card.Text>
+                <Card.Text>Power Consumption - {dronedetails.powerconsumption}</Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -221,24 +280,29 @@ handleChange = (e) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                  Hardware Specification
+                  Flight Parameters
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
-               <Card.Text><h3>{dronedetails.hardwarespecs}</h3></Card.Text>
+               <Card.Text>Flight Time - {dronedetails.flighttime}</Card.Text>
+               <Card.Text>Flight Altitude - {dronedetails.flightaltitude}</Card.Text>
+               <Card.Text>Flight Range - {dronedetails.flightrange}</Card.Text>
+               <Card.Text>Flight Speed - {dronedetails.flightspeed}</Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
+
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                  Software Specification
+                  Software
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="2">
                 <Card.Body>
-               <Card.Text><h3>{dronedetails.softwarespecs}</h3></Card.Text>
+               <Card.Text>Flight Planning Software - {dronedetails.flightplanningsoftware}</Card.Text>
+               <Card.Text>Image Software - {dronedetails.imagesoftware}</Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -294,7 +358,137 @@ handleChange = (e) => {
                     onChange={this.handleChange}
                   /></Form.Group>
 
-<Form.Group controlId="hardwarespecs">
+<hr/>
+
+<span>Hardware Specifications</span>
+
+<Form.Group controlId="wingspan">
+<Form.Label>Wingspan</Form.Label>
+<Form.Control
+  type="text"
+  name="wingspan"
+  value={this.state.wingspan}
+  onChange={this.handleChange}
+  placeholder="Wingspan"
+/>
+</Form.Group>
+
+<Form.Group controlId="weight">
+<Form.Label>Weight</Form.Label>
+<Form.Control
+  type="text"
+  name="weight"
+  value={this.state.weight}
+  onChange={this.handleChange}
+  placeholder="weight"
+/>
+</Form.Group>
+
+<Form.Group controlId="battery">
+<Form.Label>Battery</Form.Label>
+<Form.Control
+  type="text"
+  name="battery"
+  value={this.state.battery}
+  onChange={this.handleChange}
+  placeholder="Battery Type"
+/>
+</Form.Group>
+
+<Form.Group controlId="camera">
+<Form.Label>Camera</Form.Label>
+<Form.Control
+  type="text"
+  name="camera"
+  value={this.state.camera}
+  onChange={this.handleChange}
+  placeholder="Camera"
+/>
+</Form.Group>
+
+<Form.Group controlId="flighttime">
+<Form.Label>Flight Time</Form.Label>
+<Form.Control
+  type="text"
+  name="flighttime"
+  value={this.state.flighttime}
+  onChange={this.handleChange}
+  placeholder="Flight Time"
+/>
+</Form.Group>
+
+<Form.Group controlId="flightrange">
+<Form.Label>Flight Range</Form.Label>
+<Form.Control
+  type="text"
+  name="flightrange"
+  value={this.state.flightrange}
+  onChange={this.handleChange}
+  placeholder="Flight Range"
+/>
+</Form.Group>
+
+
+<Form.Group controlId="flightaltitude">
+<Form.Label>Flight Altitude</Form.Label>
+<Form.Control
+  type="text"
+  name="flightaltitude"
+  value={this.state.flightaltitude}
+  onChange={this.handleChange}
+  placeholder="Flight Altitude"
+/>
+</Form.Group>
+
+<Form.Group controlId="flightspeed">
+<Form.Label>Flight Speed</Form.Label>
+<Form.Control
+  type="text"
+  name="flightspeed"
+  value={this.state.flightrflightspeed}
+  onChange={this.handleChange}
+  placeholder="Flight Speed"
+/>
+</Form.Group>
+
+<Form.Group controlId="powerconsumption">
+<Form.Label>Power Consumption</Form.Label>
+<Form.Control
+  type="text"
+  name="powerconsumption"
+  value={this.state.powerconsumption}
+  onChange={this.handleChange}
+  placeholder="Power Consumption"
+/>
+</Form.Group>
+
+<hr/>
+
+<span>Software Specifications</span>
+
+<Form.Group controlId="flightplanningsoftware">
+<Form.Label>Flight Planning Software</Form.Label>
+<Form.Control
+  type="text"
+  name="flightplanningsoftware"
+  value={this.state.flightplanningsoftware}
+  onChange={this.handleChange}
+  placeholder="Flight Planning Software"
+/>
+</Form.Group>
+
+<Form.Group controlId="imagesoftware">
+<Form.Label>Image Software</Form.Label>
+<Form.Control
+  type="text"
+  name="imagesoftware"
+  value={this.state.imagesoftware}
+  onChange={this.handleChange}
+  placeholder="Image Software"
+/>
+</Form.Group>
+
+          {/*<Form.Group controlId="hardwarespecs">
                   <Form.Label>Hardware Specifications</Form.Label>
                   <Form.Control as="textarea" rows={6}
                     name="hardwarespecs"
@@ -302,13 +496,15 @@ handleChange = (e) => {
                     onChange={this.handleChange}
                   /></Form.Group>
 
-<Form.Group controlId="softwarespecs">
+              <Form.Group controlId="softwarespecs">
                   <Form.Label>Software Specifications</Form.Label>
                   <Form.Control as="textarea" rows={6}
                     name="softwarespecs"
                     value={this.state.softwarespecs}
                     onChange={this.handleChange}
-                  /></Form.Group>
+        /></Form.Group>*/}
+
+
 
 `             <Form.Group controlId="image">
                   <Form.Label>Change Image</Form.Label>
@@ -335,13 +531,13 @@ handleChange = (e) => {
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
-            <Card>
+          {/*  <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="4">
+                <Accordion.Toggle as={Button} variant="link" eventKey="3">
                   Delete Drone
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey="4">
+              <Accordion.Collapse eventKey="3">
                 <Card.Body>
                 <h4 class="card-title">Are you sure you want to delete this drone from the catalog?</h4>
                   
@@ -355,11 +551,11 @@ handleChange = (e) => {
             </Card>
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="5">
+                <Accordion.Toggle as={Button} variant="link" eventKey="4">
                   Agriculture Services
                 </Accordion.Toggle>
               </Card.Header>
-              <Accordion.Collapse eventKey="5">
+              <Accordion.Collapse eventKey="4">
                 <Card.Body>
                 <Button
                 className="btn btn-primary" type="submit"
@@ -369,12 +565,13 @@ handleChange = (e) => {
 
               <Button
                 className="btn btn-primary" type="submit"
-                onClick={(e) => this.createAgricultureService(e,dronedetails.drone_id)}>
+                onClick={(e) => this.createAgricultureService(e,dronedetails)}>
                 Create Agriculture Service
               </Button>
                 </Card.Body>
               </Accordion.Collapse>
-            </Card>
+          </Card>*/}
+          
           </Accordion>
           </div>)}
           </div>

@@ -13,7 +13,8 @@ class AdminAgricultureServiceCatalog extends Component {
     service_id:"",
     basecost:"",
     description:"",
-    name:""
+    name:"",
+    servicetype:""
   }
 
   componentDidMount(){
@@ -58,6 +59,7 @@ const {agricultureservices,loading} = this.props.droneState;
            <td><h4>{agricultureservice.name}</h4></td>
            <td><h4>{agricultureservice.basecost}</h4></td>
            <td><h4>{agricultureservice.description}</h4></td>
+           <td><h4>{agricultureservice.servicetype}</h4></td>
            <td><Button
                 className="btn btn-primary" type="submit"
                 onClick={e => this.updateService(e,agricultureservice)}>
@@ -92,6 +94,7 @@ const {agricultureservices,loading} = this.props.droneState;
       <th scope="col">Name</th>
       <th scope="col">Basecost</th>
       <th scope="col">Description</th>
+      <th scope="col">Service Type</th>
       <th></th>
       <th></th>
     </tr>

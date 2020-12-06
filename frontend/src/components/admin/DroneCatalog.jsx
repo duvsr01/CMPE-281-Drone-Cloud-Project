@@ -17,6 +17,17 @@ class DroneCatalog extends Component {
           hardwarespecs: "",
           base64TextString:"",
           image:null,
+          wingspan:"",
+          weight:"",
+          battery:"",
+          camera:"",
+          flighttime:"",
+          flightrange:"",
+          flightaltitude:"",
+          flightspeed:"",
+          flightplanningsoftware:"",
+          imagesoftware:"",
+          powerconsumption:"",
       errors: "",
       text: null,
       formErrors: {},
@@ -55,9 +66,9 @@ class DroneCatalog extends Component {
         sizeError = "Please enter size";
       }
   
-      if (!this.state.type) {
+      /*if (!this.state.type) {
         typeError = "Please enter type";
-      }
+      }*/
   
       if (!this.state.description) {
         descriptionError = "Please enter description";
@@ -67,7 +78,6 @@ class DroneCatalog extends Component {
       if (
         nameError ||
         sizeError ||
-        typeError ||
         descriptionError 
       ) {
         this.setState((prevState) => ({
@@ -76,7 +86,6 @@ class DroneCatalog extends Component {
             ...prevState.formErrors, // keep all other key-value pairs
             nameError: nameError, // update the value of specific key
             sizeError: sizeError,
-            typeError: typeError,
             descriptionError: descriptionError
           },
         }));
@@ -135,6 +144,17 @@ class DroneCatalog extends Component {
             softwarespecs:this.state.softwarespecs,
             hardwarespecs:this.state.hardwarespecs,
             image:this.state.image,
+            wingspan:this.state.wingspan,
+            weight:this.state.weight,
+            battery:this.state.battery,
+            camera:this.state.camera,
+            flighttime:this.state.flighttime,
+            flightrange:this.state.flightrange,
+            flightaltitude:this.state.flightaltitude,
+            flightspeed:this.state.flightspeed,
+            flightplanningsoftware:this.state.flightplanningsoftware,
+            imagesoftware:this.state.imagesoftware,
+            powerconsumption:this.state.powerconsumption,
             //image:this.state.base64TextString,
             status:'active'
           };
@@ -178,20 +198,16 @@ class DroneCatalog extends Component {
               ) : null}
                   </Form.Group>
 
-                <Form.Group controlId="type">
-                  <Form.Label>Type</Form.Label>
-                  <Form.Control
-                    name="type"
-                    type="text"
-                    value={this.state.dronetype}
-                    onChange={this.handleChange}
-                    placeholder="Type"
-                  />
-                  {this.state.formErrors.typeError ? (
-                <div style={{ fontSize: 12, color: "red" }}>
-                  {this.state.formErrors.typeError}
-                </div>
-              ) : null}
+                  <Form.Group controlId="type">
+            <Form.Label>Type: </Form.Label>
+            <Form.Control as="select" name="type" custom onChange={this.handleChange} value={this.state.type}>
+              <option value="datacollection">Data Collection</option>
+              <option value="spreading">Agriculture Spreading</option>
+              <option value="monitoring">Monitoring</option>
+              <option value="spraying">Spraying</option>
+            </Form.Control>
+
+                
                   </Form.Group>
                  
                   
@@ -226,7 +242,147 @@ class DroneCatalog extends Component {
               ) : null}
                   </Form.Group>
 
-<Form.Group controlId="hardwarespecs">
+                  <Form.Group controlId="image">
+                  <Form.Label>Upload Image</Form.Label>
+                  <Form.Control
+                    name="image"
+                    type="file"
+                    accept=".jpeg,.jpg,.png"
+                    onChange={(e) => this.handleImageChange(e)}
+                  /></Form.Group>
+
+                  <hr/>
+
+                  <span>Hardware Specifications</span>
+
+                  <Form.Group controlId="wingspan">
+                  <Form.Label>Wingspan</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="wingspan"
+                    value={this.state.wingspan}
+                    onChange={this.handleChange}
+                    placeholder="Wingspan"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="weight">
+                  <Form.Label>Weight</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="weight"
+                    value={this.state.weight}
+                    onChange={this.handleChange}
+                    placeholder="weight"
+                  />
+                </Form.Group>
+
+                  <Form.Group controlId="battery">
+                  <Form.Label>Battery</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="battery"
+                    value={this.state.battery}
+                    onChange={this.handleChange}
+                    placeholder="Battery Type"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="camera">
+                  <Form.Label>Camera</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="camera"
+                    value={this.state.camera}
+                    onChange={this.handleChange}
+                    placeholder="Camera"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="flighttime">
+                  <Form.Label>Flight Time</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="flighttime"
+                    value={this.state.flighttime}
+                    onChange={this.handleChange}
+                    placeholder="Flight Time"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="flightrange">
+                  <Form.Label>Flight Range</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="flightrange"
+                    value={this.state.flightrange}
+                    onChange={this.handleChange}
+                    placeholder="Flight Range"
+                  />
+                </Form.Group>
+
+
+                <Form.Group controlId="flightaltitude">
+                  <Form.Label>Flight Altitude</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="flightaltitude"
+                    value={this.state.flightaltitude}
+                    onChange={this.handleChange}
+                    placeholder="Flight Altitude"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="flightspeed">
+                  <Form.Label>Flight Speed</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="flightspeed"
+                    value={this.state.flightrflightspeed}
+                    onChange={this.handleChange}
+                    placeholder="Flight Speed"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="powerconsumption">
+                  <Form.Label>Power Consumption</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="powerconsumption"
+                    value={this.state.powerconsumption}
+                    onChange={this.handleChange}
+                    placeholder="Power Consumption"
+                  />
+                </Form.Group>
+
+                <hr/>
+
+                <span>Software Specifications</span>
+
+                <Form.Group controlId="flightplanningsoftware">
+                  <Form.Label>Flight Planning Software</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="flightplanningsoftware"
+                    value={this.state.flightplanningsoftware}
+                    onChange={this.handleChange}
+                    placeholder="Flight Planning Software"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="imagesoftware">
+                  <Form.Label>Image Software</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="imagesoftware"
+                    value={this.state.imagesoftware}
+                    onChange={this.handleChange}
+                    placeholder="Image Software"
+                  />
+                </Form.Group>
+               
+
+              {/*<Form.Group controlId="hardwarespecs">
                   <Form.Label>Hardware Specifications</Form.Label>
                   <Form.Control as="textarea" rows={6}
                     name="hardwarespecs"
@@ -242,16 +398,10 @@ class DroneCatalog extends Component {
                     value={this.state.softwarespecs}
                     onChange={this.handleChange}
                     placeholder="Software Specifications"
-                  /></Form.Group>
+                  /></Form.Group>*/}
 
-              <Form.Group controlId="image">
-                  <Form.Label>Upload Image</Form.Label>
-                  <Form.Control
-                    name="image"
-                    type="file"
-                    accept=".jpeg,.jpg,.png"
-                    onChange={(e) => this.handleImageChange(e)}
-                  /></Form.Group>
+
+             
               
               <Button
                 className="btn btn-primary"

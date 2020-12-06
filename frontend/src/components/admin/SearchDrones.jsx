@@ -87,13 +87,17 @@ class SearchDrones extends Component {
                     onChange={this.handleChange}
                   /></Form.Group>
 
-                <Form.Group controlId="type">
-                  <Form.Label>Type</Form.Label>
-                  <Form.Control
-                    name="type"
-                    value={this.state.type}
-                    onChange={this.handleChange}
-                  /></Form.Group>
+          <Form.Group controlId="type">
+            <Form.Label>Type: </Form.Label>
+            <Form.Control as="select" name="type" custom onChange={this.handleChange} value={this.state.type}>
+              <option value="datacollection">Data Collection</option>
+              <option value="spreading">Agriculture Spreading</option>
+              <option value="monitoring">Monitoring</option>
+              <option value="spraying">Spraying</option>
+            </Form.Control>
+
+                
+                  </Form.Group>
               <Button
                 className="btn btn-primary"
                 onClick={this.handleSubmit}
