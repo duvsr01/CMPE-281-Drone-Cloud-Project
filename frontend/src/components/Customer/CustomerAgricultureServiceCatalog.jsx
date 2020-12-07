@@ -3,7 +3,7 @@ import {getAgricultureServicesByDroneId} from "../_actions/droneActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
-import  ServiceCard  from "../Home/ServiceCard";
+import  ServiceCard  from "../Customer/ServiceCard";
 import { Card, Button, Col , Row} from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 

@@ -65,20 +65,6 @@ componentDidMount(){
       added:true,
     });
 
-    // let existing_cart_drone_id = localStorage.getItem("cart_drone_id");
-    // let current_drone_id = drone_id;
-    // console.log("the existing store id" + existing_cart_drone_id);
-    // console.log("the current cart store id" + current_drone_id);
-    // if (
-    //   existing_cart_drone_id !== null &&
-    //   existing_cart_drone_id.toString().trim() !==
-    //   current_drone_id.toString().trim()
-    // ) {
-    //   swal(
-    //     "Cannot add services from mutiple drones in one booking. Clear existing booking to services from new drone"
-    //   );
-    //   return;
-    // }
     let data = {
       drone_id: drone_id,
       user_email: user_email,
@@ -92,23 +78,6 @@ componentDidMount(){
 
     this.props.bookDroneService(data);
     
-    // let cart = localStorage.getItem("cart")
-    // ? JSON.parse(localStorage.getItem("cart"))
-    // : [];
-    // if (cart.length > 0) {
-    //   let existingCartItem = cart.find(
-    //     (element) => (element.drone_id === drone_id && element.service_id === service_id)
-    //   );
-    //   if (existingCartItem) {
-    //    return;
-    //   } else {
-    //     cart.push(cartItem);
-    //   }
-    //   }else {
-    //     cart.push(cartItem);
-    //   };
-    //   localStorage.setItem("cart", JSON.stringify(cart));
-    //   localStorage.setItem("cart_drone_id", drone_id);
   };
 
 
