@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 var passwordHash = require("password-hash");
@@ -42,6 +43,23 @@ router.post("/register", (req, res) => {
     });
     });
 
+    // update account
+    router.post("/updateAccount", (req,res) =>{
+      console.log("update account api");
+      console.log("data is "+req.body);
+      const{email,address1,address2,city,stateName,zip}=req.body;
+      try{
+        db.query('update user set address1=?,address2=?,city=?,stateName=?,zip=? where email=?',
+        [address1,address2,city,stateName,zip,email],
+        function(error,result){
+          if(error) throw error;
+        });
+      }
+        catch(error){
+          console.log("Error Occured: "+error);
+        }
+      res.status(200).json(200);
+    });
 
 
 module.exports = router;

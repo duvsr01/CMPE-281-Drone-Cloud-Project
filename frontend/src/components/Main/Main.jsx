@@ -12,6 +12,7 @@ import CustomerAgricultureServiceCatalog from "../Customer/CustomerAgricultureSe
 import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
 import ReviewServiceRequests  from "../BookingService/ReviewServiceRequests";
+import Account from "../Account/Account";
 import MyOrders from "../Orders/MyOrders";
 import DashboardServiceView from "../Dashboard/DashboardServiceView";
 import DashboardDroneView from "../Dashboard/DashboardDroneView";
@@ -46,6 +47,7 @@ class Main extends Component {
             <Route path="/main/createservice" component={CreateAgricultureService}/> 
             <Route path="/main/updateservice" component={UpdateAgricultureService}/> 
             <Route path="/main/admin/reviewServiceRequests" component={ReviewServiceRequests}/>
+            <Route path="/main/customer/account" component={Account}/>
             <Route path="/main/customer/orders" component={MyOrders}/>
             <Route path="/main/updateservice" component={UpdateAgricultureService}/>
             <Route path="/main/dashboardServiceView" component={DashboardServiceView}/> 
