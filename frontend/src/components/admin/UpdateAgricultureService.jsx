@@ -12,7 +12,8 @@ class UpdateAgricultureService extends Component {
           name: "",
           description: "",
           basecost: "",
-          service_id: ""
+          service_id: "",
+          servicetype:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +25,8 @@ class UpdateAgricultureService extends Component {
             this.setState({
                 name:service.name,
                 description:service.description,
-                basecost:service.basecost
+                basecost:service.basecost,
+                servicetype:service.servicetype
               })
         )
     }
@@ -50,7 +52,8 @@ class UpdateAgricultureService extends Component {
             name: this.state.name,
             basecost: this.state.basecost,
             description: this.state.description,
-            id:service_id
+            id:service_id,
+            servicetype:this.state.servicetype
           };
     
           this.props.updateAgricultureService(data);
@@ -62,6 +65,31 @@ class UpdateAgricultureService extends Component {
         const { text, errors } = this.state;
 
         const agricultureservice = this.props.location.state;
+
+        var dronetype = agricultureservice.dronetype;
+
+        var serviceTypeList;
+
+        if(dronetype === "datacollection") {
+          serviceTypeList = [
+            { value: 'cropmapping', name: 'Crop Mapping and Surveying' },     
+            { value: 'analysis', name: 'Soil and field analysis' },           
+          ]; 
+        } else if(dronetype === "spraying") {
+          serviceTypeList = [
+            { value: 'cropspraying', name: 'Crop Spraying and Spot Spraying' },           
+          ];
+        } else if(dronetype === "spreading") {
+          serviceTypeList = [
+            { value: 'seedplanting', name: 'Seed Planting' },           
+          ];
+        } else if(dronetype === "monitoring") {
+          serviceTypeList = [
+            { value: 'irrigationmonitoring', name: 'Irrigation Monitoring and Management' },     
+            { value: 'liverstock', name: 'Real time livestock monitoring' },           
+          ]; 
+        }
+
     
         return (
             <div class="container">
@@ -96,6 +124,15 @@ class UpdateAgricultureService extends Component {
                     value={this.state.description}
                     onChange={this.handleChange}
                   /></Form.Group>
+
+<Form.Group controlId="servicetype">
+            <Form.Label>Service Type: </Form.Label>
+            <Form.Control as="select" name="servicetype" custom onChange={this.handleChange} value={this.state.servicetype}>
+            {serviceTypeList.map((e, key) => {
+        return <option key={key} value={e.value}>{e.name}</option>;
+    })} 
+            </Form.Control> 
+                  </Form.Group>
               
               <Button
                 className="btn btn-primary" type="submit"
@@ -119,7 +156,6 @@ class UpdateAgricultureService extends Component {
 } 
 
   const mapStateToProps = (state) => ({
-    store: state.storeState,
     errors: state.errorState,
   });
   export default connect(mapStateToProps, { updateAgricultureService })(UpdateAgricultureService);

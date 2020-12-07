@@ -15,11 +15,21 @@ class AdminAgricultureServiceCatalog extends Component {
     basecost:"",
     description:"",
     name:"",
-    servicetype:""
+    servicetype:"",
+    dronetype:""
   }
 
   componentDidMount(){
-    const drone_id = this.props.location.state;
+
+
+    const dronedetails = this.props.location.state;
+    var drone_id;
+
+    [dronedetails].map(dronedetails => 
+
+      drone_id = dronedetails.drone_id,
+      this.state.dronetype = dronedetails.type
+      )
 
     const params = {
         id : drone_id
@@ -50,11 +60,34 @@ class AdminAgricultureServiceCatalog extends Component {
   render() {
 const {agricultureservices,loading} = this.props.droneState;
   let serviceContent;
+  var servicetypename;
+
   if(agricultureservices==null || loading){
     <Spinner />
   }
   else{
   serviceContent = agricultureservices.map((agricultureservice,index)=>{
+    agricultureservice.dronetype = this.state.dronetype;
+
+    if(agricultureservice.servicetype === "cropmapping") {
+      servicetypename = 'Crop Mapping and Surveying';
+     
+    } else if(agricultureservice.servicetype === "analysis") {
+      servicetypename = 'Soil and Field Analysis';
+     
+    } else if(agricultureservice.servicetype === "cropspraying") {
+      servicetypename = 'Crop Spraying and Spot Spraying';
+     
+    } else if(agricultureservice.servicetype === "seedplanting") {
+      servicetypename = 'Seed Planting' ;          
+      
+    } else if(agricultureservice.servicetype === "irrigationmonitoring") {
+     servicetypename = 'Irrigation Monitoring and Management'; 
+    
+    } else if (agricultureservice.servicetype === "liverstock") {
+        servicetypename = 'Real time livestock monitoring';
+    }
+
     return(
        /*<tr>
            <td><h4>{agricultureservice.name}</h4></td>
@@ -87,7 +120,7 @@ const {agricultureservices,loading} = this.props.droneState;
              </Card.Text>
 
              <Card.Text>
-               <b>Service Type: </b>{agricultureservice.servicetype}  
+               <b>Service Type: </b>{servicetypename}  
              </Card.Text>
             
             

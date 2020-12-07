@@ -148,11 +148,11 @@ handleChange = (e) => {
       setTimeout(() => {   this.props.history.push("/main/admin/viewalldrones"); }, 1000);
   };
 
-  handleAgricultureServices = (e,drone_id) => {
+  handleAgricultureServices = (e,dronedetails) => {
     //prevent page from refresh
     //e.preventDefault();
 
-   this.props.history.push("/main/adminservicecatalog",drone_id);
+   this.props.history.push("/main/adminservicecatalog",dronedetails);
     
   };
 
@@ -224,7 +224,7 @@ handleChange = (e) => {
 
               <Button
                 className="btn btn-primary" type="submit"
-                onClick={(e) => this.handleAgricultureServices(e,dronedetails.drone_id)}>
+                onClick={(e) => this.handleAgricultureServices(e,dronedetails)}>
                 View All Agriculture Services
               </Button>
 
