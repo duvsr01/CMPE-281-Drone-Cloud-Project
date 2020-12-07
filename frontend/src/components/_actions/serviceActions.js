@@ -23,6 +23,7 @@ import {
   // book drone service
   export const bookDroneService = (data) => (dispatch) => {
     dispatch(setLoading());
+    console.log("booking data is "+ JSON.stringify(data));
     axios
       .post(backendurl + "booking/bookDrone",data)
       .then((response) => {
@@ -59,10 +60,10 @@ export const getServiceRequests = () => (dispatch) => {
     })
     .catch((error) => {
       console.log(error);
-      // dispatch({
-      //   type: GET_ERRORS,
-      //   payload: error.data,
-      // });
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.data,
+      });
     });
 };
   

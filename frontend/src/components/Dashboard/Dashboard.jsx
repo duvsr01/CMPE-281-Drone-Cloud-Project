@@ -25,7 +25,7 @@ import '../../css/dashboard.css';
 
 import axios from "axios";
 import {properties} from "../../properties";
-import DashboardMap from './DashboardMap';
+import DashboardMap from '../Dashboard/DashboardMap';
 
 // reactstrap components
 import {

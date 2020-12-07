@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 var passwordHash = require("password-hash");
@@ -42,6 +43,56 @@ router.post("/register", (req, res) => {
     });
     });
 
+    // update account
+    router.post("/updateAccount", (req,res) =>{
+      console.log("update account api");
+      console.log("data is "+req.body);
+      const{email,address1,address2,city,stateName,zip}=req.body;
+      try{
+        db.query('update user set address1=?,address2=?,city=?,stateName=?,zip=? where email=?',
+        [address1,address2,city,stateName,zip,email],
+        function(error,result){
+          if(error) throw error;
+        });
+      }
+        catch(error){
+          console.log("Error Occured: "+error);
+        }
+      res.status(200).json(200);
+    });
+
+    //Get User Details
+    router.post("/getUserDetails", (req,res)=>{
+      const email =req.body.email;
+      try{
+        db.query('select * from user where email=?'
+        ,[email],function(error,result){
+            if(error) throw error;
+            res.status(200).json(result[0]);
+        });  
+    }
+    catch(error){
+        console.log("Error occured: "+error);
+    }
+    });
+
+
+    router.post('/bookDrone', (req, res) =>{
+      const{drone_id,user_email,service_id,service_basecost
+          ,service_date,session_time,
+          no_of_sessions,service_totalcost} = req.body;
+      try{
+          db.query('insert into request (drone_id,email,service_id,service_basecost,service_date,session_time,no_of_sessions,service_totalcost) values (?,?,?,?,?,?,?,?)'
+          ,[drone_id,user_email,service_id,service_basecost,service_date,session_time,no_of_sessions,service_totalcost],function(error,result){
+              if(error) throw error;
+          });  
+      }
+      catch(error){
+          console.log("Error occured: "+error);
+      }
+      res.status(200).json({ success:true,drone_id:drone_id,service_id:service_id});
+      
+      });
 
 
 module.exports = router;
