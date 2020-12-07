@@ -1,4 +1,5 @@
 import {
+  GET_USER_DETAILS,
     SET_LOADING,
     UPDATE_ACCOUNT,
   } from "../_actions/types";
@@ -17,6 +18,11 @@ import {
           ...state,
           loading: true,
         };
+      case GET_USER_DETAILS:
+        return{
+          ...state,
+          user:action.payload
+        }
       case UPDATE_ACCOUNT:
         return {
           ...state,

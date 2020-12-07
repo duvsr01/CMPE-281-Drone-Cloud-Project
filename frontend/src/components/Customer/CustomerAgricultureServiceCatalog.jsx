@@ -51,7 +51,7 @@ class CustomerAgricultureServiceCatalog extends Component {
   else{
   serviceContent = agricultureservices.map((service,serviceIndex)=>{
       return (
-        <Col key={serviceIndex} sm={5}>
+        <Col key={serviceIndex} sm={6}>
           <ServiceCard service={service} drone_id={this.state.drone_id} user_email={this.state.user_email}  />
         </Col>
       );
