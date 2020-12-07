@@ -4,7 +4,8 @@ import {
     BOOK_DRONE_SERVICE,
     GET_SERVICE_REQUESTS,
     APPROVE_REQUEST,
-    REJECT_REQUEST
+    REJECT_REQUEST,
+    UPDATE_BOOKING
   } from "./types";
   import axios from "axios";
   import swal from "sweetalert";
@@ -36,6 +37,30 @@ import {
             id : response.data.drone_id
           };
         dispatch(getAgricultureServicesByDroneId(params));
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: error.response.data,
+        });
+      });
+      
+  };
+
+  // update service request
+  export const updateServiceRequest = (data) => (dispatch) => {
+    dispatch(setLoading());
+    console.log("update data is "+ JSON.stringify(data));
+    axios
+      .post(backendurl + "booking/updateBooking",data)
+      .then((response) => {
+        dispatch({
+          type: UPDATE_BOOKING,
+          payload: response.data,
+        });
+        dispatch(getServiceRequests());
+        swal("Booking Request Updated");
+        
       })
       .catch((error) => {
         dispatch({

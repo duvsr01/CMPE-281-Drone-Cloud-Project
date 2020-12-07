@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Form,Row,Col,Button,Container} from "react-bootstrap";
 import PropTypes from "prop-types";
-import { updateAccount } from "../_actions/accountActions";
+import { updateAccount,getUserDetails } from "../_actions/accountActions";
 import Modal from "react-responsive-modal";
 import Spinner from "../../common/Spinner";
 import { connect } from "react-redux"; 
@@ -24,12 +24,30 @@ class Account extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+      let email=localStorage.getItem("email");
+      let data={
+         email:email
+      }
+      this.props.getUserDetails(data)
+    }
+
     componentDidUpdate(prevProps) {
         console.log("repsonse status is "+ this.props.accountState);
         if (
           this.props.accountState &&
           this.props.accountState !== prevProps.accountState
         ) {
+          if(Object.keys(this.props.accountState.user).length>0){
+            const user=this.props.accountState.user;
+            this.setState({
+              address1:user.address1,
+              address2:user.address2,
+              city:user.city,
+              stateName:user.stateName,
+              zip:user.zip,
+            })
+          }
           if (this.props.accountState.responseStatus === 200) {
             this.setState({
               text: "Account Updated",
@@ -139,12 +157,13 @@ class Account extends Component{
 
 
     render(){
+      const{user}=this.props.accountState;
         let spinner;
         if (this.props.accountState.loading) {
           spinner = <Spinner animation="border" variant="primary" />;
         }
         return(
-        <div style={{ height: "55vh" }} className="container valign-wrapper">       
+        <div style={{ height: "55vh" }} >       
           <div className="row">
             <div className="col s12 center-align background blue">
                <h2 className="text-center text-white font-italic font-family-sans-serif">
@@ -152,6 +171,7 @@ class Account extends Component{
                </h2>
             </div>
             </div>
+            <div style={{ height: "55vh" }} className="container valign-wrapper">  
             <Container fluid className="border border-primary">
             <Form>
             <Form.Group controlId="formGridAddress1">
@@ -160,7 +180,7 @@ class Account extends Component{
                 <Form.Control
                  type="text"
                  name="address1"
-                 value={this.state.address1}
+                 defaultValue={user.address1}
                  placeholder="1234 Main St" 
                  onChange={this.handleChange}
                  />             
@@ -178,7 +198,7 @@ class Account extends Component{
                 <Form.Control 
                 type="text"
                 name="address2"
-                value={this.state.address2}
+                defaultValue={user.address2}
                 placeholder="Apartment, studio, or floor"
                 onChange={this.handleChange}
                  />               
@@ -197,7 +217,7 @@ class Account extends Component{
                 <Form.Control 
                 type="text"
                 name="city"
-                value={this.state.city}
+                defaultValue={user.city}
                 onChange={this.handleChange}
                 />               
                 {this.state.formErrors.cityError ? (
@@ -214,7 +234,7 @@ class Account extends Component{
                 <Form.Control 
                 as="select" 
                 name="stateName"
-                value={this.state.stateName}
+                defaultValue={user.stateName}
                 onChange={this.handleChange}
                 >
                     <option>CA</option>
@@ -235,7 +255,7 @@ class Account extends Component{
                 <Form.Control 
                 type="text"
                 name="zip"
-                value={this.state.zip}
+                defaultValue={user.zip}
                 onChange={this.handleChange}
                 />              
                 {this.state.formErrors.zipError ? (
@@ -254,6 +274,7 @@ class Account extends Component{
             </Form>  
             </Container> 
         </div>
+        </div>
         )
     }
 }
@@ -263,4 +284,4 @@ const mapStateToProps = (state) => ({
     errors: state.errorState,
   });
 
-export default connect(mapStateToProps,{updateAccount})(Account);
+export default connect(mapStateToProps,{updateAccount,getUserDetails})(Account);

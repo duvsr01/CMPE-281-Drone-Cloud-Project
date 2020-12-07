@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { Col, Row, Container, Card } from "react-bootstrap";
+import { Col, Row, Container, Card, CardDeck } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import swal from 'sweetalert';
 import axios from "axios";
 import { properties } from "../../properties";
 import { getUserOrders } from "../_actions/orderActions";
 import { connect } from "react-redux";
+import Modal from "react-bootstrap/Modal";
+import BookingUpdateForm from "../Customer/BookingUpdateForm";
+import OrderItem from "./OrderItem";
 const backendurl = properties.backendhost;
 
 class MyOrders extends Component {
@@ -13,9 +16,12 @@ class MyOrders extends Component {
     super(props);
     this.state = {
       orders: [],
-      noOrdersMessage: ""
+      noOrdersMessage: "",
+      modalShow: false,
     };
   }
+
+  onHide = () => this.setState({ modalShow: false });
 
   componentDidMount() {
       let email = localStorage.getItem("email");
@@ -25,24 +31,6 @@ class MyOrders extends Component {
     this.props.getUserOrders(data);
   }
 
-//   getOrders = async () => {
-//     try {
-//       let orders = await axios.get(backendurl + 'orders/' + localStorage.getItem("userId"));
-
-//       if (orders.data.length === 0) {
-//         this.setState({
-//           noOrdersMessage: "Currently, there are no orders for you."
-//         })
-//       } else {
-//         this.setState({
-//           ordersList: orders.data
-//         })
-//       }
-
-//     } catch (e) {
-//       console.log(e, e.response);
-//     }
-//   }
 
   transformDateTime(data) {
     if (data > 0) {
@@ -82,21 +70,30 @@ class MyOrders extends Component {
         </div>
       );
     } else {
+      let rowContent = orders.map((order,rowIndex)=>{
+        return (
+          <Col key={rowIndex} md={{ span: 25, offset: -1}}>
+           <table className="table table-striped table-bordered" >   <tbody>  <OrderItem order={order}/></tbody></table>
+          </Col>
+        );
+      });
       return (
-        <div style={{ height: "75vh" }} className="container valign-wrapper">
-          <div className="row">
-            <div className="col s12 center-align background blue">
+        <div style={{ height: "75vh" }} >
+          <div className="row background blue">
+            <div className="col center-align">
               <h2 className="text-center text-white font-italic font-family-sans-serif">
                 My Service Requests
               </h2>
             </div>
           </div>
+
+          
           <Container>
-            <Row>
-              <Col md={{ span: 10, offset: 1 }}>
+            {/* <Row>
+              <Col md={{ span: 25, offset: -1}}>
                 <div>
-                  <table className="table table-bordered table-hover">
-                    <thead className="thead">
+                  <table className="table table-striped table-bordered" >
+                    <thead className="thead-dark">
                       <tr>
                       
                         <td
@@ -121,7 +118,13 @@ class MyOrders extends Component {
                           className="text-center  font-weight-bold"
                           scope="col"
                         >
-                          <h5>Service Date</h5>
+                          <h5>Service Start Date</h5>
+                        </td>
+                        <td
+                          className="text-center  font-weight-bold"
+                          scope="col"
+                        >
+                          <h5>Service End Date</h5>
                         </td>
                         <td
                           className="text-center  font-weight-bold"
@@ -147,33 +150,21 @@ class MyOrders extends Component {
                         >
                           <h5>Request Status</h5>
                         </td>
+                        <td
+                          className="text-center  font-weight-bold"
+                          scope="col"
+                        >
+                          <h5>Location</h5>
+                        </td>
+                        <td></td>
                        
                       </tr>
                     </thead>
-                    <tbody>
-                      {orders.length > 0 &&
-                        orders.map((order, rowIndex) => {
-                          return (
-                            <tr key={rowIndex}>
-                                                           
-                             <td className="text-center text-primary"> <h5>{order.droneName}</h5></td>
-                             <td className="text-center text-primary"><h5>{order.droneStatus}</h5></td>
-                              <td className="text-center text-primary"><h5>{order.serviceName}</h5></td>
-                              <td className="text-center text-primary">
-                              <h6>{order.serviceDate}</h6>
-                              </td>
-                              <td className="text-center text-primary"><h5>{order.serviceTime}</h5></td>
-                              <td className="text-center text-primary"><h5>{order.serviceSessionNumber}</h5></td>
-                              <td className="text-center text-primary"><h5>{order.serviceTotalCost}</h5></td>
-                              <td className="text-center text-primary"><h5>{order.requestStatus}</h5></td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </div>
-              </Col>
-            </Row>
+                    </table>
+                    </div>
+                    </Col>
+                    </Row> */}
+         <CardDeck>{rowContent}</CardDeck>         
           </Container>
         </div>
       );

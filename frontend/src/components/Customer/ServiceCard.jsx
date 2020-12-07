@@ -56,7 +56,7 @@ onHide = () => this.setState({ modalShow: false });
                onClick={() => this.setState({ modalShow: true })}
             
               >
-                Book Drone Service
+                <b>Book Drone Service</b>
               </Button>
               <Modal
               show={this.state.modalShow}

@@ -3,7 +3,8 @@ import {
     BOOK_DRONE_SERVICE,
     GET_SERVICE_REQUESTS,
     APPROVE_REQUEST,
-    REJECT_REQUEST
+    REJECT_REQUEST,
+    UPDATE_BOOKING
   } from "../_actions/types";
   
   const initialState = {
@@ -26,6 +27,11 @@ import {
           ...state,
           responseStatus: action.payload,
         };
+        case UPDATE_BOOKING:
+          return {
+            ...state,
+            responseStatus: action.payload,
+          };
       case GET_SERVICE_REQUESTS:
         return {
           ...state,

@@ -39,7 +39,7 @@ class CustomerHome extends Component {
 
     
     return (
-       <div style={{ height: "75vh" }} className="container valign-wrapper">       
+       <div style={{ height: "75vh" }} >       
         <div className="row">
           <div className="col s12 center-align background blue">
           <h2 className="text-center text-white font-italic font-family-sans-serif">
