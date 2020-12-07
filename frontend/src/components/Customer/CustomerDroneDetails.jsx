@@ -33,7 +33,18 @@ class CustomerDroneDetails extends Component {
       image:null,
       imageUrl:"",
       softwarespecs: "",
-          hardwarespecs: ""
+          hardwarespecs: "",
+          wingspan:"",
+          weight:"",
+          battery:"",
+          camera:"",
+          flighttime:"",
+          flightrange:"",
+          flightaltitude:"",
+          flightspeed:"",
+          flightplanningsoftware:"",
+          imagesoftware:"",
+          powerconsumption:""
     };
     this.handleChange = this.handleChange.bind(this);
 }
@@ -49,7 +60,18 @@ componentDidMount(){
           type:dronedet.type,
           imageUrl:dronedet.image,
           hardwarespecs:dronedet.hardwarespecs,
-          softwarespecs:dronedet.softwarespecs
+          softwarespecs:dronedet.softwarespecs,
+          wingspan:dronedet.wingspan,
+          weight:dronedet.weight,
+          battery:dronedet.battery,
+          camera:dronedet.camera,
+          flighttime:dronedet.flighttime,
+          flightrange:dronedet.flightrange,
+          flightaltitude:dronedet.flightaltitude,
+          flightspeed:dronedet.flightspeed,
+          flightplanningsoftware:dronedet.flightplanningsoftware,
+          imagesoftware:dronedet.imagesoftware,
+          powerconsumption:dronedet.powerconsumption,
         })
   )
 }
@@ -103,11 +125,11 @@ handleChange = (e) => {
       
         <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Drone Details</div>
+                    <div class="card-header"></div>
                     <div class="card-body">
         {[dronedetails].map(dronedetails => <div>
           <Accordion>
-        <Card className="m-5 border-0 shadow">
+        <Card className="m-1 border-0 shadow">
          
         
           <Card.Body>
@@ -116,59 +138,69 @@ handleChange = (e) => {
            
         </div>
           
-          <Row>
+        <Row>
 
-          <Col>
-          <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
-          <Col>
-          <Card.Text>
-             <h3>Size - {dronedetails.size}</h3><br/>
-             <h3>Type - {dronedetails.type}</h3>
-          </Card.Text>
-          </Col>
-          </Row>
+<Col>
+<Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
+<Col>
+<Card.Text>
+   <h3>Size : {dronedetails.size}</h3><br/>
+   <h3>This is a drone used for {dronedetails.type}.</h3>
+   <h2>{dronedetails.description}</h2>
+</Card.Text>
+</Col>
+</Row>
 
-          </Card.Body>
-          </Card>
+</Card.Body>
+</Card>
 
-          <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Description
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body>
-               <Card.Text><h3>{dronedetails.description}</h3></Card.Text>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
+  <Card>
+    <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey="0">
+        Hardware
+      </Accordion.Toggle>
+    </Card.Header>
+    <Accordion.Collapse eventKey="0">
+      <Card.Body>
+     <Card.Text>WingSpan : {dronedetails.wingspan || "Not Specified"}</Card.Text>
+     <Card.Text>Weight : {dronedetails.weight || "Not Specified"}</Card.Text>
+     <Card.Text>Battery : {dronedetails.battery || "Not Specified"}</Card.Text>
+     <Card.Text>Camera : {dronedetails.camera || "Not Specified"}</Card.Text>
+      <Card.Text>Power Consumption : {dronedetails.powerconsumption || "Not Specified"}</Card.Text>
+      </Card.Body>
+    </Accordion.Collapse>
+  </Card>
 
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                  Hardware Specification
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="1">
-                <Card.Body>
-               <Card.Text><h3>{dronedetails.hardwarespecs}</h3></Card.Text>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                  Software Specification
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="2">
-                <Card.Body>
-               <Card.Text><h3>{dronedetails.softwarespecs}</h3></Card.Text>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          
+  <Card>
+    <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey="1">
+        Flight Parameters
+      </Accordion.Toggle>
+    </Card.Header>
+    <Accordion.Collapse eventKey="1">
+      <Card.Body>
+     <Card.Text>Flight Time : {dronedetails.flighttime || "Not Specified"}</Card.Text>
+     <Card.Text>Flight Altitude : {dronedetails.flightaltitude || "Not Specified"}</Card.Text>
+     <Card.Text>Flight Range : {dronedetails.flightrange || "Not Specified"}</Card.Text>
+     <Card.Text>Flight Speed : {dronedetails.flightspeed || "Not Specified"}</Card.Text>
+      </Card.Body>
+    </Accordion.Collapse>
+  </Card>
+
+  <Card>
+    <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey="2">
+        Software
+      </Accordion.Toggle>
+    </Card.Header>
+    <Accordion.Collapse eventKey="2">
+      <Card.Body>
+     <Card.Text>Flight Planning Software : {dronedetails.flightplanningsoftware || "Not Specified"}</Card.Text>
+     <Card.Text>Image Software : {dronedetails.imagesoftware || "Not Specified"}</Card.Text>
+      </Card.Body>
+    </Accordion.Collapse>
+  </Card>
+
 
             <Card>
               <Card.Header>

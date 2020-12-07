@@ -190,6 +190,8 @@ handleChange = (e) => {
 
    [dronedetails].map(dronedetails => 
    //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
+
+   
    
    imageuri=dronedetails.image,
    droneidparam = dronedetails.drone_id
@@ -199,7 +201,7 @@ handleChange = (e) => {
    imageuri = imageuri.replace(/"/g, '');
 
 
-  console.log("image url:" + imageuri);
+  //console.log("image url:" + imageuri);
   
    return(
 
@@ -210,7 +212,7 @@ handleChange = (e) => {
       
         <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Drone Details</div>
+                    <div class="card-header"></div>
                     <div class="card-body">
 
         
@@ -250,8 +252,8 @@ handleChange = (e) => {
           <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
           <Col>
           <Card.Text>
-             <h3>Size - {dronedetails.size}</h3><br/>
-             <h3>Type - {dronedetails.type}</h3>
+             <h3>Size : {dronedetails.size}</h3><br/>
+             <h3>This is a drone used for {dronedetails.type}.</h3>
              <h2>{dronedetails.description}</h2>
           </Card.Text>
           </Col>
@@ -268,11 +270,11 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
-               <Card.Text>WingSpan - {dronedetails.wingspan}</Card.Text>
-               <Card.Text>Weight - {dronedetails.weight}</Card.Text>
-               <Card.Text>Battery - {dronedetails.battery}</Card.Text>
-               <Card.Text>Camera - {dronedetails.camera}</Card.Text>
-                <Card.Text>Power Consumption - {dronedetails.powerconsumption}</Card.Text>
+               <Card.Text>WingSpan : {dronedetails.wingspan || "Not Specified"}</Card.Text>
+               <Card.Text>Weight : {dronedetails.weight || "Not Specified"}</Card.Text>
+               <Card.Text>Battery : {dronedetails.battery || "Not Specified"}</Card.Text>
+               <Card.Text>Camera : {dronedetails.camera || "Not Specified"}</Card.Text>
+                <Card.Text>Power Consumption : {dronedetails.powerconsumption || "Not Specified"}</Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -285,10 +287,10 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
-               <Card.Text>Flight Time - {dronedetails.flighttime}</Card.Text>
-               <Card.Text>Flight Altitude - {dronedetails.flightaltitude}</Card.Text>
-               <Card.Text>Flight Range - {dronedetails.flightrange}</Card.Text>
-               <Card.Text>Flight Speed - {dronedetails.flightspeed}</Card.Text>
+               <Card.Text>Flight Time : {dronedetails.flighttime || "Not Specified"}</Card.Text>
+               <Card.Text>Flight Altitude : {dronedetails.flightaltitude || "Not Specified"}</Card.Text>
+               <Card.Text>Flight Range : {dronedetails.flightrange || "Not Specified"}</Card.Text>
+               <Card.Text>Flight Speed : {dronedetails.flightspeed || "Not Specified"}</Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -301,8 +303,8 @@ handleChange = (e) => {
               </Card.Header>
               <Accordion.Collapse eventKey="2">
                 <Card.Body>
-               <Card.Text>Flight Planning Software - {dronedetails.flightplanningsoftware}</Card.Text>
-               <Card.Text>Image Software - {dronedetails.imagesoftware}</Card.Text>
+               <Card.Text>Flight Planning Software : {dronedetails.flightplanningsoftware || "Not Specified"}</Card.Text>
+               <Card.Text>Image Software : {dronedetails.imagesoftware || "Not Specified"}</Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
