@@ -55,7 +55,7 @@ class Navigationbar extends Component {
           to="/"
           onClick={this.onLogoutClick}
         >
-          <i className="fas fa-sign-out-alt pr-2"></i>Logout
+          <i className="fas fa-sign-out-alt pr-2"></i><b>Logout</b>
         </Link>
       </div>
     );
@@ -89,7 +89,7 @@ class Navigationbar extends Component {
           <Nav.Link href="/main/customer/search"><h5>Search Drones</h5></Nav.Link>
           <Nav className="ml-auto">
           <Nav className="mr-auto-right align-right">
-          <DropdownButton id="dropdown-basic-button" title="Account">
+          <DropdownButton  id="dropdown-basic-button" title="Account">
             <Dropdown.Item href="/main/customer/account">
             <h5> My Account </h5>
             </Dropdown.Item>

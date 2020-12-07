@@ -51,14 +51,14 @@ class CustomerAgricultureServiceCatalog extends Component {
   else{
   serviceContent = agricultureservices.map((service,serviceIndex)=>{
       return (
-        <Col key={serviceIndex} sm={3}>
+        <Col key={serviceIndex} sm={5}>
           <ServiceCard service={service} drone_id={this.state.drone_id} user_email={this.state.user_email}  />
         </Col>
       );
     });
   }
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
+      <div style={{ height: "15vh" }} className="container valign-wrapper">
         <div className="row">
           <div className="col s12 center-align background blue">
             <h2 className="text-center text-white font-italic font-family-sans-serif">
@@ -66,10 +66,9 @@ class CustomerAgricultureServiceCatalog extends Component {
             </h2>
           </div>
         </div>
-        <div className=" container">  
+  
         <div className="container">
          <Row> {serviceContent}</Row> 
-          </div>
           </div>
       </div>
     );

@@ -120,7 +120,7 @@ componentDidMount(){
     console.log("details "+ drone_id,user_email,date,sessionTime,sessionNumber);
     
     return(
-      <Card bg="white" style={{ width: "25rem", margin: "10rem" }}>
+      <Card bg="white" style={{ width: "25rem", margin: "5rem" }}>
       <Card.Img variant="top" src={fieldmapping} />
          {/* <Card.Body><Card.Img variant="top" src={this.props.product.imageURL} /> */}
           <Col>
