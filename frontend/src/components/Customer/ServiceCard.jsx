@@ -4,9 +4,10 @@ import { Card, Button, Col , Row} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { bookDroneService } from "../_actions/serviceActions";
+import Modal from "react-bootstrap/Modal";
 import sprayingservice from "../../common/images/sprayingservice.png";
 import fieldmapping from "../../common/images/fieldmapping.png";
- 
+import ServiceBookingForm from "../Customer/ServiceBookingForm";
 import swal from "sweetalert";
  
 class ServiceCard extends Component {
@@ -22,145 +23,64 @@ class ServiceCard extends Component {
     date:"",
     sessionTime:"15",
     sessionNumber:"1",
-    added:false
+    added:false,
+    open: false,
+    modalShow: false,
+    blockScroll: true,
   };
-this.handleDateSelect = this.handleDateSelect.bind(this);
-this.handleDateChange = this.handleDateChange.bind(this);
 }
 
-componentDidMount(){
-    let date = new Date();
-    this.setState({
-        date:date
-    })
-}
-
-  handleDateChange = value=> {
-    this.setState({
-      date: value,
-    });
-  };
-
-  handleDateSelect = value => {
-    console.log("the event is"+value);
-    this.setState({
-      date: value ,
-    });
-  };
-
-  sessionTimeChange = async (e) => {
-    this.setState({
-      sessionTime: e.target.value,
-    });
-  };
-
-  sessionNumberChange = async (e) => {
-    this.setState({
-      sessionNumber: e.target.value,
-    });
-  };
-
-  bookService = (drone_id,user_email,service_id,basecost,date,sessionTime,sessionNumber) => {
-    this.setState({
-      added:true,
-    });
-
-    let data = {
-      drone_id: drone_id,
-      user_email: user_email,
-      service_id: service_id,
-      service_basecost:basecost,
-      service_date:date,
-      session_time:sessionTime,
-      no_of_sessions:sessionNumber,
-      service_totalcost: eval("basecost * sessionTime * sessionNumber"),
-    };
-
-    this.props.bookDroneService(data);
-    
-  };
+onHide = () => this.setState({ modalShow: false });
 
 
   render() {
     const{drone_id}=this.props;
-
     const user_email =localStorage.getItem("email");
-    const{date,sessionTime,sessionNumber} =this.state;
-    console.log("details "+ drone_id,user_email,date,sessionTime,sessionNumber);
-    
+    console.log("modalshow is"+ this.state.modalShow);
     return(
-      <Card bg="white" style={{ width: "25rem", margin: "5rem" }}>
+      <Card bg="white" style={{ width: "30rem", margin: "1rem" }}>
       <Card.Img variant="top" src={fieldmapping} />
          {/* <Card.Body><Card.Img variant="top" src={this.props.product.imageURL} /> */}
           <Col>
-            <Card.Title> <b>Service Name: {this.props.service.name} </b></Card.Title>
+            <Card.Title> <b>Service Name: </b> {this.props.service.name} </Card.Title>
             <Card.Text>
-              <b>Description: </b>
-              {this.props.service.description}
-            </Card.Text>
-            <Card.Text>
-              <b>Basecost: </b>${this.props.service.basecost}  
+             <h5> <b>Description: </b>
+              {this.props.service.description}</h5>
             </Card.Text>
             <Card.Text>
-              <b> Select Date: </b> 
+             <h5> <b>Basecost: </b> ${this.props.service.basecost} </h5>
             </Card.Text>
-            <DatePicker
-            selected={date}
-            onChange={event =>
-              this.handleDateChange(
-                event
-              )
-            }
-            onSelect={event =>
-              this.handleDateSelect(
-                event
-              )
-            }
-          />
-            <Card.Text>
-               <br/>
-              <b> Select time required per session: </b>
-            </Card.Text>
-            <select onChange={this.sessionTimeChange} > 
-              <option selected value="15">15</option>
-              <option value="30">30</option>
-              <option value="45">45</option>
-              <option value="60">60</option>
-            </select>
-            <p>Minutes</p>
-             <Card.Text>
-             <br/>
-              <b> Choose number of sessions: </b>
-            </Card.Text>
-            <input
-              type="number"
-              defaultValue="1"
-              name="sessionNumber"
-              min="0"
-              className="mt-auto"
-              onChange={ this.sessionNumberChange}
-            ></input>
-          </Col>
-          <br/>
-            
             <Button
                 variant="primary"
-                disabled={this.state.added}
-                onClick={() =>
-                  this.bookService(
-                    this.props.drone_id,
-                    this.props.user_email,
-                    this.props.service.service_id,
-                    this.props.service.basecost,
-                    date,
-                    sessionTime,
-                    sessionNumber
-                  )
-                }
+               // disabled={this.state.added}
+               onClick={() => this.setState({ modalShow: true })}
+            
               >
                 Book Drone Service
               </Button>
-              <Col><br/></Col>
+              <Modal
+              show={this.state.modalShow}
+              autoFocus="true"
+              fade={false}
+              onHide={this.onHide}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Service Booking
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <ServiceBookingForm service={this.props.service} drone_id={drone_id} email={user_email} />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.onHide}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+            </Col>         
+            <Col><br/></Col>
           </Card>
     )}
     }
