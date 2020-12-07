@@ -58,7 +58,7 @@ class CustomerAgricultureServiceCatalog extends Component {
     });
   }
     return (
-      <div style={{ height: "15vh" }} className="container valign-wrapper">
+      <div style={{ height: "15vh" }}>
         <div className="row">
           <div className="col s12 center-align background blue">
             <h2 className="text-center text-white font-italic font-family-sans-serif">

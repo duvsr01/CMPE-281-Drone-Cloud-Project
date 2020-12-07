@@ -9,7 +9,7 @@ const db=config.db;
         const{drone_id,user_email,service_id,service_basecost
             ,service_startdate,service_enddate,session_time,
             no_of_sessions,service_totalcost,address1,address2,city,stateName,zip} = req.body;
-        console.log("service details: "+JSON.stringify(req.body));
+        //console.log("service details: "+JSON.stringify(req.body));
         try{
             db.query('insert into request (drone_id,email,service_id,service_basecost,service_date,service_startdate,service_enddate,session_time,no_of_sessions,service_totalcost,address1,address2,city,stateName,zip) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
             ,[drone_id,user_email,service_id,service_basecost,service_startdate,service_startdate,service_enddate,session_time,no_of_sessions,service_totalcost,address1,address2,city,stateName,zip],function(error,result){
@@ -20,6 +20,25 @@ const db=config.db;
             console.log("Error occured: "+error);
         }
         res.status(200).json({ success:true,drone_id:drone_id,service_id:service_id});
+        
+        });
+
+    
+    // Update Booking Request
+    router.post('/updateBooking', (req, res) =>{
+        const{request_id,service_startdate,service_enddate,session_time,
+            no_of_sessions,service_totalcost,address1,address2,city,stateName,zip} = req.body;
+       // console.log("service details: "+JSON.stringify(req.body));
+        try{
+            db.query('update request set service_startdate=?,service_enddate=?,session_time=?,no_of_sessions=?,service_totalcost=?,address1=?,address2=?,city=?,stateName=?,zip=? where request_id=?',
+            [service_startdate,service_enddate,session_time,no_of_sessions,service_totalcost,address1,address2,city,stateName,zip,request_id],function(error,result){
+                if(error) throw error;
+            });  
+        }
+        catch(error){
+            console.log("Error occured: "+error);
+        }
+        res.status(200).json(200);
         
         });
 
