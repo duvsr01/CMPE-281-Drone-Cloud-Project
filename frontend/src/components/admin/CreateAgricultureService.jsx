@@ -14,6 +14,7 @@ class CreateAgricultureService extends Component {
           basecost: "",
           drone_id: "",
           errors: "",
+          servicetype:"",
           text: null,
           formErrors: {},
         };
@@ -99,6 +100,7 @@ class CreateAgricultureService extends Component {
             basecost: this.state.basecost,
             description: this.state.description,
             drone_id:drone_id,
+            servicetype:this.state.servicetype,
             servicestatus:'active'
           };
 
@@ -114,7 +116,39 @@ class CreateAgricultureService extends Component {
       render() {
         const { text, errors } = this.state;
 
-        const drone_id = this.props.location.state;
+        const dronedetails = this.props.location.state;
+        var drone_id;
+        var dronetype;
+
+        [dronedetails].map(dronedetails => 
+          //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
+          
+          dronetype = dronedetails.type,
+          drone_id = dronedetails.drone_id
+          )
+
+        var serviceTypeList;
+
+        if(dronetype === "datacollection") {
+          serviceTypeList = [
+            { value: 'cropmapping', name: 'Crop Mapping and Surveying' },     
+            { value: 'analysis', name: 'Soil and field analysis' },           
+          ]; 
+        } else if(dronetype === "spraying") {
+          serviceTypeList = [
+            { value: 'cropspraying', name: 'Crop Spraying and Spot Spraying' },           
+          ];
+        } else if(dronetype === "spreading") {
+          serviceTypeList = [
+            { value: 'seedplanting', name: 'Seed Planting' },           
+          ];
+        } else if(dronetype === "monitoring") {
+          serviceTypeList = [
+            { value: 'irrigationmonitoring', name: 'Irrigation Monitoring and Management' },     
+            { value: 'liverstock', name: 'Real time livestock monitoring' },           
+          ]; 
+        }
+
     
         return (
             <div class="container">
@@ -159,6 +193,17 @@ class CreateAgricultureService extends Component {
                 </div>
               ) : null}
                   </Form.Group>
+
+                  <Form.Group controlId="servicetype">
+            <Form.Label>Service Type: </Form.Label>
+            <Form.Control as="select" name="servicetype" custom onChange={this.handleChange} value={this.state.servicetype}>
+            {serviceTypeList.map((e, key) => {
+        return <option key={key} value={e.value}>{e.name}</option>;
+    })} 
+            </Form.Control> 
+                  </Form.Group>
+
+
                  
                
                  <Form.Group controlId="description">
