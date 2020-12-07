@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
 
-import Button from "react-bootstrap/Button";
+import { Card, Button,Col,Row } from "react-bootstrap";
+
  
 class AdminAgricultureServiceCatalog extends Component {
   state={
@@ -55,7 +56,7 @@ const {agricultureservices,loading} = this.props.droneState;
   else{
   serviceContent = agricultureservices.map((agricultureservice,index)=>{
     return(
-       <tr>
+       /*<tr>
            <td><h4>{agricultureservice.name}</h4></td>
            <td><h4>{agricultureservice.basecost}</h4></td>
            <td><h4>{agricultureservice.description}</h4></td>
@@ -70,7 +71,40 @@ const {agricultureservices,loading} = this.props.droneState;
                 onClick={e => this.deleteService(e,agricultureservice.service_id)}>
                 Delete Service
               </Button></td>
-       </tr>
+       </tr>*/
+        <Col>
+       <Card bg="white" style={{ width: "25rem" , margin: "2rem"}}>
+      {/*} <Card.Img variant="top"/>*/}
+          {/* <Card.Body><Card.Img variant="top" src={this.props.product.imageURL} /> */}
+           <Col>
+             <Card.Title> <b>Service Name: {agricultureservice.name} </b></Card.Title>
+             <Card.Text>
+               <b>Description: </b>
+               {agricultureservice.description}
+             </Card.Text>
+             <Card.Text>
+               <b>Basecost: </b>${agricultureservice.basecost}  
+             </Card.Text>
+
+             <Card.Text>
+               <b>Service Type: </b>{agricultureservice.servicetype}  
+             </Card.Text>
+            
+            
+           </Col>
+           <br/>
+           <Button
+                className="btn btn-primary" type="submit"
+                onClick={e => this.updateService(e,agricultureservice)}>
+                Update Service
+              </Button>
+              <Button
+                className="btn btn-primary" type="submit"
+                onClick={e => this.deleteService(e,agricultureservice.service_id)}>
+                Delete Service
+              </Button>
+             
+           </Card></Col>
     )
     
   })}
@@ -86,9 +120,8 @@ const {agricultureservices,loading} = this.props.droneState;
           </div>
         </div>
         <div className=" container">
-          <div className="container">
             <div>
-            <table class="table table-hover">
+            {/*<table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -102,8 +135,8 @@ const {agricultureservices,loading} = this.props.droneState;
   <tbody>
               {serviceContent}
               </tbody>
-              </table>
-            </div>
+    </table>*/}
+   <Row> {serviceContent}</Row> 
           </div>
           </div>
       </div>
