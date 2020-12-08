@@ -30,6 +30,7 @@ class UpdateDroneForm extends Component {
           flightplanningsoftware:"",
           imagesoftware:"",
           powerconsumption:"",
+          fileName:"",
       errors: "",
       text: null,
       formErrors: {},
@@ -130,6 +131,10 @@ class UpdateDroneForm extends Component {
 
       handleImageChange = (e) => {
         console.log("files to upload: " , e.currentTarget.files[0]);
+
+        this.setState({
+            fileName: e.target.files[0].name
+          })
         
         //const file =  e.currentTarget.files[0];
         this.setState({ image: e.currentTarget.files[0] }, () => { console.log("files: " + this.state.image) });
@@ -288,14 +293,26 @@ class UpdateDroneForm extends Component {
               ) : null}
                   </Form.Group>
 
-                  <Form.Group controlId="image">
+                  {/*<Form.Group controlId="image">
                   <Form.Label>Change Image</Form.Label>
                   <Form.Control
                     name="image"
                     type="file"
                     accept=".jpeg,.jpg,.png"
                     onChange={(e) => this.handleImageChange(e)}
-                  /></Form.Group>
+                  /></Form.Group>*/}
+
+<Form.Group>
+                  <Form.Label>Change Image</Form.Label>
+        <Form.File
+          type="file"
+          id="custom-file"
+          label={this.state.fileName}
+          onChange={(e) => this.handleImageChange(e)}
+          custom
+        />
+      </Form.Group>
+
 
                   <hr/>
 
