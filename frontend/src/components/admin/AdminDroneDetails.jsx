@@ -3,10 +3,11 @@ import React, { Component } from "react";
 import { Card, Button,Accordion } from "react-bootstrap";
 
 
-import { Nav,Navbar,Col, Row, Form } from "react-bootstrap";
+import {Col, Row, Form, Modal } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import { updateDrone,removeDrone } from "../_actions/droneActions";
+import UpdateDroneForm from "../admin/UpdateDroneForm";
 
 import "../../css/AdminDroneDetails.css";
 
@@ -46,12 +47,14 @@ class AdminDroneDetails extends Component {
           flightspeed:"",
           flightplanningsoftware:"",
           imagesoftware:"",
-          powerconsumption:""
+          powerconsumption:"",
+          modalShow:false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
 }
+
 
 componentDidMount(){
   const dronedet = this.props.location.state;
@@ -79,6 +82,8 @@ componentDidMount(){
         })
   )
 }
+
+onHide = () => this.setState({ modalShow: false });
 
 handleChange = (e) => {
     this.setState({
@@ -189,15 +194,26 @@ handleChange = (e) => {
 
    var imageuri = null;
    var droneidparam = null;
+   var type = null;
 
    [dronedetails].map(dronedetails => 
    //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
 
-   
+  type = dronedetails.type,
    
    imageuri=dronedetails.image,
    droneidparam = dronedetails.drone_id
    )
+
+   if(type === "datacollection") {
+    type = "Data Collection";
+  } else if(type === "spreading") {
+     type = "Agriculture Spreading";
+  } else if(type === "monitoring"){
+    type = "Monitoring";
+  } else {
+    type = "Spraying";
+  }
 
    if(imageuri != null || imageuri != undefined)
    imageuri = imageuri.replace(/"/g, '');
@@ -221,6 +237,37 @@ handleChange = (e) => {
         {[dronedetails].map(dronedetails => <div>
 
           <div className="buttonDiv">
+
+          <Button
+                style={{margin: "30px"}}
+                className="btn btn-primary buttonTop" type="submit"
+                onClick={() => this.setState({ modalShow: true })}>
+                Update Drone
+              </Button>
+
+
+              <Modal
+              show={this.state.modalShow}
+              autoFocus="true"
+              fade={false}
+              onHide={this.onHide}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Update Drone
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <UpdateDroneForm drone={dronedetails} drone_id={dronedetails.drone_id}/>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.onHide}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+
           <Button
                 style={{margin: "30px"}}
                 className="btn btn-primary buttonTop" type="submit"
@@ -232,15 +279,16 @@ handleChange = (e) => {
                 style={{margin: "30px"}}
                 className="btn btn-primary buttonTop" type="submit"
                 onClick={(e) => this.handleAgricultureServices(e,dronedetails)}>
-                View All Agriculture Services
+                View Services
               </Button>
 
               <Button
                 style={{margin: "30px"}}
                 className="btn btn-primary buttonTop" type="submit"
                 onClick={(e) => this.createAgricultureService(e,dronedetails)}>
-                Create Agriculture Service
+                Create Service
               </Button>
+              
               </div>
           <Accordion>
         <Card className="m-1 border-0 shadow">
@@ -258,9 +306,9 @@ handleChange = (e) => {
           <Card.Img variant="top" src={imageuri} style={styles.cardImage}/></Col>
           <Col>
           <Card.Text>
-             <h3>Size : {dronedetails.size}</h3><br/>
-             <h3>This is a drone used for {dronedetails.type}.</h3>
-             <h2>{dronedetails.description}</h2>
+             <h5><b>Size : </b>{dronedetails.size}</h5>
+             <h5>{type} drone.</h5>
+             <h5><b>{dronedetails.description}</b></h5>
           </Card.Text>
           </Col>
           </Row>
@@ -271,16 +319,16 @@ handleChange = (e) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Hardware
+                <h5 className="text-bold text-info"> Hardware Specifications</h5>
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
-               <Card.Text>WingSpan : {dronedetails.wingspan || "Not Specified"}</Card.Text>
-               <Card.Text>Weight : {dronedetails.weight || "Not Specified"}</Card.Text>
-               <Card.Text>Battery : {dronedetails.battery || "Not Specified"}</Card.Text>
-               <Card.Text>Camera : {dronedetails.camera || "Not Specified"}</Card.Text>
-                <Card.Text>Power Consumption : {dronedetails.powerconsumption || "Not Specified"}</Card.Text>
+               <Card.Text><h5><b>WingSpan : </b>{dronedetails.wingspan || "Not Specified"}</h5></Card.Text>
+               <Card.Text><h5><b>Weight : </b>{dronedetails.weight || "Not Specified"}</h5></Card.Text>
+               <Card.Text><h5><b>Battery : </b>{dronedetails.battery || "Not Specified"}</h5></Card.Text>
+               <Card.Text><h5><b>Camera :</b> {dronedetails.camera || "Not Specified"}</h5></Card.Text>
+                <Card.Text><h5><b>Power Consumption :</b> {dronedetails.powerconsumption || "Not Specified"}</h5></Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -288,15 +336,15 @@ handleChange = (e) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                  Flight Parameters
+                <h5 className="text-bold text-info"> Flight Parameters</h5>
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
-               <Card.Text>Flight Time : {dronedetails.flighttime || "Not Specified"}</Card.Text>
-               <Card.Text>Flight Altitude : {dronedetails.flightaltitude || "Not Specified"}</Card.Text>
-               <Card.Text>Flight Range : {dronedetails.flightrange || "Not Specified"}</Card.Text>
-               <Card.Text>Flight Speed : {dronedetails.flightspeed || "Not Specified"}</Card.Text>
+               <Card.Text><h5><b>Flight Time : </b>{dronedetails.flighttime || "Not Specified"}</h5></Card.Text>
+               <Card.Text><h5><b>Flight Altitude :</b>{dronedetails.flightaltitude || "Not Specified"}</h5> </Card.Text>
+               <Card.Text><h5><b>Flight Range :</b> {dronedetails.flightrange || "Not Specified"}</h5></Card.Text>
+               <Card.Text><h5><b>Flight Speed :</b>{dronedetails.flightspeed || "Not Specified"}</h5> </Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -304,241 +352,17 @@ handleChange = (e) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                  Software
+                <h5 className="text-bold text-info"> Software Specifications</h5>
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="2">
                 <Card.Body>
-               <Card.Text>Flight Planning Software : {dronedetails.flightplanningsoftware || "Not Specified"}</Card.Text>
-               <Card.Text>Image Software : {dronedetails.imagesoftware || "Not Specified"}</Card.Text>
+               <Card.Text><h5><b>Flight Planning Software : </b>{dronedetails.flightplanningsoftware || "Not Specified"}</h5></Card.Text>
+               <Card.Text><h5><b>Image Software : </b>{dronedetails.imagesoftware || "Not Specified"}</h5></Card.Text>
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
-          <Card>
-          <Card.Header>
-            <Accordion.Toggle as={Button} variant="link" eventKey="3">
-              Update Drone
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="3">
-                <Card.Body>
-                <div class="container">
-              <div class="row justify-content-center">
-                  <div class="col-md-8">
-                          <div class="card">
-                              <div class="card-header">Update Drone</div>
-                              <div class="card-body">
-                <Form>
-            
-                <Form.Group controlId="name">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                  /></Form.Group>
-
-                <Form.Group controlId="type">
-                  <Form.Label>Type</Form.Label>
-                  <Form.Control
-                    name="type"
-                    value={this.state.type}
-                    onChange={this.handleChange}
-                  /></Form.Group>
-                 
-                  
-                <Form.Group controlId="size">
-                  <Form.Label>Size</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="size"
-                    value={this.state.size}
-                    onChange={this.handleChange}
-                  />
-                  
-                </Form.Group>
-               
-                <Form.Group controlId="description">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" rows={6}
-                    name="description"
-                    value={this.state.description}
-                    onChange={this.handleChange}
-                  /></Form.Group>
-
-<hr/>
-
-<span>Hardware Specifications</span>
-
-<Form.Group controlId="wingspan">
-<Form.Label>Wingspan</Form.Label>
-<Form.Control
-  type="text"
-  name="wingspan"
-  value={this.state.wingspan}
-  onChange={this.handleChange}
-  placeholder="Wingspan"
-/>
-</Form.Group>
-
-<Form.Group controlId="weight">
-<Form.Label>Weight</Form.Label>
-<Form.Control
-  type="text"
-  name="weight"
-  value={this.state.weight}
-  onChange={this.handleChange}
-  placeholder="weight"
-/>
-</Form.Group>
-
-<Form.Group controlId="battery">
-<Form.Label>Battery</Form.Label>
-<Form.Control
-  type="text"
-  name="battery"
-  value={this.state.battery}
-  onChange={this.handleChange}
-  placeholder="Battery Type"
-/>
-</Form.Group>
-
-<Form.Group controlId="camera">
-<Form.Label>Camera</Form.Label>
-<Form.Control
-  type="text"
-  name="camera"
-  value={this.state.camera}
-  onChange={this.handleChange}
-  placeholder="Camera"
-/>
-</Form.Group>
-
-<Form.Group controlId="flighttime">
-<Form.Label>Flight Time</Form.Label>
-<Form.Control
-  type="text"
-  name="flighttime"
-  value={this.state.flighttime}
-  onChange={this.handleChange}
-  placeholder="Flight Time"
-/>
-</Form.Group>
-
-<Form.Group controlId="flightrange">
-<Form.Label>Flight Range</Form.Label>
-<Form.Control
-  type="text"
-  name="flightrange"
-  value={this.state.flightrange}
-  onChange={this.handleChange}
-  placeholder="Flight Range"
-/>
-</Form.Group>
-
-
-<Form.Group controlId="flightaltitude">
-<Form.Label>Flight Altitude</Form.Label>
-<Form.Control
-  type="text"
-  name="flightaltitude"
-  value={this.state.flightaltitude}
-  onChange={this.handleChange}
-  placeholder="Flight Altitude"
-/>
-</Form.Group>
-
-<Form.Group controlId="flightspeed">
-<Form.Label>Flight Speed</Form.Label>
-<Form.Control
-  type="text"
-  name="flightspeed"
-  value={this.state.flightrflightspeed}
-  onChange={this.handleChange}
-  placeholder="Flight Speed"
-/>
-</Form.Group>
-
-<Form.Group controlId="powerconsumption">
-<Form.Label>Power Consumption</Form.Label>
-<Form.Control
-  type="text"
-  name="powerconsumption"
-  value={this.state.powerconsumption}
-  onChange={this.handleChange}
-  placeholder="Power Consumption"
-/>
-</Form.Group>
-
-<hr/>
-
-<span>Software Specifications</span>
-
-<Form.Group controlId="flightplanningsoftware">
-<Form.Label>Flight Planning Software</Form.Label>
-<Form.Control
-  type="text"
-  name="flightplanningsoftware"
-  value={this.state.flightplanningsoftware}
-  onChange={this.handleChange}
-  placeholder="Flight Planning Software"
-/>
-</Form.Group>
-
-<Form.Group controlId="imagesoftware">
-<Form.Label>Image Software</Form.Label>
-<Form.Control
-  type="text"
-  name="imagesoftware"
-  value={this.state.imagesoftware}
-  onChange={this.handleChange}
-  placeholder="Image Software"
-/>
-</Form.Group>
-
-          {/*<Form.Group controlId="hardwarespecs">
-                  <Form.Label>Hardware Specifications</Form.Label>
-                  <Form.Control as="textarea" rows={6}
-                    name="hardwarespecs"
-                    value={this.state.hardwarespecs}
-                    onChange={this.handleChange}
-                  /></Form.Group>
-
-              <Form.Group controlId="softwarespecs">
-                  <Form.Label>Software Specifications</Form.Label>
-                  <Form.Control as="textarea" rows={6}
-                    name="softwarespecs"
-                    value={this.state.softwarespecs}
-                    onChange={this.handleChange}
-        /></Form.Group>*/}
-
-
-
-`             <Form.Group controlId="image">
-                  <Form.Label>Change Image</Form.Label>
-                  <Form.Control
-                    name="image"
-                    type="file"
-                    accept=".jpeg,.jpg,.png"
-                    onChange={(e) => this.handleImageChange(e)}
-                  /></Form.Group>
-
-    
-              <Button
-                className="btn btn-primary" type="submit"
-                onClick={e => this.handleSubmit(e,dronedetails.drone_id)}>
-                Update Drone
-              </Button>
-              <br />
-            </Form></div>
-                          </div>
-                  </div>
-              </div>
-          </div>
-                  
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
+         
           {/*  <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="3">
