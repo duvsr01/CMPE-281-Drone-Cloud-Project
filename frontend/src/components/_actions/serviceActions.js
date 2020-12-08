@@ -5,12 +5,14 @@ import {
     GET_SERVICE_REQUESTS,
     APPROVE_REQUEST,
     REJECT_REQUEST,
-    UPDATE_BOOKING
+    UPDATE_BOOKING,
+    CANCEL_BOOKING
   } from "./types";
   import axios from "axios";
   import swal from "sweetalert";
   import { properties } from "../../properties";
   import {getAgricultureServicesByDroneId} from "./droneActions.js";
+  import {getUserOrders} from "./orderActions";
   const backendurl = properties.backendhost;
 
   
@@ -58,8 +60,38 @@ import {
           type: UPDATE_BOOKING,
           payload: response.data,
         });
-        dispatch(getServiceRequests());
+        let data = {
+          email:localStorage.getItem("email")
+        }
+        dispatch(getUserOrders(data));
         swal("Booking Request Updated");
+        
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: error.response.data,
+        });
+      });
+      
+  };
+
+  // Cancel Service Request
+  export const onCancelRequest = (data) => (dispatch) => {
+    dispatch(setLoading());
+    //console.log("update data is "+ JSON.stringify(request_id));
+    axios
+      .post(backendurl + "booking/cancelBooking",data)
+      .then((response) => {
+        dispatch({
+          type: CANCEL_BOOKING,
+          payload: response.data,
+        });
+        swal("Request Cancelled");
+        let data = {
+          email:localStorage.getItem("email")
+        }
+        dispatch(getUserOrders(data));
         
       })
       .catch((error) => {
