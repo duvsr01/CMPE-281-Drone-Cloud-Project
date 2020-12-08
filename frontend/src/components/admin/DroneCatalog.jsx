@@ -11,7 +11,7 @@ class DroneCatalog extends Component {
         this.state = {
           name: "",
           size: "",
-          type: "",
+          type: "datacollection",
           description: "",
           softwarespecs: "",
           hardwarespecs: "",
@@ -92,6 +92,12 @@ class DroneCatalog extends Component {
         return false;
       }
       return true;
+    };
+
+    typeChange = (e) => {
+      this.setState({
+        type: e.target.value,
+      });
     };
 
     handleChange = (e) => {
@@ -200,17 +206,16 @@ class DroneCatalog extends Component {
 
                   <Form.Group controlId="type">
             <Form.Label>Type </Form.Label>
-            <Form.Control as="select" name="type" custom onChange={this.handleChange} value={this.state.type}>
+            <Form.Control as="select" name="type" 
+                onChange={this.typeChange} defaultValue="datacollection">
               <option value="datacollection">Data Collection</option>
               <option value="spreading">Agriculture Spreading</option>
               <option value="monitoring">Monitoring</option>
               <option value="spraying">Spraying</option>
             </Form.Control>
-
                 
                   </Form.Group>
                  
-                  
                 <Form.Group controlId="size">
                   <Form.Label>Size</Form.Label>
                   <Form.Control
