@@ -134,7 +134,7 @@ class Navigationbar extends Component {
           <Dropdown.Item href="/main/admin/searchdrones"><h5>Search Drones</h5></Dropdown.Item>
         </DropdownButton>
         <DropdownButton id="dropdown-basic-button" title="Monitoring">
-        <Dropdown.Item href="/main/admin/reviewServiceRequests"><h5>Review Drone Service Requests</h5></Dropdown.Item>
+        <Dropdown.Item href="/main/admin/reviewServiceRequests"><h6>Review Drone Service Requests</h6></Dropdown.Item>
         </DropdownButton>
         </Nav>
         </Nav>

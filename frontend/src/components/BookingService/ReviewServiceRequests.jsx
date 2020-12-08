@@ -69,6 +69,12 @@ class ReviewServiceRequests extends Component {
     this.props.rejectRequest(data);
   }
 
+
+  transformDateTime(data) {
+    let date = new Date(data)
+    return date.toUTCString()  
+}
+
   render() {
     const { rowIndex, approvalResponse, rejectionResponse } = this.state;
     const { droneServiceRequests, loading } = this.props.serviceState;
@@ -78,6 +84,13 @@ class ReviewServiceRequests extends Component {
     }
     return (
       <div style={{ height: "75vh"}}>
+        <div className="row">
+          <div className="col s12 center-align background blue">
+            <h2 className="text-center text-white font-italic font-family-sans-serif">
+             Service Requests
+            </h2>
+          </div>
+        </div>
         <div>
           <table className="table table-bordered table-hover">
             {spinner}
@@ -96,7 +109,10 @@ class ReviewServiceRequests extends Component {
                  <h5>Serivce Name</h5>
                 </td>
                 <td className="text-center  font-weight-bold" scope="col">
-                 <h5>Service Request Date</h5>
+                 <h5>Service Start Date</h5>
+                </td>
+                <td className="text-center  font-weight-bold" scope="col">
+                 <h5>Service End Date</h5>
                 </td>
                 <td className="text-center  font-weight-bold" scope="col">
                  <h5>Requested Session Time</h5>
@@ -130,7 +146,8 @@ class ReviewServiceRequests extends Component {
                       <td className="text-center text-primary"><h5>{droneServiceRequest.droneName}</h5></td>
                       <td className="text-center text-primary"><h5>{droneServiceRequest.droneStatus}</h5></td>
                       <td className="text-center text-primary"><h5>{droneServiceRequest.serviceName}</h5></td>
-                      <td className="text-center text-primary"><h5>{droneServiceRequest.serviceDate}</h5></td>
+                      <td className="text-center text-primary"><h5>{this.transformDateTime(droneServiceRequest.service_startdate)}</h5></td>
+                      <td className="text-center text-primary"><h5>{this.transformDateTime(droneServiceRequest.service_enddate)}</h5></td>
                       <td className="text-center text-primary"><h5>{droneServiceRequest.serviceTime}</h5></td>
                       <td className="text-center text-primary"><h5>{droneServiceRequest.serviceSessionNumber}</h5></td>
                       <td className="text-center text-primary"><h5>{droneServiceRequest.serviceTotalCost}</h5></td>
@@ -172,8 +189,8 @@ class ReviewServiceRequests extends Component {
                             )} */}
                           </td>
 
-                          <td>
-                            <Button
+                          
+                            {/* <Button
                                variant="danger"
                                size="lg"
                               onClick={() => {
@@ -182,7 +199,7 @@ class ReviewServiceRequests extends Component {
                               type="submit"
                             >
                               <b>Reject</b> 
-                            </Button>
+                            </Button> */}
 
                             {/* {rowIndex === index ? (
                               <div>
@@ -193,7 +210,7 @@ class ReviewServiceRequests extends Component {
                             ) : (
                               ""
                             )} */}
-                          </td>
+                          
                         </tr>
                       </td>
                     </tr>
