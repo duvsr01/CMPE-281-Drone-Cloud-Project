@@ -139,6 +139,11 @@ class BookingUpdateForm extends Component {
     });
   };
 
+  transformDateTime(data) {
+    let date = new Date(data)
+    return date.toUTCString()  
+}
+
   validate = () => {
     var letters = /^[0-9a-zA-Z]+$/;
 
@@ -352,12 +357,12 @@ class BookingUpdateForm extends Component {
             </Card>
         </Accordion>
             
-        {/* <Form.Row>
+       {/* <Form.Row>
         <Form.Group as={Col} controlId="selectDate">
         <h5>
         <Form.Label>Start Date: </Form.Label>
         <DatePicker
-            selected={order.serviceStartDate}
+            selected={new Date(this.state.startDate)}
             onChange={event =>
               this.startDateChange(
                 event
@@ -375,7 +380,7 @@ class BookingUpdateForm extends Component {
         <h5>
         <Form.Label>End Date: </Form.Label>
         <DatePicker
-            selected={order.serviceEndDate}
+            selected={new Date(this.state.endDate)}
             onChange={event =>
               this.endDateChange(
                 event
@@ -389,7 +394,7 @@ class BookingUpdateForm extends Component {
           />
           </h5>
           </Form.Group>
-          </Form.Row>  */}
+          </Form.Row>   */}
 
           <Form.Row>
           <Form.Group as={Col} controlId="sessionTime">
@@ -438,7 +443,7 @@ class BookingUpdateForm extends Component {
             onClick={this.handleSubmit}
             type="submit"
           >
-           <h6> Confirm Booking</h6>
+           <h6> Update Booking</h6>
           </Button>
           <br />
           <p className="text-danger"> {errors}</p>

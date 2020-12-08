@@ -42,6 +42,23 @@ const db=config.db;
         
         });
 
+       // Cancel Booking Request
+       router.post('/cancelBooking', (req, res) =>{
+        const request_id= req.body.request_id;
+       // console.log("service details: "+JSON.stringify(req.body));
+        try{
+            db.query('update request set request_status="Cancelled" where request_id=?',
+            [request_id],function(error,result){
+                if(error) throw error;
+            });  
+        }
+        catch(error){
+            console.log("Error occured: "+error);
+        }
+        res.status(200).json(200);
+        
+        });
+
     //GET ALL THE SERVICE REQUESTS PLACED BY ALL USER TO DISPLAY AT ADMIN SIDE
     router.get('/getServiceRequests',(req,res) =>{
         try{

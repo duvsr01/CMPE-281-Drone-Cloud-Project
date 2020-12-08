@@ -70,10 +70,13 @@ class MyOrders extends Component {
         </div>
       );
     } else {
-      let rowContent = orders.map((order,rowIndex)=>{
+      let rowContent = orders.filter(
+        (order) =>
+        order.requestStatus !== "Cancelled"
+      ).map((order,rowIndex)=>{
         return (
-          <Col key={rowIndex} md={{ span: 25, offset: -1}}>
-           <table className="table table-striped table-bordered" >   <tbody>  <OrderItem order={order}/></tbody></table>
+          <Col key={rowIndex} md={{ span: 25, offset: 0}}>
+           <OrderItem order={order}/>
           </Col>
         );
       });
@@ -86,84 +89,7 @@ class MyOrders extends Component {
               </h2>
             </div>
           </div>
-
-          
           <Container>
-            {/* <Row>
-              <Col md={{ span: 25, offset: -1}}>
-                <div>
-                  <table className="table table-striped table-bordered" >
-                    <thead className="thead-dark">
-                      <tr>
-                      
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Drone Name</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Drone Status</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                         <h5> Service Name</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Service Start Date</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Service End Date</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Service Time</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Number of Sessions</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Service Total Cost</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Request Status</h5>
-                        </td>
-                        <td
-                          className="text-center  font-weight-bold"
-                          scope="col"
-                        >
-                          <h5>Location</h5>
-                        </td>
-                        <td></td>
-                       
-                      </tr>
-                    </thead>
-                    </table>
-                    </div>
-                    </Col>
-                    </Row> */}
          <CardDeck>{rowContent}</CardDeck>         
           </Container>
         </div>
