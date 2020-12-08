@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { updateDrone } from "../_actions/droneActions";
 import {  Form } from "react-bootstrap";
 
+import { withRouter } from "react-router";
+
 class UpdateDroneForm extends Component {
 
     constructor(props) {
@@ -190,7 +192,8 @@ class UpdateDroneForm extends Component {
     
          this.props.updateDrone(data);
 
-         window.location.reload();
+         
+         setTimeout(() => {  this.props.history.push("/main/admin/viewalldrones");}, 1000);
 
         }    
       };
@@ -478,4 +481,4 @@ class UpdateDroneForm extends Component {
     dronestate: state.droneState,
     errors: state.errorState,
   });
-  export default connect(mapStateToProps, { updateDrone })(UpdateDroneForm);
+  export default withRouter(connect(mapStateToProps, { updateDrone })(UpdateDroneForm));
