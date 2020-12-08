@@ -20,7 +20,7 @@ class UpdateAgricultureService extends Component {
     }
 
     componentDidMount(){
-        const service = this.props.location.state;
+        const service = this.props.agricultureservice;
         [service].map(service => 
             this.setState({
                 name:service.name,
@@ -30,8 +30,6 @@ class UpdateAgricultureService extends Component {
               })
         )
     }
-
-   
 
     handleChange = (e) => {
         this.setState({
@@ -64,7 +62,7 @@ class UpdateAgricultureService extends Component {
       render() {
         const { text, errors } = this.state;
 
-        const agricultureservice = this.props.location.state;
+        const agricultureservice = this.props.agricultureservice;
 
         var dronetype = agricultureservice.dronetype;
 
@@ -93,10 +91,7 @@ class UpdateAgricultureService extends Component {
     
         return (
             <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">Update Agriculture Service</div>
+            
                             {[agricultureservice].map(agricultureservice =>      <div class="card-body">
             <Form name="myForm">
             
@@ -137,7 +132,7 @@ class UpdateAgricultureService extends Component {
               <Button
                 className="btn btn-primary" type="submit"
                 onClick={e => this.handleSubmit(e,agricultureservice.service_id)}>
-                Update Agriculture Service
+                Update Service
               </Button>
               <br />
               <p className="text-danger"> {errors}</p>
@@ -146,9 +141,7 @@ class UpdateAgricultureService extends Component {
             </Form>
             </div>)}
                           </div>
-                  </div>
-              </div>
-          </div>
+               
         );
       }
 

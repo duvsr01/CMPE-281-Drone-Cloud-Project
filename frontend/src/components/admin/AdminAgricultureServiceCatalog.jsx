@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
 
-import { Card, Button,Col,Row } from "react-bootstrap";
+import { Card, Button,Col,Row,Modal } from "react-bootstrap";
+import UpdateAgricultureService from "./UpdateAgricultureService";
 
  
 class AdminAgricultureServiceCatalog extends Component {
@@ -16,9 +17,13 @@ class AdminAgricultureServiceCatalog extends Component {
     description:"",
     name:"",
     servicetype:"",
-    dronetype:""
+    dronetype:"",
+    updateModalShow:false
   }
 
+  
+  onHide = () => this.setState({ updateModalShow: false });
+  
   componentDidMount(){
 
 
@@ -126,11 +131,42 @@ const {agricultureservices,loading} = this.props.droneState;
             
            </Col>
            <br/>
+
            <Button
+                style={{margin: "30px"}}
+                className="btn btn-primary buttonTop" type="submit"
+                onClick={() => this.setState({ updateModalShow: true })}>
+                Update Service
+              </Button>
+
+
+              <Modal
+              show={this.state.updateModalShow}
+              autoFocus="true"
+              fade={false}
+              onHide={this.onHide}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Update Service
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <UpdateAgricultureService agricultureservice={agricultureservice}/>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.onHide}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+
+           {/*<Button
                 className="btn btn-primary" type="submit"
                 onClick={e => this.updateService(e,agricultureservice)}>
                 Update Service
-              </Button>
+           </Button>*/}
               <Button
                 className="btn btn-primary" type="submit"
                 onClick={e => this.deleteService(e,agricultureservice.service_id)}>
