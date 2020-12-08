@@ -77,7 +77,7 @@ class ReviewServiceRequests extends Component {
       spinner = <Spinner />;
     }
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
+      <div style={{ height: "75vh"}}>
         <div>
           <table className="table table-bordered table-hover">
             {spinner}

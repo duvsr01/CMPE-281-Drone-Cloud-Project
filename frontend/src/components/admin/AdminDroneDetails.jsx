@@ -8,6 +8,8 @@ import { Nav,Navbar,Col, Row, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import { updateDrone,removeDrone } from "../_actions/droneActions";
 
+import "../../css/AdminDroneDetails.css";
+
 const styles = {
   cardImage: {
     
@@ -218,24 +220,28 @@ handleChange = (e) => {
         
         {[dronedetails].map(dronedetails => <div>
 
+          <div className="buttonDiv">
           <Button
-                className="btn btn-primary" type="submit"
+                style={{margin: "30px"}}
+                className="btn btn-primary buttonTop" type="submit"
                 onClick={e => this.handleDeleteDrone(e,droneidparam)}>
                 Remove Drone
               </Button>
 
               <Button
-                className="btn btn-primary" type="submit"
+                style={{margin: "30px"}}
+                className="btn btn-primary buttonTop" type="submit"
                 onClick={(e) => this.handleAgricultureServices(e,dronedetails)}>
                 View All Agriculture Services
               </Button>
 
               <Button
-                className="btn btn-primary" type="submit"
+                style={{margin: "30px"}}
+                className="btn btn-primary buttonTop" type="submit"
                 onClick={(e) => this.createAgricultureService(e,dronedetails)}>
                 Create Agriculture Service
               </Button>
-
+              </div>
           <Accordion>
         <Card className="m-1 border-0 shadow">
          
