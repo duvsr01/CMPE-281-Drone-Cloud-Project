@@ -50,11 +50,11 @@ class DroneCard extends Component {
     imageuri = imageuri.replace(/"/g, '');
    
     return (
-    <Card bg="white" style={{ width: "25rem", margin: "1rem"}}>
-    <Card.Img variant="top" src={imageuri} />
+    <Card bg="white" style={{ width: "25rem", margin: "1rem", height: "500px"}}>
+    <Card.Img variant="top" src={imageuri} style={{height: "250px"}}/>
     <Card.Body>
     <Card.Title>{drone.name}</Card.Title>
-    <Card.Text>
+    <Card.Text style={{height: "80px"}}>
        <h5> {drone.description}</h5>
     </Card.Text>
     <Button variant="primary" type="submit" 

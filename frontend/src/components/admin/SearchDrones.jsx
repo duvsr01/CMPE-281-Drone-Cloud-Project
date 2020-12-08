@@ -56,7 +56,7 @@ class SearchDrones extends Component {
           
         droneContent = drones.map((drone,index)=>{
           return(
-              <Col key={index} sm={5}>
+              <Col key={index} sm={6}>
               <DroneCard drone={drone} />
             </Col>)
           
@@ -120,7 +120,7 @@ class SearchDrones extends Component {
 
              
              
-             <Row>{droneContent}</Row>
+             <Row style={{margin: "50px"}}>{droneContent}</Row>
            </div>
           </div>
           </div>
