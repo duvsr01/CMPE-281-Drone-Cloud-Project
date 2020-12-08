@@ -13,7 +13,8 @@ class SearchDrones extends Component {
         super(props);
         this.state = {
           name: "",
-          description: ""
+          description: "",
+          type:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +36,8 @@ class SearchDrones extends Component {
        
           const params = {
             name: this.state.name,
-            description: this.state.description
+            description: this.state.description,
+            type:this.state.type
           };
     
           this.props.searchDrones(params);
@@ -54,7 +56,7 @@ class SearchDrones extends Component {
           
         droneContent = drones.map((drone,index)=>{
           return(
-              <Col key={index} sm={5}>
+              <Col key={index} sm={6}>
               <DroneCard drone={drone} />
             </Col>)
           
@@ -65,7 +67,7 @@ class SearchDrones extends Component {
           <div class="row justify-content-center">
               <div class="col-md-8">
                       <div class="card">
-                          <div class="card-header">Update Agriculture Service</div>
+                          <div class="card-header">Search Drones</div>
                           <div class="card-body">
             <Form>
                
@@ -77,13 +79,25 @@ class SearchDrones extends Component {
                     onChange={this.handleChange}
                   /></Form.Group>
                
-                <Form.Group controlId="description">
+               <Form.Group controlId="description">
                   <Form.Label>Description</Form.Label>
-                  <Form.Control
+                  <Form.Control as="textarea" rows={2}
                     name="description"
                     value={this.state.description}
                     onChange={this.handleChange}
                   /></Form.Group>
+
+          <Form.Group controlId="type">
+            <Form.Label>Type: </Form.Label>
+            <Form.Control as="select" name="type" custom onChange={this.handleChange} value={this.state.type}>
+              <option value="datacollection">Data Collection</option>
+              <option value="spreading">Agriculture Spreading</option>
+              <option value="monitoring">Monitoring</option>
+              <option value="spraying">Spraying</option>
+            </Form.Control>
+
+                
+                  </Form.Group>
               <Button
                 className="btn btn-primary"
                 onClick={this.handleSubmit}
@@ -103,8 +117,10 @@ class SearchDrones extends Component {
 
               <div className="container">
            <div>
+
              
-             <Row>{droneContent}</Row>
+             
+             <Row style={{margin: "50px"}}>{droneContent}</Row>
            </div>
           </div>
           </div>

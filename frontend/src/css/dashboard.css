@@ -29,6 +29,27 @@ Copyright (c) 2015 Daniel Eden
   border-radius: 100px;
 }
 
+.infoCard{
+  width: 95%;
+  border-radius: 5px;
+  /* border: 1px black;
+  border-style: solid; */
+  text-align: center;
+  margin: 20px;
+  padding: 20px;
+  box-shadow:  0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.infoCardInfo{
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.infoCardTitle{
+  font-size: 1.5em;
+  color: blue;
+}
+
 .scrollTable{
   overflow-y: auto;
   /* height: 20%; */
@@ -37,6 +58,20 @@ Copyright (c) 2015 Daniel Eden
 .tableRow:hover{
   cursor: pointer;
   color: blue;
+}
+
+#droneMap{
+  width: 95%;
+  margin-left: 2.5%;
+  border-radius: 20px;
+  text-align: center;
+  height: 35%;
+  margin-bottom: 2%;
+}
+
+.headerTitle:hover{
+  cursor: pointer;
+  color: rgb(232,109,67);
 }
 
 .animated {
@@ -3331,7 +3366,7 @@ Copyright (c) 2015 Daniel Eden
     margin-top: 30px; }
   
   .card-chart .chart-area {
-    height: 250px;
+    height: 350px;
     width: calc(100% + 30px);
     margin-left: -15px;
     margin-right: -15px; }

@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+import '../../css/Login.css';
 import classnames from "classnames";
 import {Redirect}  from "react-router-dom";
 import firebase from "firebase";
@@ -105,7 +106,7 @@ class Login extends Component {
       redirectVar = <Redirect to="/main/home" />;
     }
     return (
-      <div>
+      <div className="loginBox">
         {redirectVar}
         <Form>
           <StyledFirebaseAuth

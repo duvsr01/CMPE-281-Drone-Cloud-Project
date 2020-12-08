@@ -4,6 +4,7 @@ import { Card, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getDroneDetails } from "../_actions/droneActions";
 import PropTypes from "prop-types";
+import dronespraying from "../../common/images/dronespraying.jpg";
 import Spinner from "../../common/Spinner";
 
 class DroneCard extends Component {
@@ -44,13 +45,17 @@ class DroneCard extends Component {
 
   render() {
     const { drone } = this.props;
+    var imageuri = drone.image;
+    if(imageuri != null || imageuri != undefined)
+    imageuri = imageuri.replace(/"/g, '');
+   
     return (
-    <Card bg="white" style={{ width: "25rem", margin: "1rem" }}>
-    <Card.Img variant="top" src="holder.js/100px180" />
+    <Card bg="white" style={{ width: "25rem", margin: "1rem", height: "500px"}}>
+    <Card.Img variant="top" src={imageuri} style={{height: "250px"}}/>
     <Card.Body>
     <Card.Title>{drone.name}</Card.Title>
-    <Card.Text>
-        {drone.description} 
+    <Card.Text style={{height: "80px"}}>
+       <h5> {drone.description}</h5>
     </Card.Text>
     <Button variant="primary" type="submit" 
                 onClick={() => this.handleSubmit(drone.drone_id)}>Details</Button>

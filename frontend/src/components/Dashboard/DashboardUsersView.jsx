@@ -14,12 +14,15 @@ class DashboardUsersView extends React.Component {
 
     componentDidMount = () => {
         const backendurl = properties.backendhost + "dashboard";
-        console.log("HI+++" + this.props.location.state.services);
+        console.log("HI+++" + this.props.location.state);
+        var allServices = this.props.location.state.services;
         axios.get(backendurl + "/previousOrders/sruthi.duvvuri1@gmail.com")
         .then((res) => {
           var prevOrders = [];
-          var allServices = this.state.allServices;
           res.data.forEach(o => {
+            if(!(o.service_id in allServices)){
+                return;
+            }
             var date = new Date(o.service_date);
             var month = date.getMonth();
             console.log("users", o);
@@ -53,18 +56,21 @@ class DashboardUsersView extends React.Component {
                 <Row>
                     <Col xs={12} md={12}>
                         <div className="mainDiv1">
-                            <h2>User Details</h2>
-                            <h5>ID: {s.user_id}</h5>
-                            <h5>Name: {s.displayName}</h5>
-                            <h5>Email: {s.email}</h5>
-                            <h5>Type: {s.usertype}</h5>
+                            <h2 className="heading">User Details</h2>
+                            <div className="details">
+                                <h5>ID: {s.user_id}</h5>
+                                <h5>Name: {s.displayName}</h5>
+                                <h5>Email: {s.email}</h5>
+                                <h5>Type: {s.usertype}</h5>
+                            </div>
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs={12} md={12}>
                         <div className="mainDiv1">
-                        <h3>{s.displayName}'s Previous Orders</h3>
+                        <h2 className="heading">{s.displayName}'s Previous Orders</h2>
+                        <div className="details">
                         <Table responsive>
                             <thead className="text-primary">
                             <tr>
@@ -79,6 +85,7 @@ class DashboardUsersView extends React.Component {
                             {this.state.previousOrders}
                             </tbody>
                         </Table>
+                        </div>
                         </div>
                     </Col>
                 </Row>

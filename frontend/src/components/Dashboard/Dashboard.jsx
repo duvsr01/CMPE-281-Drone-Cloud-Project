@@ -17,7 +17,7 @@
 */
 import React from "react";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
 
 import {withRouter} from "react-router-dom";
 
@@ -25,6 +25,7 @@ import '../../css/dashboard.css';
 
 import axios from "axios";
 import {properties} from "../../properties";
+import DashboardMap from '../Dashboard/DashboardMap';
 
 // reactstrap components
 import {
@@ -63,43 +64,67 @@ class Dashboard extends React.Component {
 
   constructor() {
     super();
-    this.state = {previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allService: {}, allUsers: []};
+    this.state = {allDronesLiveData: [], numApprovedRequests: 0, displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: [], allDrones: []};
   }
 
   componentDidMount = () => {
     const backendurl = properties.backendhost + "dashboard";
-    // var uid = localStorage.getItem("uid");
     var isAdmin = (localStorage.getItem("usertype").localeCompare("customer") === 0) ? false: true;
 
     var allServices = {}
     axios.get(backendurl + "/getAllServices")
     .then((res) => {
+      var allServicesComponent = [];
       res.data.forEach(o => {
-        if(allServices[o.service_id] == null){
-          allServices[o.service_id] = {}
-          allServices[o.service_id]['name'] = o.name;
-          allServices[o.service_id]['total'] = 0
-          allServices[o.service_id]['data'] = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
-        }
+          if(!(o.service_id in allServices)){
+            allServices[o.service_id] = {}
+            allServices[o.service_id]['name'] = (o.name != undefined) ? o.name : "";
+            allServices[o.service_id]['description'] = (o.description != undefined) ? o.description : "";
+            allServices[o.service_id]['drone_id'] = (o.drone_id != undefined) ? o.drone_id : "";
+            allServices[o.service_id]['basecost'] = (o.basecost != undefined) ? o.basecost : "";
+            allServices[o.service_id]['servicestatus'] = (o.servicestatus != undefined) ? o.servicestatus : "";
+            allServices[o.service_id]['total'] = 0;
+            allServices[o.service_id]['data'] = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
+          }
+          allServicesComponent.push(
+            <tr>
+              <td>{o.service_id}</td>
+              <td>{o.name}</td>
+              <td>{o.description}</td>
+              <td>{o.drone_id}</td>
+              <td>{o.basecost}</td>
+              <td style={{color: (o.servicestatus === 'active') ? "green" : "red"}}>{o.servicestatus}</td>
+            </tr>
+          );
       })
-      this.setState({allServices: allServices});
+      this.setState({allServices: allServices, allServicesComponent: allServicesComponent});
     })
     .catch((err) => {
       console.log(err);
     })
-    console.log("isadmin", isAdmin);
+    
     if(!isAdmin){ // CUSTOMER
       axios.get(backendurl + "/previousOrders/sruthi.duvvuri1@gmail.com")
       .then((res) => {
+        var lineChartData = {};
         var prevOrders = [];
         var chart = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
         var allServices = this.state.allServices;
         res.data.forEach(o => {
+          if(!(o.service_id in allServices)){
+            return;
+          }
+          var name = allServices[o.service_id]['name'];
+          if(!(name in lineChartData)){
+            console.log("");
+            lineChartData[name] = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
+          }
           var total = parseInt(o.service_totalcost);
           allServices[o.service_id]['total'] += total;
           var date = new Date(o.service_date);
           var month = date.getMonth();
           chart[month] = chart[month] + total;
+          lineChartData[name][month] += total;
           prevOrders.push(
               <tr onClick={() => this.handleServiceClick(o)} className="tableRow">
                 <td>{o.request_id}</td>
@@ -112,10 +137,29 @@ class Dashboard extends React.Component {
         var a = [];
         var b = [];
         for(const id in allServices){
+          if(allServices[id]['total'] == 0){
+            continue;
+          }
           a.push(allServices[id]['name']);
           b.push(allServices[id]['total']);
         }
-        this.setState({previousOrders: prevOrders, ordersPriceChart: chart, allServicesNames: a, allServicesTotal: b});
+        var lineData = [];
+        for(const data in lineChartData){
+          console.log("loop " + data + lineChartData[data]);
+          var temp = {};
+          temp['label'] = data;
+          temp['data'] = lineChartData[data];
+          var r = Math.floor(Math.random() * 256);
+          var g = Math.floor(Math.random() * 256);
+          var bl = Math.floor(Math.random() * 256);
+          temp['borderColor'] = "rgb(" + r + "," + g + "," + bl + ")";
+          temp['backgroundColor'] = "rgba(255,255,255,0)";
+          lineData.push(temp);
+        }
+        var servicesLineChart = {};
+        servicesLineChart['labels'] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        servicesLineChart['datasets'] = lineData;
+        this.setState({servicesLineChart: servicesLineChart, allServices: allServices,previousOrders: prevOrders, ordersPriceChart: chart, allServicesNames: a, allServicesTotal: b});
       })
       .catch((err) => {
         console.log(err);
@@ -147,10 +191,16 @@ class Dashboard extends React.Component {
       axios.get(backendurl + "/getAllRequests")
       .then((res) => {
         var allServices = this.state.allServices;
+        console.log("allServices", allServices);
         var allRequests = [];
         var chart = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
         var lineChartData = {};
+        var numNewRequests = 0;
+        var numApprovedRequests = 0;
         res.data.forEach((o) => {
+          if(!(o.service_id in allServices)){
+            return;
+          }
           var name = allServices[o.service_id]['name'];
           var date = new Date(o.service_date);
           var month = date.getMonth();
@@ -162,6 +212,12 @@ class Dashboard extends React.Component {
           lineChartData[name][month] += total;
           chart[month] = chart[month] + total;
           var color = (o.request_status === "Approved") ? "Green" : "Red";
+          if(o.request_status === "New"){
+            numNewRequests = numNewRequests + 1;
+          }
+          if(o.request_status === "Approved"){
+            numApprovedRequests = numApprovedRequests + 1;
+          }
           allRequests.push(
             <tr className="tableRow" onClick={() => this.handleRequestsClick(o)}>
               <td>{o.request_id}</td>
@@ -176,11 +232,15 @@ class Dashboard extends React.Component {
         var a = [];
         var b = [];
         for(const id in allServices){
+          if(allServices[id]['total'] == 0){
+            continue;
+          }
           a.push(allServices[id]['name']);
           b.push(allServices[id]['total']);
         }
         // console.log("loop", lineChartData['TryThis']);
         var lineData = [];
+        var colors = [];
         for(const data in lineChartData){
           console.log("loop " + data + lineChartData[data]);
           var temp = {};
@@ -190,13 +250,14 @@ class Dashboard extends React.Component {
           var g = Math.floor(Math.random() * 256);
           var bl = Math.floor(Math.random() * 256);
           temp['borderColor'] = "rgb(" + r + "," + g + "," + bl + ")";
+          colors.push("rgb(" + r + "," + g + "," + bl + ")");
           temp['backgroundColor'] = "rgba(255,255,255,0)";
           lineData.push(temp);
         }
         var servicesLineChart = {};
         servicesLineChart['labels'] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         servicesLineChart['datasets'] = lineData;
-        this.setState({allService: allServices, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data})
+        this.setState({numApprovedRequests: numApprovedRequests, numNewRequests: numNewRequests, colors: colors, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data})
         console.log("linedata", this.state.lineData[0]);
       })
       .catch((err) => {
@@ -217,6 +278,14 @@ class Dashboard extends React.Component {
           )
         })
         this.setState({allDrones: allDrones, allDronesData: res.data})
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+      axios.get(backendurl + "/getAllDronesLiveData")
+      .then((res) => {
+        this.setState({allDronesLiveData: res.data});
       })
       .catch((err) => {
         console.log(err);
@@ -277,6 +346,9 @@ class Dashboard extends React.Component {
     var allServices = this.state.allServices;
     var allRequests = [];
     data.forEach((o) => {
+      if(!(o.service_id in allServices)){
+        return;
+      }
       if(o.request_id.toString().startsWith(term) || allServices[o.service_id]['name'].toLowerCase().startsWith(term) || o.email.toLowerCase().startsWith(term) || (o.request_status && o.request_status.toLowerCase().startsWith(term))){
         var date = new Date(o.service_date);
         var color = (o.request_status === "Approved") ? "Green" : "Red";
@@ -314,27 +386,86 @@ class Dashboard extends React.Component {
     this.setState({allDrones: allDrones});
   }
 
+  handleServicesSearchChange = (e) => {
+    var term = e.target.value.toLowerCase();
+    var data = this.state.allServices;
+    var allServicesComponent = [];
+    for(const o in data){
+      if((o.toString().startsWith(term)) || (data[o].name && data[o].name.toLowerCase().startsWith(term)) || (data[o].description && data[o].description.toLowerCase().startsWith(term)) || (data[o].drone_id && data[o].drone_id.toString().startsWith(term)) || (data[o].servicestatus && data[o].servicestatus.startsWith(term) || (data[o].basecost && data[o].basecost.toString().startsWith(term)))){
+        allServicesComponent.push(
+          <tr>
+            <td>{o}</td>
+            <td>{data[o].name}</td>
+            <td>{data[o].description}</td>
+            <td>{data[o].drone_id}</td>
+            <td>{data[o].basecost}</td>
+            <td className="text-right" style={{color: (data[o].servicestatus === "active") ? "green" : "red"}}>{data[o].servicestatus}</td>
+          </tr>
+        )
+      }
+    }
+    this.setState({allServicesComponent: allServicesComponent});
+  }
+
+  toggleDronesDisplay = () => {
+    this.setState({
+      displayAllDrones: !this.state.displayAllDrones
+    })
+  }
+
+  toggleDisplayPreviousOrdersCustomers = () => {
+    this.setState({
+      displayPreviousOrdersCustomers: !this.state.displayPreviousOrdersCustomers
+    })
+  }
+
+  toggleDisplayRequests = () => {
+    this.setState({
+      displayRequests: !this.state.displayRequests
+    })
+  }
+
+  toggleDisplayAllServices = () => {
+    this.setState({
+      displayAllServices: !this.state.displayAllServices
+    })
+  }
+
+
   render() {
 
     var dashboardPanelChart = getDashboardPanelChart();
     var barChart = getBarChart();
     var isAdmin = this.state.isAdmin;
+    var doughnutChart = {
+      data: {
+        labels: this.state.allServicesNames,
+        datasets: [{
+          data: this.state.allServicesTotal,
+          label: ""
+        }]
+      }
+    }
     if(!isAdmin){
       dashboardPanelChart.data.datasets[0].data = this.state.ordersPriceChart;
       dashboardPanelChart.data.datasets[0].label = "Total Cost in $";
       barChart.data.datasets[0].label = "Total expenditure in $";
+      doughnutChart.data.datasets[0].label = "Total expenditure in $";
 
     } else {
       dashboardPanelChart.data.datasets[0].data = this.state.revenueChart;
       dashboardPanelChart.data.datasets[0].label = "Total Revenue in $";
       barChart.data.datasets[0].label = "Total revenue in $";
+      doughnutChart.data.datasets[0].label = "Total revenue in $";
     }
     barChart.data.labels = this.state.allServicesNames;
     barChart.data.datasets[0].data = this.state.allServicesTotal;
+    doughnutChart.data.datasets[0].backgroundColor = this.state.colors;
 
     return (
       <div id="mainDiv">
-        <h2>{(isAdmin) ? "Revenue" : "Expenditure"} history</h2>
+        {/* MAIN REVENUE CHART */}
+        <h2><i class="fas fa-chart-line"></i> {(isAdmin) ? "Revenue" : "Expenditure"} History</h2>
         <PanelHeader
           size="lg"
           content={
@@ -345,114 +476,63 @@ class Dashboard extends React.Component {
           }
         />
         <div className="content">
+          {this.state.isAdmin && <Row>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.allUsers.length}</div>
+                <div className="infoCardTitle"><i style={{color: "orange"}}class="fas fa-users"></i> Customers</div>
+              </div>
+            </Col>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.numNewRequests}</div>
+                <div className="infoCardTitle"><i style={{color: "red"}}class="fas fa-exclamation-circle"></i> New Service Requests</div>
+              </div>
+            </Col>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.allDrones.length}</div>
+                <div className="infoCardTitle"><i style={{color: "green"}}class="fas fa-helicopter"></i> Total Drones</div>
+              </div>
+            </Col>
+            <Col>
+              <div className="infoCard">
+                <div className="infoCardInfo">{this.state.numApprovedRequests}</div>
+                <div className="infoCardTitle"><i style={{color: "violet"}}class="fas fa-plane-departure"></i> Total Flights</div>
+              </div>
+            </Col>
+          </Row>}
           <Row>
-            {/* <Col xs={12} md={4}>
+            {/* PIE CHART */}
+            <Col xs={12} md={6}>  
               <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Global Sales</h5>
-                  <CardTitle tag="h4">Shipped Products</CardTitle>
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      className="btn-round btn-outline-default btn-icon"
-                      color="default"
-                    >
-                      <i className="now-ui-icons loader_gear" />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another Action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                      <DropdownItem className="text-danger">
-                        Remove data
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={dashboardShippedProductsChart.data}
-                      options={dashboardShippedProductsChart.options}
-                    />
-                  </div>
-                </CardBody>
-                <CardFooter>
-                  <div className="stats">
-                    <i className="now-ui-icons arrows-1_refresh-69" /> Just
-                    Updated
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col xs={12} md={4}>
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">2020 Sales</h5>
-                  <CardTitle tag="h4">All products</CardTitle>
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      className="btn-round btn-outline-default btn-icon"
-                      color="default"
-                    >
-                      <i className="now-ui-icons loader_gear" />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem>Action</DropdownItem>
-                      <DropdownItem>Another Action</DropdownItem>
-                      <DropdownItem>Something else here</DropdownItem>
-                      <DropdownItem className="text-danger">
-                        Remove data
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={dashboardAllProductsChart.data}
-                      options={dashboardAllProductsChart.options}
-                    />
-                  </div>
-                </CardBody>
-                <CardFooter>
-                  <div className="stats">
-                    <i className="now-ui-icons arrows-1_refresh-69" /> Just
-                    Updated
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col> */}
-            <Col xs={12} md={12}>
-              <Card className="card-chart">
-                <CardHeader>
+                <CardHeader style={{textAlign: "center"}}>
                   {/* <h5 className="card-category">Email Statistics</h5> */}
-                  <CardTitle tag="h4">{((!isAdmin) ? "Expenditure" : "Revenue") + " by Service Type"}</CardTitle>
+                  <CardTitle tag="h4"><i class="fas fa-chart-pie"></i> {((!isAdmin) ? "Expenditure" : "Revenue") + " by Service Type"}</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
-                    <Bar
-                      data={barChart.data}
-                      options={barChart.options}
+                    <Doughnut
+                    height="140%"
+                      data={doughnutChart.data}
+                      // data={barChart.data}
+                      // options={barChart.options}
                     />
                   </div>
                 </CardBody>
-                <CardFooter>
-                  <div className="stats">
-                    <i className="now-ui-icons ui-2_time-alarm" /> Last 7 days
-                  </div>
-                </CardFooter>
               </Card>
             </Col>
-          </Row>
-          {isAdmin && <Row>
-            <Col xs={12} md={12}>
+
+            {/* LINE CHART */}
+            <Col xs={12} md={6}>
               <Card className="card-chart">
-                <CardHeader>
-                  <CardTitle tag="h4">Monthly Revenue by Service Type</CardTitle>
+                <CardHeader style={{textAlign: "center"}}>
+                  <CardTitle tag="h4"><i className="fas fa-file-contract"></i> Monthly Revenue by Service Type</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
                     <Line
+                      height="120%"
                       data={this.state.servicesLineChart}
                       options={dashboardAllProductsChart.options}
                     />
@@ -460,16 +540,27 @@ class Dashboard extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-          </Row>}
+          </Row>
+
+          {/* MAP */}
+          <Row>  
+            <Col md={12}>
+              <div id="droneMap">
+                    <h3><i style={{color: "green"}} class="fas fa-map-marked-alt"></i> All Drone Locations</h3>
+                    {this.state.allDronesLiveData.length != 0 && <DashboardMap data={this.state.allDronesLiveData}/>}
+              </div>
+            </Col>
+          </Row>
+
+          {/* ALL DRONES */}
           <Row>
-            {isAdmin && <Col xs={12} md={6}>
+            {isAdmin && <Col xs={12} md={12}>
               <Card className="card-tasks">
-                <CardHeader>
-                  {/* <h5 className="card-category">Backend Development</h5> */}
-                  <CardTitle tag="h4">All Drones</CardTitle>
-                  <Input type="text" placeholder="Search drone by name, type, status..." onChange={this.handleDroneSearchChange}/>
+                <CardHeader className="headerTitle" onClick={this.toggleDronesDisplay}>
+                  <CardTitle tag="h4"><i class="fas fa-helicopter"></i> All Drones</CardTitle>
                 </CardHeader>
-                <CardBody>
+                {this.state.displayAllDrones && <CardBody>
+                  <Input type="text" placeholder="Search drone by name, type, status..." onChange={this.handleDroneSearchChange}/>
                 <Table responsive>
                     <thead className="text-primary">
                       <tr>
@@ -483,163 +574,21 @@ class Dashboard extends React.Component {
                       {this.state.allDrones}
                     </tbody>
                   </Table>
-                  {/* <div className="table-full-width table-responsive">
-                    <Table>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultChecked type="checkbox" />
-                                <span className="form-check-sign" />
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td className="text-left">
-                            Sign contract for "What are conference organizers
-                            afraid of?"
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              className="btn-round btn-icon btn-icon-mini btn-neutral"
-                              color="info"
-                              id="tooltip731609871"
-                              type="button"
-                            >
-                              <i className="now-ui-icons ui-2_settings-90" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip731609871"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                            <Button
-                              className="btn-round btn-icon btn-icon-mini btn-neutral"
-                              color="danger"
-                              id="tooltip923217206"
-                              type="button"
-                            >
-                              <i className="now-ui-icons ui-1_simple-remove" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip923217206"
-                            >
-                              Remove
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" />
-                                <span className="form-check-sign" />
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td className="text-left">
-                            Lines From Great Russian Literature? Or E-mails From
-                            My Boss?
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              className="btn-round btn-icon btn-icon-mini btn-neutral"
-                              color="info"
-                              id="tooltip907509347"
-                              type="button"
-                            >
-                              <i className="now-ui-icons ui-2_settings-90" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip907509347"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                            <Button
-                              className="btn-round btn-icon btn-icon-mini btn-neutral"
-                              color="danger"
-                              id="tooltip496353037"
-                              type="button"
-                            >
-                              <i className="now-ui-icons ui-1_simple-remove" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip496353037"
-                            >
-                              Remove
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultChecked type="checkbox" />
-                                <span className="form-check-sign" />
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td className="text-left">
-                            Flooded: One year later, assessing what was lost and
-                            what was found when a ravaging rain swept through
-                            metro Detroit
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              className="btn-round btn-icon btn-icon-mini btn-neutral"
-                              color="info"
-                              id="tooltip326247652"
-                              type="button"
-                            >
-                              <i className="now-ui-icons ui-2_settings-90" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip326247652"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                            <Button
-                              className="btn-round btn-icon btn-icon-mini btn-neutral"
-                              color="danger"
-                              id="tooltip389516969"
-                              type="button"
-                            >
-                              <i className="now-ui-icons ui-1_simple-remove" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip389516969"
-                            >
-                              Remove
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div> */}
-                </CardBody>
-                {/* <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="now-ui-icons loader_refresh spin" /> Updated 3
-                    minutes ago
-                  </div>
-                </CardFooter> */}
+                </CardBody>}
               </Card>
             </Col>}
-            <Col xs={12} md={(isAdmin) ? 6 : 12}>
+          </Row>
+
+          {/* ALL CUSTOMERS / PREVIOUS ORDERS */}
+          <Row>
+            <Col xs={12} md={12}>
               <Card className="scrollTable">
-                <CardHeader>
+                <CardHeader className="headerTitle" onClick={this.toggleDisplayPreviousOrdersCustomers}>
                   {/* <h5 className="card-category">All Persons List</h5> */}
-                  <CardTitle tag="h4">{(!isAdmin) ? "All Previous Orders" : "Customers"}</CardTitle>
-                  <Input type="text" placeholder="Search customer by id, name, email..." onChange={this.handleUserSearchChange}/>
+                <CardTitle tag="h4">{(!isAdmin) ? <i class="fas fa-truck"></i> : <i class="fas fa-users"></i>} {(!isAdmin) ? "All Previous Orders" : "Customers"}</CardTitle>
                 </CardHeader>
-                <CardBody >
+                {this.state.displayPreviousOrdersCustomers && <CardBody >
+                  <Input type="text" placeholder="Search customer by id, name, email..." onChange={this.handleUserSearchChange}/>
                   <Table responsive>
                     <thead className="text-primary">
                       {!isAdmin && 
@@ -664,21 +613,24 @@ class Dashboard extends React.Component {
                       {isAdmin && this.state.allUsers}
                     </tbody>
                   </Table>
-                </CardBody>
+                </CardBody>}
               </Card>
             </Col>
           </Row>
 
+          
           {isAdmin && 
+            <div>
+            {/* REQUESTS */}
             <Row>
               <Col xs={12} md={12}>
                 <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Requests</CardTitle>
-                  <Input type="text" placeholder="Search requests by id, service name, requester email, status..." onChange={this.handleRequestSearchChange}/>
+                <CardHeader className="headerTitle" onClick={this.toggleDisplayRequests}>
+                  <CardTitle tag="h4"><i class="fas fa-list-alt"></i> Requests</CardTitle>
                 </CardHeader>
-                <CardBody>
-                <Table responsive>
+                {this.state.displayRequests && <CardBody>
+                  <Input type="text" placeholder="Search requests by id, service name, requester email, status..." onChange={this.handleRequestSearchChange}/>
+                  <Table responsive>
                     <thead className="text-primary">
                       <tr>
                         <th>ID</th>
@@ -693,11 +645,43 @@ class Dashboard extends React.Component {
                       {this.state.allRequests}
                     </tbody>
                   </Table>
-                </CardBody>
+                </CardBody>}
                 </Card>
               </Col>
             </Row>
+
+            {/* SERVICES OFFERED */}
+            <Row>
+              <Col xs={12} md={12}>
+                <Card>
+                <CardHeader className="headerTitle" onClick={this.toggleDisplayAllServices}>
+                  <CardTitle tag="h4"><i class="fas fa-layer-group"></i> All Services Offered</CardTitle>
+                </CardHeader>
+                {this.state.displayAllServices && <CardBody>
+                  <Input type="text" placeholder="Search Services by id, service name, drone id, basecost..." onChange={this.handleServicesSearchChange}/>
+                  <Table responsive>
+                    <thead className="text-primary">
+                      <tr>
+                        <th>Service ID</th>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th>Drone ID</th>
+                        <th>Base Cost</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                      {this.state.allServicesComponent}
+                    </tbody>
+                  </Table>
+                </CardBody>}
+                </Card>
+              </Col>
+            </Row>
+
+            </div>
           }
+
         </div>
       </div>
     );

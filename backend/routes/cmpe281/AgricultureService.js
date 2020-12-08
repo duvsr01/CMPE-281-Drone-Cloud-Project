@@ -29,7 +29,7 @@ router.post('/createagricultureservice',(req,res) =>{
 router.put('/updateagricultureservice',(req,res) =>{
     var agriservice = {};
     agriservice = req.body;
-    db.query(('UPDATE service SET name=?,basecost=?,description=? where service_id = ?'),[agriservice.name,agriservice.basecost,agriservice.description,agriservice.id],function(error,results){
+    db.query(('UPDATE service SET name=?,basecost=?,description=?,servicetype=? where service_id = ?'),[agriservice.name,agriservice.basecost,agriservice.description,agriservice.servicetype,agriservice.id],function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })

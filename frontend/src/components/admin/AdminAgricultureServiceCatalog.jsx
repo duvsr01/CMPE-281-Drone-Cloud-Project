@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
 
-import Button from "react-bootstrap/Button";
+import { Card, Button,Col,Row,Modal } from "react-bootstrap";
+import UpdateAgricultureService from "./UpdateAgricultureService";
+
  
 class AdminAgricultureServiceCatalog extends Component {
   state={
@@ -13,23 +15,39 @@ class AdminAgricultureServiceCatalog extends Component {
     service_id:"",
     basecost:"",
     description:"",
-    name:""
+    name:"",
+    servicetype:"",
+    dronetype:"",
+    updateModalShow:false,
+    drone_id:""
   }
 
+  
+  onHide = () => this.setState({ updateModalShow: false });
+  
   componentDidMount(){
-    const drone_id = this.props.location.state;
+
+
+    const dronedetails = this.props.location.state;
+    //var drone_id;
+
+    [dronedetails].map(dronedetails => 
+
+      this.state.drone_id = dronedetails.drone_id,
+      this.state.dronetype = dronedetails.type
+      )
 
     const params = {
-        id : drone_id
+        id : this.state.drone_id
       };
     this.props.getAgricultureServicesByDroneId(params);
   }
 
-  updateService = (e,service_id) => {
+  updateService = (e,agricultureservice) => {
     //prevent page from refresh
     //e.preventDefault();
 
-   this.props.history.push("/main/updateservice",service_id);
+   this.props.history.push("/main/updateservice",agricultureservice);
     
   };
 
@@ -41,25 +59,50 @@ class AdminAgricultureServiceCatalog extends Component {
         id : service_id
       };
     this.props.removeService(params);
+    window.location.reload();
   };
 
 
   render() {
 const {agricultureservices,loading} = this.props.droneState;
   let serviceContent;
+  var servicetypename;
+
   if(agricultureservices==null || loading){
     <Spinner />
   }
   else{
   serviceContent = agricultureservices.map((agricultureservice,index)=>{
+    agricultureservice.dronetype = this.state.dronetype;
+
+    if(agricultureservice.servicetype === "cropmapping") {
+      servicetypename = 'Crop Mapping and Surveying';
+     
+    } else if(agricultureservice.servicetype === "analysis") {
+      servicetypename = 'Soil and Field Analysis';
+     
+    } else if(agricultureservice.servicetype === "cropspraying") {
+      servicetypename = 'Crop Spraying and Spot Spraying';
+     
+    } else if(agricultureservice.servicetype === "seedplanting") {
+      servicetypename = 'Seed Planting' ;          
+      
+    } else if(agricultureservice.servicetype === "irrigationmonitoring") {
+     servicetypename = 'Irrigation Monitoring and Management'; 
+    
+    } else if (agricultureservice.servicetype === "liverstock") {
+        servicetypename = 'Real time livestock monitoring';
+    }
+
     return(
-       <tr>
-           <td>{agricultureservice.name}</td>
-           <td>{agricultureservice.basecost}</td>
-           <td>{agricultureservice.description}</td>
+       /*<tr>
+           <td><h4>{agricultureservice.name}</h4></td>
+           <td><h4>{agricultureservice.basecost}</h4></td>
+           <td><h4>{agricultureservice.description}</h4></td>
+           <td><h4>{agricultureservice.servicetype}</h4></td>
            <td><Button
                 className="btn btn-primary" type="submit"
-                onClick={e => this.updateService(e,agricultureservice.service_id)}>
+                onClick={e => this.updateService(e,agricultureservice)}>
                 Update Service
               </Button></td>
               <td><Button
@@ -67,7 +110,71 @@ const {agricultureservices,loading} = this.props.droneState;
                 onClick={e => this.deleteService(e,agricultureservice.service_id)}>
                 Delete Service
               </Button></td>
-       </tr>
+       </tr>*/
+        <Col>
+       <Card bg="white" style={{ width: "25rem" , margin: "2rem"}}>
+      {/*} <Card.Img variant="top"/>*/}
+          {/* <Card.Body><Card.Img variant="top" src={this.props.product.imageURL} /> */}
+           <Col>
+             <Card.Title> <b>Service Name: {agricultureservice.name} </b></Card.Title>
+             <Card.Text>
+               <b>Description: </b>
+               {agricultureservice.description}
+             </Card.Text>
+             <Card.Text>
+               <b>Basecost: </b>${agricultureservice.basecost}  
+             </Card.Text>
+
+             <Card.Text>
+               <b>Service Type: </b>{servicetypename}  
+             </Card.Text>
+            
+            
+           </Col>
+           <br/>
+
+           <Button
+                style={{margin: "30px"}}
+                className="btn btn-primary buttonTop" type="submit"
+                onClick={() => this.setState({ updateModalShow: true })}>
+                Update Service
+              </Button>
+
+
+              <Modal
+              show={this.state.updateModalShow}
+              autoFocus="true"
+              fade={false}
+              onHide={this.onHide}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Update Service
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <UpdateAgricultureService agricultureservice={agricultureservice} drone_id={this.state.drone_id}/>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.onHide}>Close</Button>
+              </Modal.Footer>
+            </Modal>
+
+           {/*<Button
+                className="btn btn-primary" type="submit"
+                onClick={e => this.updateService(e,agricultureservice)}>
+                Update Service
+           </Button>*/}
+              <Button
+                className="btn btn-primary" type="submit"
+                onClick={e => this.deleteService(e,agricultureservice.service_id)}>
+                Delete Service
+              </Button>
+             
+           </Card></Col>
     )
     
   })}
@@ -83,14 +190,14 @@ const {agricultureservices,loading} = this.props.droneState;
           </div>
         </div>
         <div className=" container">
-          <div className="container">
             <div>
-            <table class="table table-hover">
+            {/*<table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Basecost</th>
       <th scope="col">Description</th>
+      <th scope="col">Service Type</th>
       <th></th>
       <th></th>
     </tr>
@@ -98,8 +205,8 @@ const {agricultureservices,loading} = this.props.droneState;
   <tbody>
               {serviceContent}
               </tbody>
-              </table>
-            </div>
+    </table>*/}
+   <Row> {serviceContent}</Row> 
           </div>
           </div>
       </div>

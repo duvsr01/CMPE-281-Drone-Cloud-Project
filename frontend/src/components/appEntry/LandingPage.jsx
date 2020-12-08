@@ -14,8 +14,8 @@ class LandingPage extends Component {
               {/* <div  styles={{backgroundImage: `url(${drone_image})`}}></div> */}
                  <img
                   src={agriculturaldrones}
-                  width="800"
-                  height="500"
+                  width="900"
+                  height="700"
                   alt="avatar"
                 /> 
              
@@ -26,12 +26,12 @@ class LandingPage extends Component {
 
         <div className="col-md-6 p-0 bg-white h-md-100 loginarea">
           <div className="d-md-flex align-items-right h-md-100 p-5 justify-content-center">
-            <div className="container border rounded p-5">
-              <div className="container">
+            <div className="container rounded p-5">
+              <div className="container border-black">
                 <span>
                   <br />
                   <div>
-                    <h4 className="text-center text-success">Drone Cloud Platform</h4>
+                    <h2 className="text-center text-success">Drone Cloud Platform</h2>
                   </div>
                 </span>
               </div>

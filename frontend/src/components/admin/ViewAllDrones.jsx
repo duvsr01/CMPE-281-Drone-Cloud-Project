@@ -30,7 +30,7 @@ class ViewAllDrones extends Component {
   else{
   droneContent = drones.map((drone,index)=>{
     return(
-        <Col key={index} sm={5}>
+        <Col key={index} sm={6}>
         <DroneCard drone={drone} />
       </Col>)
     
@@ -38,7 +38,7 @@ class ViewAllDrones extends Component {
 
     
     return (
-       <div style={{ height: "75vh" }} className="container valign-wrapper">
+       <div style={{ height: "75vh" }}>
         <div className="row">
           <div className="col s12 center-align background blue">
             <h2 className="text-center text-white font-italic font-family-sans-serif">
@@ -60,7 +60,6 @@ class ViewAllDrones extends Component {
 
 
 ViewAllDrones.propTypes={
-  errors: PropTypes.object.isRequired,
   drones:PropTypes.array,
 }
 const mapStateToProps =(state)=>({

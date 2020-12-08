@@ -6,6 +6,9 @@ module.exports = {
       user: "admin",
       password: "cmpe281admin",
       database: "cmpe281"
-   }
+   },
+   mongoURI:
+   "mongodb+srv://admin:cmpe281admin@cmpe281cluster.qplhe.mongodb.net/cmpe281",
+
   };
   
