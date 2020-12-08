@@ -108,7 +108,7 @@ class CreateAgricultureService extends Component {
     
           this.props.createAgricultureService(data);
 
-          setTimeout(() => {   this.props.history.push("/main/adminservicecatalog",drone_id); }, 1000);
+          setTimeout(() => {   this.props.history.push("/main/adminservicecatalog",this.props.location.state); }, 1000);
         }
         
       };

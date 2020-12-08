@@ -13,7 +13,8 @@ class UpdateAgricultureService extends Component {
           description: "",
           basecost: "",
           service_id: "",
-          servicetype:""
+          servicetype:"",
+          drone_id:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +27,8 @@ class UpdateAgricultureService extends Component {
                 name:service.name,
                 description:service.description,
                 basecost:service.basecost,
-                servicetype:service.servicetype
+                servicetype:service.servicetype,
+                drone_id:this.props.drone_id
               })
         )
     }
@@ -55,6 +57,10 @@ class UpdateAgricultureService extends Component {
           };
     
           this.props.updateAgricultureService(data);
+
+          window.location.reload();
+
+          //setTimeout(() => { this.props.history.push("/main/adminservicecatalog",this.state.drone_id); }, 1000);
 
         
       };

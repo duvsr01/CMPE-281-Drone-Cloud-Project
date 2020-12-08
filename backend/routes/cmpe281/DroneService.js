@@ -115,7 +115,7 @@ router.put('/updatedrone',uploadS3.single('image'),(req,res) =>{
         drone.image = drone.imageUrl;
     }
 
-    db.query(('UPDATE drone SET name=?,size=?,type=?,description=?,hardwarespecs =?,softwarespecs=?,image=?,wingspan=?, weight=?,flightaltitude=?,battery=?,camera=?,flighttime=?,flightrange=?,flightspeed=?,flightplanningsoftware=?,imagesoftware=?,powerconsumption=? where drone_id = ?'),[drone.name,drone.size,drone.type,drone.description,drone.hardwarespecs,drone.softwarespecs,drone.image,drone.wingspan,drone.weight,drone.battery,drone.camera,drone.flighttime,drone.flightrange,drone.flightaltitude,drone.flightspeed,drone.flightplanningsoftware,drone.imagesoftware,drone.powerconsumption,drone.id],function(error,results){
+    db.query(('UPDATE drone SET name=?,size=?,type=?,description=?,hardwarespecs =?,softwarespecs=?,image=?,wingspan=?, weight=?,battery=?,camera=?,flighttime=?,flightrange=?,flightaltitude=?,flightspeed=?,flightplanningsoftware=?,imagesoftware=?,powerconsumption=? where drone_id = ?'),[drone.name,drone.size,drone.type,drone.description,drone.hardwarespecs,drone.softwarespecs,drone.image,drone.wingspan,drone.weight,drone.battery,drone.camera,drone.flighttime,drone.flightrange,drone.flightaltitude,drone.flightspeed,drone.flightplanningsoftware,drone.imagesoftware,drone.powerconsumption,drone.id],function(error,results){
         if(error) throw error;
         //res.end(JSON.stringify(results));
     })

@@ -174,9 +174,10 @@ class DroneCatalog extends Component {
               <div class="row justify-content-center">
                   <div class="col-md-8">
                           <div class="card">
-                              <div class="card-header">Create Drone</div>
+                              <div class="card-header"><h5>Create Drone</h5></div>
                               <div class="card-body">
                               <Form>
+              
               
             
                 <Form.Group controlId="name">
@@ -189,6 +190,7 @@ class DroneCatalog extends Component {
                     placeholder="Name"
                     required
                   />
+                 
                     {this.state.formErrors.nameError ? (
                 <div style={{ fontSize: 12, color: "red" }}>
                   {this.state.formErrors.nameError}
@@ -197,7 +199,7 @@ class DroneCatalog extends Component {
                   </Form.Group>
 
                   <Form.Group controlId="type">
-            <Form.Label>Type: </Form.Label>
+            <Form.Label>Type </Form.Label>
             <Form.Control as="select" name="type" custom onChange={this.handleChange} value={this.state.type}>
               <option value="datacollection">Data Collection</option>
               <option value="spreading">Agriculture Spreading</option>
@@ -242,16 +244,18 @@ class DroneCatalog extends Component {
 
                   <Form.Group controlId="image">
                   <Form.Label>Upload Image</Form.Label>
-                  <Form.Control
+
+                 <Form.Control
                     name="image"
                     type="file"
                     accept=".jpeg,.jpg,.png"
                     onChange={(e) => this.handleImageChange(e)}
-                  /></Form.Group>
+                  />
+                  </Form.Group>
 
                   <hr/>
 
-                  <span>Hardware Specifications</span>
+                  <b>Hardware Specifications</b>
 
                   <Form.Group controlId="wingspan">
                   <Form.Label>Wingspan</Form.Label>
@@ -297,7 +301,22 @@ class DroneCatalog extends Component {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="flighttime">
+               
+                <Form.Group controlId="powerconsumption">
+                  <Form.Label>Power Consumption</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="powerconsumption"
+                    value={this.state.powerconsumption}
+                    onChange={this.handleChange}
+                    placeholder="Power Consumption"
+                  />
+                </Form.Group>
+
+                <hr/>
+                <span><b>Flight Parameters</b></span>
+
+                 <Form.Group controlId="flighttime">
                   <Form.Label>Flight Time</Form.Label>
                   <Form.Control
                     type="text"
@@ -336,26 +355,15 @@ class DroneCatalog extends Component {
                   <Form.Control
                     type="text"
                     name="flightspeed"
-                    value={this.state.flightrflightspeed}
+                    value={this.state.flightspeed}
                     onChange={this.handleChange}
                     placeholder="Flight Speed"
                   />
                 </Form.Group>
 
-                <Form.Group controlId="powerconsumption">
-                  <Form.Label>Power Consumption</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="powerconsumption"
-                    value={this.state.powerconsumption}
-                    onChange={this.handleChange}
-                    placeholder="Power Consumption"
-                  />
-                </Form.Group>
-
                 <hr/>
 
-                <span>Software Specifications</span>
+                <span><b>Software Specifications</b></span>
 
                 <Form.Group controlId="flightplanningsoftware">
                   <Form.Label>Flight Planning Software</Form.Label>

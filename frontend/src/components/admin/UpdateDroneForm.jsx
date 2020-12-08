@@ -190,6 +190,8 @@ class UpdateDroneForm extends Component {
     
          this.props.updateDrone(data);
 
+         window.location.reload();
+
         }    
       };
 
@@ -294,7 +296,7 @@ class UpdateDroneForm extends Component {
 
                   <hr/>
 
-                  <span>Hardware Specifications</span>
+                  <span><b>Hardware Specifications</b></span>
 
                   <Form.Group controlId="wingspan">
                   <Form.Label>Wingspan</Form.Label>
@@ -340,6 +342,20 @@ class UpdateDroneForm extends Component {
                   />
                 </Form.Group>
 
+                <Form.Group controlId="powerconsumption">
+                  <Form.Label>Power Consumption</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="powerconsumption"
+                    value={this.state.powerconsumption}
+                    onChange={this.handleChange}
+                    placeholder="Power Consumption"
+                  />
+                </Form.Group>
+
+                <hr/>
+                <span><b>Flight Parameters</b></span>
+
                 <Form.Group controlId="flighttime">
                   <Form.Label>Flight Time</Form.Label>
                   <Form.Control
@@ -379,26 +395,17 @@ class UpdateDroneForm extends Component {
                   <Form.Control
                     type="text"
                     name="flightspeed"
-                    value={this.state.flightrflightspeed}
+                    value={this.state.flightspeed}
                     onChange={this.handleChange}
                     placeholder="Flight Speed"
                   />
                 </Form.Group>
 
-                <Form.Group controlId="powerconsumption">
-                  <Form.Label>Power Consumption</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="powerconsumption"
-                    value={this.state.powerconsumption}
-                    onChange={this.handleChange}
-                    placeholder="Power Consumption"
-                  />
-                </Form.Group>
+             
 
                 <hr/>
 
-                <span>Software Specifications</span>
+                <span><b>Software Specifications</b></span>
 
                 <Form.Group controlId="flightplanningsoftware">
                   <Form.Label>Flight Planning Software</Form.Label>
