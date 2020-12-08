@@ -18,7 +18,8 @@ class AdminAgricultureServiceCatalog extends Component {
     name:"",
     servicetype:"",
     dronetype:"",
-    updateModalShow:false
+    updateModalShow:false,
+    drone_id:""
   }
 
   
@@ -28,16 +29,16 @@ class AdminAgricultureServiceCatalog extends Component {
 
 
     const dronedetails = this.props.location.state;
-    var drone_id;
+    //var drone_id;
 
     [dronedetails].map(dronedetails => 
 
-      drone_id = dronedetails.drone_id,
+      this.state.drone_id = dronedetails.drone_id,
       this.state.dronetype = dronedetails.type
       )
 
     const params = {
-        id : drone_id
+        id : this.state.drone_id
       };
     this.props.getAgricultureServicesByDroneId(params);
   }
@@ -155,7 +156,7 @@ const {agricultureservices,loading} = this.props.droneState;
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <UpdateAgricultureService agricultureservice={agricultureservice}/>
+                <UpdateAgricultureService agricultureservice={agricultureservice} drone_id={this.state.drone_id}/>
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={this.onHide}>Close</Button>
