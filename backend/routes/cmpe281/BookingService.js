@@ -62,7 +62,7 @@ const db=config.db;
     //GET ALL THE SERVICE REQUESTS PLACED BY ALL USER TO DISPLAY AT ADMIN SIDE
     router.get('/getServiceRequests',(req,res) =>{
         try{
-        db.query('select  r.request_id request_id,u.displayName userName,d.name droneName,d.status droneStatus,s.name serviceName,r.service_date serviceDate,r.session_time serviceTime,r.no_of_sessions serviceSessionNumber,r.service_totalcost serviceTotalCost,r.request_status request_status from cmpe281.request r join cmpe281.drone d on r.drone_id=d.drone_id join cmpe281.service s on r.service_id=s.service_id join cmpe281.user u on r.email=u.email'
+        db.query('select  r.request_id request_id,u.displayName userName,d.name droneName,d.status droneStatus,s.name serviceName,r.service_date serviceDate,r.service_startdate service_startdate,r.service_enddate service_enddate,r.session_time serviceTime,r.no_of_sessions serviceSessionNumber,r.service_totalcost serviceTotalCost,r.request_status request_status from cmpe281.request r join cmpe281.drone d on r.drone_id=d.drone_id join cmpe281.service s on r.service_id=s.service_id join cmpe281.user u on r.email=u.email order by r.request_id desc'
         ,["Approved","Rejected"]
         ,function(error,results){
             if(error) throw error;
