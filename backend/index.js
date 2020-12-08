@@ -52,6 +52,7 @@ const DroneService = require("./routes/cmpe281/DroneService");
 const DashboardService = require("./routes/cmpe281/DashboardService");
 const BookingService = require("./routes/cmpe281/BookingService");
 const AgricultureService = require("./routes/cmpe281/AgricultureService");
+const BillingService = require("./routes/cmpe281/BillingService");
 const OrderService = require("./routes/cmpe281/OrderService");
 const TrackingService = require("./routes/cmpe281/TrackingService");
 
@@ -67,6 +68,7 @@ app.use("/cmpe281/dashboard",DashboardService);
 app.use("/cmpe281/booking",BookingService);
 app.use("/cmpe281/orders", OrderService);
 app.use("/cmpe281/agriservices",AgricultureService);
+app.use("/cmpe281/billing",BillingService);
 app.use("/cmpe281/tracking",TrackingService);
 
 

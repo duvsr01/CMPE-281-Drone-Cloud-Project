@@ -11,6 +11,7 @@ import AdminAgricultureServiceCatalog from "../admin/AdminAgricultureServiceCata
 import CustomerAgricultureServiceCatalog from "../Customer/CustomerAgricultureServiceCatalog";
 import CreateAgricultureService from "../admin/CreateAgricultureService";
 import UpdateAgricultureService  from "../admin/UpdateAgricultureService";
+import BillingView from "../Home/BillingView";
 import ReviewServiceRequests  from "../BookingService/ReviewServiceRequests";
 import Account from "../Account/Account";
 import MyOrders from "../Orders/MyOrders";
@@ -54,6 +55,7 @@ class Main extends Component {
             <Route path="/main/dashboardDroneView" component={DashboardDroneView}/> 
             <Route path="/main/dashboardRequestsView" component={DashboardRequestsView}/> 
             <Route path="/main/dashboardUsersView" component={DashboardUsersView}/> 
+            <Route path="/main/customer/billing" component={BillingView}/> 
             <Route path="/main/customer/tracking" component={userTracking}/>
             <Route path="/main/dashboardDroneLiveDataView" component={DashboardDroneLiveDataView}/>
           </Switch>
