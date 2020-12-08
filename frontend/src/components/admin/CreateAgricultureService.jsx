@@ -17,9 +17,54 @@ class CreateAgricultureService extends Component {
           servicetype:"",
           text: null,
           formErrors: {},
+          serviceTypeList:[],
+          drone_id:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount(){
+      const dronedetails = this.props.location.state;
+      console.log("dronedetails: " , dronedetails);
+      var drone_id = dronedetails.drone_id;
+      var dronetype = dronedetails.type;
+      console.log("dronedetails : " , {drone_id,dronetype});
+
+    /*}  [dronedetails].map(dronedetails => 
+        //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
+        
+        dronetype = dronedetails.type,
+        drone_id = dronedetails.drone_id
+    )*/
+
+      var serviceTypeList;
+
+      if(dronetype === "datacollection") {
+        serviceTypeList = [
+          { value: 'cropmapping', name: 'Crop Mapping and Surveying' },     
+          { value: 'analysis', name: 'Soil and field analysis' },           
+        ]; 
+      } else if(dronetype === "spraying") {
+        serviceTypeList = [
+          { value: 'cropspraying', name: 'Crop Spraying and Spot Spraying' },           
+        ];
+      } else if(dronetype === "spreading") {
+        serviceTypeList = [
+          { value: 'seedplanting', name: 'Seed Planting' },           
+        ];
+      } else if(dronetype === "monitoring") {
+        serviceTypeList = [
+          { value: 'irrigationmonitoring', name: 'Irrigation Monitoring and Management' },     
+          { value: 'liverstock', name: 'Real time livestock monitoring' },           
+        ]; 
+      }
+
+      this.setState({
+        serviceTypeList,
+        servicetype:serviceTypeList[0].value,
+        drone_id
+      })
     }
 
     componentDidUpdate(prevProps) {
@@ -35,6 +80,12 @@ class CreateAgricultureService extends Component {
         }
       }
     }
+
+    serviceTypeChange = (e) => {
+      this.setState({
+        servicetype: e.target.value,
+      });
+    };
 
     validate = () => {
   
@@ -116,38 +167,7 @@ class CreateAgricultureService extends Component {
       render() {
         const { text, errors } = this.state;
 
-        const dronedetails = this.props.location.state;
-        var drone_id;
-        var dronetype;
-
-        [dronedetails].map(dronedetails => 
-          //imageuri ="data:image/png[jpg][jpeg];base64," + dronedetails.image,
-          
-          dronetype = dronedetails.type,
-          drone_id = dronedetails.drone_id
-          )
-
-        var serviceTypeList;
-
-        if(dronetype === "datacollection") {
-          serviceTypeList = [
-            { value: 'cropmapping', name: 'Crop Mapping and Surveying' },     
-            { value: 'analysis', name: 'Soil and field analysis' },           
-          ]; 
-        } else if(dronetype === "spraying") {
-          serviceTypeList = [
-            { value: 'cropspraying', name: 'Crop Spraying and Spot Spraying' },           
-          ];
-        } else if(dronetype === "spreading") {
-          serviceTypeList = [
-            { value: 'seedplanting', name: 'Seed Planting' },           
-          ];
-        } else if(dronetype === "monitoring") {
-          serviceTypeList = [
-            { value: 'irrigationmonitoring', name: 'Irrigation Monitoring and Management' },     
-            { value: 'liverstock', name: 'Real time livestock monitoring' },           
-          ]; 
-        }
+        
 
     
         return (
@@ -196,8 +216,8 @@ class CreateAgricultureService extends Component {
 
                   <Form.Group controlId="servicetype">
             <Form.Label>Service Type: </Form.Label>
-            <Form.Control as="select" name="servicetype" custom onChange={this.handleChange} value={this.state.servicetype}>
-            {serviceTypeList.map((e, key) => {
+            <Form.Control as="select" name="servicetype" custom onChange={this.serviceTypeChange} value={this.state.servicetype}>
+            {this.state.serviceTypeList.map((e, key) => {
         return <option key={key} value={e.value}>{e.name}</option>;
     })} 
             </Form.Control> 
@@ -223,7 +243,7 @@ class CreateAgricultureService extends Component {
               
               <Button
                 className="btn btn-primary" type="submit"
-                onClick={e => this.handleSubmit(e,drone_id)}>
+                onClick={e => this.handleSubmit(e,this.state.drone_id)}>
                 Create Agriculture Service
               </Button>
               <br />
