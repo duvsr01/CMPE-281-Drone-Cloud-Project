@@ -31,7 +31,7 @@ class CustomerHome extends Component {
   else{
   droneContent = drones.map((drone,index)=>{
     return(
-        <Col key={index} sm={5}>
+        <Col key={index} md={6}>
         <DroneCard drone={drone} />
       </Col>)
     
@@ -51,7 +51,7 @@ class CustomerHome extends Component {
         <div className=" container">
           <div className="container">
             <div>
-              <Row>{droneContent}</Row>
+              <Row width="90%">{droneContent}</Row>
             </div>
           </div>
           </div>
