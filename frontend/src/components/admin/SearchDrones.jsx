@@ -63,12 +63,23 @@ class SearchDrones extends Component {
         })}
 
         return (
-          <div class="container">
-          <div class="row justify-content-center">
-              <div class="col-md-8">
-                      <div class="card">
-                          <div class="card-header">Search Drones</div>
-                          <div class="card-body">
+          <div style={{ height: "75vh" }}>
+
+ 
+
+              <div className="row">
+                <div className="col s12 center-align background blue">
+                <h2 className="text-center text-white font-italic font-family-sans-serif">
+                  Search Drones
+                </h2>
+                </div>   
+              </div>
+                        
+              <div className="container border ">
+              <div class="row justify-content-center">
+                  <div class="col-md-12"> 
+                  <br/>
+                  <h5>          
             <Form>
                
                 <Form.Group controlId="name">
@@ -110,17 +121,13 @@ class SearchDrones extends Component {
               <p className="text-success"> {text}</p>
               <br />
             </Form>
+            </h5>
             </div>
-                          </div>
-                  </div>
-              </div>
-
+            </div>
+            </div>
               <div className="container">
            <div>
-
-             
-             
-             <Row style={{margin: "50px"}}>{droneContent}</Row>
+           <Row style={{margin: "50px"}}>{droneContent}</Row>
            </div>
           </div>
           </div>

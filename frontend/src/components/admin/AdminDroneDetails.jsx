@@ -236,60 +236,7 @@ handleChange = (e) => {
         
         {[dronedetails].map(dronedetails => <div>
 
-          <div className="buttonDiv">
-
-          <Button
-                style={{margin: "30px"}}
-                className="btn btn-primary buttonTop" type="submit"
-                onClick={() => this.setState({ modalShow: true })}>
-                Update Drone
-              </Button>
-
-
-              <Modal
-              show={this.state.modalShow}
-              autoFocus="true"
-              fade={false}
-              onHide={this.onHide}
-              size="lg"
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-            >
-              <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                  Update Drone
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <UpdateDroneForm drone={dronedetails} drone_id={dronedetails.drone_id}/>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={this.onHide}>Close</Button>
-              </Modal.Footer>
-            </Modal>
-
-          <Button
-                style={{margin: "30px"}}
-                className="btn btn-primary buttonTop" type="submit"
-                onClick={e => this.handleDeleteDrone(e,droneidparam)}>
-                Remove Drone
-              </Button>
-
-              <Button
-                style={{margin: "30px"}}
-                className="btn btn-primary buttonTop" type="submit"
-                onClick={(e) => this.handleAgricultureServices(e,dronedetails)}>
-                View Services
-              </Button>
-
-              <Button
-                style={{margin: "30px"}}
-                className="btn btn-primary buttonTop" type="submit"
-                onClick={(e) => this.createAgricultureService(e,dronedetails)}>
-                Create Service
-              </Button>
-              
-              </div>
+         
           <Accordion>
         <Card className="m-1 border-0 shadow">
          
@@ -311,15 +258,74 @@ handleChange = (e) => {
              <h5><b>{dronedetails.description}</b></h5>
           </Card.Text>
           </Col>
+          <div className="buttonDiv">
+
+<Button
+      style={{margin: "30px"}}
+      className="btn btn-primary buttonTop" type="submit"
+      onClick={() => this.setState({ modalShow: true })}>
+     <b> Update Drone</b>
+    </Button>
+
+
+    <Modal
+    show={this.state.modalShow}
+    autoFocus="true"
+    fade={false}
+    onHide={this.onHide}
+    size="lg"
+    aria-labelledby="contained-modal-title-vcenter"
+    centered
+  >
+    <Modal.Header closeButton>
+      <Modal.Title id="contained-modal-title-vcenter">
+        Update Drone
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <UpdateDroneForm drone={dronedetails} drone_id={dronedetails.drone_id}/>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button onClick={this.onHide}>Close</Button>
+    </Modal.Footer>
+  </Modal>
+
+
+
+    <Button
+      style={{margin: "30px"}}
+      className="btn btn-primary buttonTop" type="submit"
+      onClick={(e) => this.handleAgricultureServices(e,dronedetails)}>
+     <b> View Services</b>
+    </Button>
+
+    <Button
+      style={{margin: "30px"}}
+      className="btn btn-primary buttonTop" type="submit"
+      onClick={(e) => this.createAgricultureService(e,dronedetails)}>
+     <b> Create Service</b>
+    </Button>
+
+    <Button
+      style={{margin: "30px"}}
+      className="btn btn-danger buttonTop" type="submit"
+      onClick={e => this.handleDeleteDrone(e,droneidparam)}>
+      <b>Remove Drone</b>
+    </Button>
+    
+    </div>
+
+
           </Row>
+
 
           </Card.Body>
           </Card>
 
             <Card>
               <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                <h5 className="text-bold text-info"> Hardware Specifications</h5>
+                <Accordion.Toggle as={Button} variant="link"  eventKey="0">
+                <h5 className="text-bold text-dark "><u> Hardware Specifications</u></h5>
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
@@ -336,7 +342,7 @@ handleChange = (e) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                <h5 className="text-bold text-info"> Flight Parameters</h5>
+                <h5 className="text-bold text-dark"><u> Flight Parameters</u></h5>
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="1">
@@ -352,7 +358,7 @@ handleChange = (e) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                <h5 className="text-bold text-info"> Software Specifications</h5>
+                <h5 className="text-bold text-dark"><u> Software Specifications</u></h5>
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="2">

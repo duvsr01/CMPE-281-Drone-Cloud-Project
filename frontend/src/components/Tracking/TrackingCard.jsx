@@ -32,8 +32,8 @@ componentDidMount(){
     console.log("the tracking detials are"+this.props.drone);
     let drone=this.props.drone;
     return(
-      <Card style={{ width: '50rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+      <Card style={{ width: '25rem' }}>
+      {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
       <Card.Body>
       <Card.Title>Drone Name : {drone.drone_name}</Card.Title>
         <Card.Text>

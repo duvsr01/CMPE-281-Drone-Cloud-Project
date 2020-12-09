@@ -7,9 +7,6 @@ class AdminHome extends Component {
     
     return (
       <div>
-         <br/>
-        <br/>
-        <br/>
        <ViewAllDrones />
       </div>
     );

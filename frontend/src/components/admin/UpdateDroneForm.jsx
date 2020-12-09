@@ -229,9 +229,9 @@ class UpdateDroneForm extends Component {
         return (
           <div class="container">
              
-                              <Form>
-              
-            
+                <h5>
+                <div><b>Drone Details</b></div><br/>
+                <Form>
                 <Form.Group controlId="name">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
@@ -316,7 +316,7 @@ class UpdateDroneForm extends Component {
 
                   <hr/>
 
-                  <span><b>Hardware Specifications</b></span>
+                  <div><b>Hardware Specifications</b></div><br/>
 
                   <Form.Group controlId="wingspan">
                   <Form.Label>Wingspan</Form.Label>
@@ -374,7 +374,7 @@ class UpdateDroneForm extends Component {
                 </Form.Group>
 
                 <hr/>
-                <span><b>Flight Parameters</b></span>
+                <div><b>Flight Parameters</b></div><br/>
 
                 <Form.Group controlId="flighttime">
                   <Form.Label>Flight Time</Form.Label>
@@ -425,7 +425,7 @@ class UpdateDroneForm extends Component {
 
                 <hr/>
 
-                <span><b>Software Specifications</b></span>
+                <div><b>Software Specifications</b></div><br/>
 
                 <Form.Group controlId="flightplanningsoftware">
                   <Form.Label>Flight Planning Software</Form.Label>
@@ -482,7 +482,7 @@ class UpdateDroneForm extends Component {
               <p className="text-danger"> {errors}</p>
               <p className="text-success"> {text}</p>
               <br />
-            </Form>
+            </Form></h5>
                               
           </div>
       

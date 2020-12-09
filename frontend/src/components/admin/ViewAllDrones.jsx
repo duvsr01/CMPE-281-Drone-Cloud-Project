@@ -46,14 +46,13 @@ class ViewAllDrones extends Component {
             </h2>
           </div>
         </div>
-        <div className=" container">
           <div className="container">
             <div>
               <Row>{droneContent}</Row>
             </div>
           </div>
           </div>
-      </div>
+  
     );
   }
 }

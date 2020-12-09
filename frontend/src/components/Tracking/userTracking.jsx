@@ -41,7 +41,7 @@ class userTracking extends Component {
     trackingContent = drones.map((drone,droneIndex)=>{
         console.log("drone details are : "+drone);
         return (
-          <Col key={droneIndex} sm={6}>
+          <Col key={droneIndex} sm={5}>
             <TrackingCard drone={drone}  />
           </Col>
         );

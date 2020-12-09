@@ -58,7 +58,7 @@ class DroneCard extends Component {
        <h5> {drone.description}</h5>
     </Card.Text>
     <Button variant="primary" type="submit" 
-                onClick={() => this.handleSubmit(drone.drone_id)}>Details</Button>
+                onClick={() => this.handleSubmit(drone.drone_id)}><b>Details</b></Button>
     </Card.Body>
     </Card>
     );

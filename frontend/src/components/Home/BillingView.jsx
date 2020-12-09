@@ -69,6 +69,7 @@ export default class BillingView extends Component {
   	]
 	
 		return ( 
+			
 				<ReactTable  
       data={this.state.users}  
       columns={columns}  
@@ -94,8 +95,8 @@ function getTableContent(arr) {
 		   return item.map(function (nextItem, j) {
 			 return (
 				<tr key={nextItem.type}>
-				   <td>{nextItem.request_id}</td>
-				   <td>{nextItem.totalcost}</td>
+				   <td><b>{nextItem.request_id}</b></td>
+				   <td><b>{nextItem.totalcost}</b></td>
 				</tr>
 			 );
 		   })
@@ -103,9 +104,9 @@ function getTableContent(arr) {
 		return arr.map(function (item, i) {
 			return (
 				<table key="billingabc">
-				<thead>{item.request_id}</thead>
+				<thead><b>{item.request_id}</b></thead>
 					<tbody>
-						{iterateItem(item)}
+					<h5>	{iterateItem(item)}</h5>
 					</tbody>
 				</table>
 			);
@@ -174,9 +175,17 @@ function GetRequestHooks() {
         </div>
 	}
     return (
-        <div className="card text-center m-3">
+		<div  style={{ height: "75vh" }} >
+		<div className="row">
+		<div className="col s12 center-align background blue">
+		<h2 className="text-center text-white font-italic font-family-sans-serif">
+		  Billing View
+		</h2>
+		</div>   
+	  </div>
+        <div className="card text-center m-3">			
         {getTableContent(tableData)}
-
+		</div>
         </div>
     );
 

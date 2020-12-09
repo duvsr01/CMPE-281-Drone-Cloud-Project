@@ -112,24 +112,21 @@ const {agricultureservices,loading} = this.props.droneState;
               </Button></td>
        </tr>*/
         <Col>
-       <Card bg="white" style={{ width: "25rem" , margin: "2rem"}}>
+       <Card bg="white" style={{ width: "30rem" , margin: "1rem"}}>
       {/*} <Card.Img variant="top"/>*/}
           {/* <Card.Body><Card.Img variant="top" src={this.props.product.imageURL} /> */}
            <Col>
-             <Card.Title> <b>Service Name: {agricultureservice.name} </b></Card.Title>
-             <Card.Text>
-               <b>Description: </b>
-               {agricultureservice.description}
+             <Card.Title> Service Name: {agricultureservice.name} </Card.Title>
+             <h5><Card.Text>
+               Description: {agricultureservice.description}
              </Card.Text>
              <Card.Text>
-               <b>Basecost: </b>${agricultureservice.basecost}  
+               Basecost: ${agricultureservice.basecost}  
              </Card.Text>
 
              <Card.Text>
-               <b>Service Type: </b>{servicetypename}  
-             </Card.Text>
-            
-            
+               Service Type: {servicetypename}  
+             </Card.Text></h5> 
            </Col>
            <br/>
 
@@ -137,7 +134,7 @@ const {agricultureservices,loading} = this.props.droneState;
                 style={{margin: "30px"}}
                 className="btn btn-primary buttonTop" type="submit"
                 onClick={() => this.setState({ updateModalShow: true })}>
-                Update Service
+               <h6> Update Service</h6>
               </Button>
 
 
@@ -168,10 +165,11 @@ const {agricultureservices,loading} = this.props.droneState;
                 onClick={e => this.updateService(e,agricultureservice)}>
                 Update Service
            </Button>*/}
+           
               <Button
-                className="btn btn-primary" type="submit"
+                className="btn btn-danger" type="submit"
                 onClick={e => this.deleteService(e,agricultureservice.service_id)}>
-                Delete Service
+               <h6> Delete Service</h6>
               </Button>
              
            </Card></Col>
@@ -181,7 +179,7 @@ const {agricultureservices,loading} = this.props.droneState;
 
     
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
+      <div style={{ height: "75vh" }} >
         <div className="row">
           <div className="col s12 center-align background blue">
             <h2 className="text-center text-white font-italic font-family-sans-serif">
