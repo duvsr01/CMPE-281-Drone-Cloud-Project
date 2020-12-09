@@ -181,18 +181,25 @@ class DroneCatalog extends Component {
         const { text, errors } = this.state;
     
         return (
-          <div class="container">
+          <div  style={{ height: "75vh" }} >
+
+              <div className="row">
+                <div className="col s12 center-align background blue">
+                <h2 className="text-center text-white font-italic font-family-sans-serif">
+                  Create Drone
+                </h2>
+                </div>   
+              </div>
+              <br/>
+              <div className="container border dark">
               <div class="row justify-content-center">
-                  <div class="col-md-8">
-                          <div class="card">
-                              <div class="card-header"><h5>Create Drone</h5></div>
-                              <div class="card-body">
-                              <Form>
-              
-              
-            
-                <Form.Group controlId="name">
-                  <Form.Label>Name</Form.Label>
+                  <div class="col-md-12"> 
+                  <br/>
+                  <h5> 
+                 <div> <b>Drone Details </b> </div><br/>
+                     <Form>
+               <Form.Group controlId="name">
+                  <Form.Label> Drone Name</Form.Label>
                   <Form.Control
                     name="name"
                     type="text"
@@ -207,7 +214,7 @@ class DroneCatalog extends Component {
                   {this.state.formErrors.nameError}
                 </div>
               ) : null}
-                  </Form.Group>
+                  </Form.Group> 
 
                   <Form.Group controlId="type">
             <Form.Label>Type </Form.Label>
@@ -277,7 +284,7 @@ class DroneCatalog extends Component {
 
                   <hr/>
 
-                  <b>Hardware Specifications</b>
+                 <div> <b>Hardware Specifications</b></div><br/>
 
                   <Form.Group controlId="wingspan">
                   <Form.Label>Wingspan</Form.Label>
@@ -336,7 +343,7 @@ class DroneCatalog extends Component {
                 </Form.Group>
 
                 <hr/>
-                <span><b>Flight Parameters</b></span>
+               <div> <span><b>Flight Parameters</b></span></div><br/>
 
                  <Form.Group controlId="flighttime">
                   <Form.Label>Flight Time</Form.Label>
@@ -385,7 +392,7 @@ class DroneCatalog extends Component {
 
                 <hr/>
 
-                <span><b>Software Specifications</b></span>
+                <div><span><b>Software Specifications</b></span></div><br/>
 
                 <Form.Group controlId="flightplanningsoftware">
                   <Form.Label>Flight Planning Software</Form.Label>
@@ -442,9 +449,9 @@ class DroneCatalog extends Component {
               <p className="text-danger"> {errors}</p>
               <p className="text-success"> {text}</p>
               <br />
-            </Form>
-                              </div>
-                          </div>
+            </Form></h5>
+            </div>
+                           
                   </div>
               </div>
           </div>

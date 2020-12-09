@@ -102,7 +102,7 @@ class OrderItem extends Component {
                 type="button"
                 className="btn btn-light mr-1"
               >
-               <h5 className="text-danger"><i className=" fa fa-remove" /></h5>
+               <h5 className="text-danger"><i className=" fa fa-trash" /></h5>
               </Button>
              </Card.Body>
              </Card>       

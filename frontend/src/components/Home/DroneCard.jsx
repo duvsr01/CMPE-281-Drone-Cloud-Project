@@ -50,7 +50,7 @@ class DroneCard extends Component {
     imageuri = imageuri.replace(/"/g, '');
    
     return (
-    <Card bg="white" style={{ width: "25rem", margin: "1rem", height: "500px"}}>
+    <Card bg="white" style={{ width: "100%", margin: "1%", height: "500px"}}>
     <Card.Img variant="top" src={imageuri} style={{height: "250px"}}/>
     <Card.Body>
     <Card.Title>{drone.name}</Card.Title>
@@ -58,7 +58,7 @@ class DroneCard extends Component {
        <h5> {drone.description}</h5>
     </Card.Text>
     <Button variant="primary" type="submit" 
-                onClick={() => this.handleSubmit(drone.drone_id)}>Details</Button>
+                onClick={() => this.handleSubmit(drone.drone_id)}><b>Details</b></Button>
     </Card.Body>
     </Card>
     );
