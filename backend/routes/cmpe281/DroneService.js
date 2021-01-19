@@ -15,8 +15,8 @@ const upload  = multer({ storage: multer.memoryStorage() });
 
 
 const s3 = new aws.S3({
-    secretAccessKey: 'cOff+IX4RmOP5f1kBDAVXMj/ABOemsOn8H6HUq0I' ,
-    accessKeyId: 'AKIAIFS5P3LLFSL5KOUQ',
+    secretAccessKey: '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' ,
+    accessKeyId: 'AKIAIJ2JRHC4TLRNKVHA',
     region: 'us-west-1'
 });
 
@@ -47,7 +47,7 @@ const uploadS3 = multer({
     storage: multerS3({
       s3: s3,
       acl: 'public-read',
-      bucket: 'cmpe281bucket',
+      bucket: 'dronebucket',
       metadata: (req, file, cb) => {
         cb(null, {fieldName: file.fieldname})
       },
