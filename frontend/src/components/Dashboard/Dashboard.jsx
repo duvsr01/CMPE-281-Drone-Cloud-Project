@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
 
   constructor() {
     super();
-    this.state = {allDronesLiveData: [], numApprovedRequests: 0, displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: [], allDrones: []};
+    this.state = {totalFlights: [], allDronesLiveData: [], numApprovedRequests: 0, displayAllDrones: false, colors: [], previousOrders: null, ordersPriceChart : [], isAdmin: false, allServicesNames: [], allServicesTotal: [], allServices: {}, allUsers: [], allDrones: []};
   }
 
   componentDidMount = () => {
@@ -192,6 +192,7 @@ class Dashboard extends React.Component {
       .then((res) => {
         var allServices = this.state.allServices;
         console.log("allServices", allServices);
+        var totalFlights = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
         var allRequests = [];
         var chart = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
         var lineChartData = {};
@@ -204,6 +205,7 @@ class Dashboard extends React.Component {
           var name = allServices[o.service_id]['name'];
           var date = new Date(o.service_date);
           var month = date.getMonth();
+          totalFlights[month] += 1;
           if(lineChartData[name] == null){
             lineChartData[name] = new Array(0,0,0,0,0,0,0,0,0,0,0,0);
           }
@@ -238,6 +240,7 @@ class Dashboard extends React.Component {
           a.push(allServices[id]['name']);
           b.push(allServices[id]['total']);
         }
+        console.log("totalflight", totalFlights);
         // console.log("loop", lineChartData['TryThis']);
         var lineData = [];
         var colors = [];
@@ -257,8 +260,9 @@ class Dashboard extends React.Component {
         var servicesLineChart = {};
         servicesLineChart['labels'] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         servicesLineChart['datasets'] = lineData;
-        this.setState({numApprovedRequests: numApprovedRequests, numNewRequests: numNewRequests, colors: colors, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data})
-        console.log("linedata", this.state.lineData[0]);
+        
+        this.setState({ totalFlights: totalFlights, numApprovedRequests: numApprovedRequests, numNewRequests: numNewRequests, colors: colors, allServicesNames: a, allServicesTotal: b, revenueChart: chart, allRequests: allRequests, servicesLineChart: servicesLineChart, allRequestsData: res.data })
+        console.log("state set");
       })
       .catch((err) => {
         console.log(err);
@@ -433,7 +437,7 @@ class Dashboard extends React.Component {
 
 
   render() {
-
+    console.log("allflighst", this.state.totalFlights);
     var dashboardPanelChart = getDashboardPanelChart();
     var barChart = getBarChart();
     var isAdmin = this.state.isAdmin;
@@ -445,6 +449,10 @@ class Dashboard extends React.Component {
           label: ""
         }]
       }
+    }
+    var totalFlightsData = {
+      datasets: this.state.totalFlights,
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     }
     if(!isAdmin){
       dashboardPanelChart.data.datasets[0].data = this.state.ordersPriceChart;
@@ -542,15 +550,50 @@ class Dashboard extends React.Component {
             </Col>
           </Row>
 
+
+          {/* {isAdmin && <Row>
+            <Col>
+              <Card className="card-chart">
+                  <CardHeader style={{textAlign: "center"}}>
+                    <CardTitle tag="h4"><i className="fas fa-file-contract"></i> Flights in the last 12 months</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="chart-area">
+                      <Line
+                        height="100%"
+                        data={
+                          totalFlightsData
+                        }
+                        options={dashboardAllProductsChart.options}
+                      />
+                    </div>
+                  </CardBody>
+                </Card>
+            </Col>
+          </Row>} */}
+
+
           {/* MAP */}
           <Row>  
             <Col md={12}>
-              <div id="droneMap">
+              <Card className="card-chart">
+                  <CardHeader style={{textAlign: "center"}}>
+                    <CardTitle tag="h4"><i style={{color: "green"}} class="fas fa-map-marked-alt"></i> All Drone Locations</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                  {/* <div id="droneMap"> */}
+                    {/* <h3><i style={{color: "green"}} class="fas fa-map-marked-alt"></i> All Drone Locations</h3> */}
+                    {this.state.allDronesLiveData.length != 0 && <DashboardMap data={this.state.allDronesLiveData}/>}
+              {/* </div> */}
+                  </CardBody>
+                </Card>
+              {/* <div id="droneMap">
                     <h3><i style={{color: "green"}} class="fas fa-map-marked-alt"></i> All Drone Locations</h3>
                     {this.state.allDronesLiveData.length != 0 && <DashboardMap data={this.state.allDronesLiveData}/>}
-              </div>
+              </div> */}
             </Col>
           </Row>
+
 
           {/* ALL DRONES */}
           <Row>
@@ -570,7 +613,7 @@ class Dashboard extends React.Component {
                         <th className="text-right">Status</th>
                       </tr>
                     </thead>
-                    <tbody >
+                    <tbody  style={{fontSize: "5em"}}>
                       {this.state.allDrones}
                     </tbody>
                   </Table>
@@ -608,7 +651,7 @@ class Dashboard extends React.Component {
                         </tr>
                       }
                     </thead>
-                    <tbody >
+                    <tbody  style={{fontSize: "5em"}}>
                       {!isAdmin && this.state.previousOrders}
                       {isAdmin && this.state.allUsers}
                     </tbody>
@@ -641,7 +684,7 @@ class Dashboard extends React.Component {
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody >
+                    <tbody style={{fontSize: "5em"}}>
                       {this.state.allRequests}
                     </tbody>
                   </Table>
@@ -670,7 +713,7 @@ class Dashboard extends React.Component {
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody >
+                    <tbody  style={{fontSize: "5em"}}>
                       {this.state.allServicesComponent}
                     </tbody>
                   </Table>

@@ -2,9 +2,26 @@ import React, { Component } from 'react';
 import {Row, Col, Card, CardHeader, CardBody} from 'reactstrap';
 import GaugeChart from 'react-gauge-chart';
 import "../../css/DashboardDroneLiveDataView.css";
+import pesticideImage from "../../common/images/pesticide.svg";
+import waterImage from "../../common/images/water.svg";
 class DashboardDroneLiveDataView extends Component {
     render(){
         var data = this.props.location.state.data;
+        var payloadImage;
+        switch(data.payload_type){
+            case "pesticide":
+                payloadImage = pesticideImage;
+                break;
+            case "water":
+                payloadImage = waterImage;
+                break;
+            default:
+                payloadImage = null;
+        }
+        var divStyle={
+            height: "100%",
+            backgroundImage: "url('" + payloadImage + "')"
+        }
         return (
             <div className="main">
                 <h2>{data.drone_name}</h2>
@@ -53,6 +70,35 @@ class DashboardDroneLiveDataView extends Component {
                             </CardBody>
                         </Card>
                     </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Card>
+                            <CardHeader>
+                                <div className="title">Altitude</div>
+                            </CardHeader>
+                            <CardBody>
+                                <GaugeChart id="speed" 
+                                    nrOfLevels={30} 
+                                    percent={data.altitude / 400} 
+                                    textColor="black"
+                                    formatTextValue={value => (value * 4) + " feet"}
+                                />
+                            </CardBody>
+                        </Card>
+                    </Col> 
+                    <Col>
+                        <Card>
+                            <CardHeader>
+                                <div className="title">Payload type</div>
+                            </CardHeader>
+                            <CardBody>
+                                {/* <div style={divStyle}> */}
+                                <img id="payloadImage" src={payloadImage}/>
+                                {/* </div> */}
+                            </CardBody>
+                        </Card>
+                    </Col>      
                 </Row>
                 <Row>
                     <Col>
