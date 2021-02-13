@@ -43,6 +43,46 @@ router.post("/register", (req, res) => {
     });
     });
 
+
+    //update profile
+    router.post("/updateProfile", (req,res) =>{
+      console.log("update Profile api");
+      console.log("data is "+req.body);
+      const{email,usertype,phone,address1,address2,city,stateName,zip,locality,ranch_name}=req.body;
+
+      //if usertype is client, insert address id in address table and the email and profile info to client table
+      try{
+        db.query('update user set usertype=?, phone=? where email=?',[usertype,phone,email],function(error,result){
+          if(error) throw error;
+        });
+
+        db.query('insert into address(email,address1,address2,city,stateName,zip) values (?,?,?,?,?,?)'
+        ,[email,address1,address2,city,stateName,zip]
+        ,function(error,result){
+          if(error) throw error;
+
+          if(usertype=='customer'){
+            db.query('insert into client(email,address_id,ranch_name,locality) values(?,?,?,?)'
+            ,[email,result.insertId,ranch_name,locality],function(error,result){
+              if(error) throw error;
+            });
+          }
+          if(usertype=='pilot'){
+            db.query('insert into pilot(email,address_id,locality,active_status) values(?,?,?,?)'
+            ,[email,result.insertId,locality,true],function(error,result){
+              if(error) throw error;
+            });
+          }
+          
+        }); 
+       
+      } 
+      catch(error){
+        console.log("Error Occured: "+error);
+      }
+    res.status(200).json(200);
+    });
+    
     // update account
     router.post("/updateAccount", (req,res) =>{
       console.log("update account api");
@@ -58,8 +98,36 @@ router.post("/register", (req, res) => {
         catch(error){
           console.log("Error Occured: "+error);
         }
-      res.status(200).json(200);
+        res.status(200).json(200);
     });
+
+    // Pilot-Drone Mapping
+    router.post("/pilotDroneMapping",async(req,res)=>{
+    const {email,drones}=req.body;
+      console.log("inside pilot-drone mapping api");
+      console.log("email is: "+email);
+      console.log("drones: "+drones);
+      try{
+      if(Array.isArray(drones) && drones.length==0)
+        throw new Error('Drones list is empty');
+      for( id in drones){
+          console.log("the drone_id is "+ drones[id]);
+        await db.query('insert into pilot_drone (email,drone_id) values(?,?)',
+        [email,drones[id]],
+        function(error,result){
+          if(error) throw error;
+        }
+        )       
+      }
+      res.status(200).json(200);
+    }
+    // Handle errors
+      catch(error){
+        console.log("Error occured: "+error);
+        res.status(400).json(400);
+      }
+   
+    })
 
     //Get User Details
     router.post("/getUserDetails", (req,res)=>{
