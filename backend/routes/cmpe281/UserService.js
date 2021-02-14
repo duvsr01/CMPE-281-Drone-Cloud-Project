@@ -44,7 +44,7 @@ router.post("/register", (req, res) => {
     });
 
 
-    //update profile
+    //update profile for customers and pilots
     router.post("/updateProfile", (req,res) =>{
       console.log("update Profile api");
       console.log("data is "+req.body);
@@ -83,7 +83,7 @@ router.post("/register", (req, res) => {
     res.status(200).json(200);
     });
     
-    // update account
+    // update account 
     router.post("/updateAccount", (req,res) =>{
       console.log("update account api");
       console.log("data is "+req.body);
@@ -127,7 +127,79 @@ router.post("/register", (req, res) => {
         res.status(400).json(400);
       }
    
-    })
+    });
+
+    // Update Pilot Availability
+    router.post("/updatePilotAvailability",async(req,res)=>{
+      const{email,slots}=req.body;
+      console.log("Inside pilot availability api ");
+      console.log("email: "+email );
+      //console.log("slots: "+slots );
+      try{
+        if(email == null)
+        throw new Error('Email is empty');
+
+        if(Array.isArray(slots) && slots.length==0)
+        throw new Error("Slots are empty");
+
+        // loop through the slots
+        for(i in slots)
+        {
+         let result= await dbOperation(email,slots[i].day_id,slots[i].session_time_id);
+        // console.log("result is "+JSON.stringify(result));
+        }
+  
+        res.status(200).json(200);  
+      }
+      catch(error){
+        console.log("Error occured: "+error);
+        res.status(400).json(400);
+      }     
+    });
+
+    // inserting individual pilot availability records
+     function dbOperation(email,day_id,session_time_id){
+     return new Promise(async(resolve,reject)=>{
+      let recordExists = await availabilityValidation(email,day_id,session_time_id);
+      if(recordExists){
+        console.log("Record already exists");
+        reject("Record already exists");
+      }
+      else{
+      db.query('insert into pilot_availability(email,day_id,session_time_id) values (?,?,?)',
+      [email,day_id,session_time_id],
+      function(error,result){
+        if(error){
+          console.log("Sql error: "+error);
+          reject(error);
+        }             
+      resolve(result);
+      })
+      }
+     })      
+    }
+
+
+    // Check if record exists with same pilot,day and session time
+    function availabilityValidation(email,day_id,session_time_id){
+      console.log("inside availability validation");
+      return new Promise((resolve,reject)=>{
+        db.query('select * from pilot_availability where email=? and day_id=? and session_time_id=?',
+        [email,day_id,session_time_id],
+        function(error,result){
+          if(error){
+            console.log("Sql error: "+error);
+            reject(error);
+          }   
+         //console.log(" matching rows are "+ JSON.stringify(result)); 
+         if(result.length !=0)     
+           resolve(true);
+        resolve(false);
+        })
+      })
+    }
+
+
 
     //Get User Details
     router.post("/getUserDetails", (req,res)=>{
