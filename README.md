@@ -1,5 +1,4 @@
 # CMPE-281-Drone-Cloud-Project
-Agriculture Drone Platform helping clients realize their farming needs through smart  drones
 
 ## Project Description
 *   Agriculture Drone Platform helping clients realize their farming needs through smart  drones
