@@ -9,14 +9,15 @@ const multerS3 = require('multer-s3');
 //const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 //const AWS_REGION = process.env.AWS_REGION;
 const db=config.db;
+import { aws_keys } from "../../config/aws_keys";
 
 
 const upload  = multer({ storage: multer.memoryStorage() });
 
 
 const s3 = new aws.S3({
-    secretAccessKey: 'yac9mS0NfYgAjh9Pzprb3qvC1/rWrnMP1ZEh5gLL' ,
-    accessKeyId: 'AKIAIJ2JRHC4TLRNKVHA',
+    secretAccessKey: aws_keys.secretAccessKey ,
+    accessKeyId: aws_keys.accessKeyId,
     region: 'us-west-1'
 });
 

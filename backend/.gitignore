@@ -2,9 +2,11 @@
 
 # dependencies
 /node_modules
+.config.aws_keys.js
 /.pnp
 .pnp.js
 .package-lock.json
+
 
 # testing
 /coverage
