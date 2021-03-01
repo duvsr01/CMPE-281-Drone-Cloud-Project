@@ -47,41 +47,81 @@ router.post("/register", (req, res) => {
     //update profile for customers and pilots
     router.post("/updateProfile", (req,res) =>{
       console.log("update Profile api");
-      console.log("data is "+req.body);
+      console.log("data is "+JSON.stringify(req.body));
       const{email,usertype,phone,address1,address2,city,stateName,zip,locality,ranch_name}=req.body;
 
       //if usertype is client, insert address id in address table and the email and profile info to client table
       try{
-        db.query('update user set usertype=?, phone=? where email=?',[usertype,phone,email],function(error,result){
-          if(error) throw error;
-        });
-
-        db.query('insert into address(email,address1,address2,city,stateName,zip) values (?,?,?,?,?,?)'
-        ,[email,address1,address2,city,stateName,zip]
-        ,function(error,result){
-          if(error) throw error;
-
+        db.query('update user set usertype=?, phone=? where email=?',[usertype,phone,email],async function(error,result){
+        if(error) throw error;
+        let addressRecord=await addressUpdate(email,address1,address2,city,stateName,zip);
+        let updateResponse;
           if(usertype=='customer'){
-            db.query('insert into client(email,address_id,ranch_name,locality) values(?,?,?,?)'
-            ,[email,result.insertId,ranch_name,locality],function(error,result){
-              if(error) throw error;
-            });
+             updateResponse= await customerUpdate(email,addressRecord.insertId,ranch_name,locality);
+           // console.log(updateResponse);
           }
           if(usertype=='pilot'){
-            db.query('insert into pilot(email,address_id,locality,active_status) values(?,?,?,?)'
-            ,[email,result.insertId,locality,true],function(error,result){
-              if(error) throw error;
-            });
-          }
-          
-        }); 
-       
+             updateResponse=  await pilotUpdate(email,addressRecord.insertId,locality);  
+            // console.log(updateResponse);
+        }
+       if(updateResponse.affectedRows>=1){
+        db.query('update user set profileCompleted=? where email=?',[1,email],function(error,result){
+          if(error) throw error;
+          res.status(200).json(200);
+        })
+      }      
       } 
+      )}
       catch(error){
         console.log("Error Occured: "+error);
       }
-    res.status(200).json(200);
+
     });
+
+     // address update
+     function addressUpdate(email,address1,address2,city,stateName,zip){
+      return new Promise((resolve,reject)=>{   
+       db.query('insert into address(email,address1,address2,city,stateName,zip) values (?,?,?,?,?,?)',[email,address1,address2,city,stateName,zip]
+       ,function(error,result){
+         if(error){
+           console.log("Sql error: "+error)
+           reject(error);
+         }             
+       resolve(result);
+       })
+      })}
+        
+     // customer update
+     function customerUpdate(email,address_id,ranch_name,locality){
+      return new Promise(async(resolve,reject)=>{
+        db.query('insert into client(email,address_id,ranch_name,locality) values(?,?,?,?)'
+        ,[email,address_id,ranch_name,locality],function(error,result){        
+         if(error){
+           console.log("Sql error: "+error);
+           reject(error);
+         }             
+       resolve(result);
+       })
+       }
+      )}
+
+       // pilot update
+     function pilotUpdate(email,address_id,locality){
+      return new Promise(async(resolve,reject)=>{
+        db.query('insert into pilot(email,address_id,locality,active_status) values(?,?,?,?)'
+        ,[email,address_id,locality,true],function(error,result){     
+         if(error){
+           console.log("Sql error: "+error);
+           reject(error);
+         }             
+       resolve(result);
+       })
+       }
+      )}
+ 
+ 
+
+
     
     // update account 
     router.post("/updateAccount", (req,res) =>{

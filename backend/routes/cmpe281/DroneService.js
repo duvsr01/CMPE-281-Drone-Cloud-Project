@@ -9,7 +9,7 @@ const multerS3 = require('multer-s3');
 //const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 //const AWS_REGION = process.env.AWS_REGION;
 const db=config.db;
-import { aws_keys } from "../../config/aws_keys";
+const aws_keys = require("../../config/aws_keys");
 
 
 const upload  = multer({ storage: multer.memoryStorage() });
