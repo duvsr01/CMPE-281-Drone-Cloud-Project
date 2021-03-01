@@ -7,10 +7,22 @@ import {
   Button
 } from "react-bootstrap";
 import firebase from "firebase";
+import { connect } from "react-redux";
+import { getUserDetails } from "../_actions/accountActions";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
 
 class Navigationbar extends Component {
+
+
+  componentDidMount(){
+    let email=localStorage.getItem("email");
+    let data={
+       email:email
+    }
+    this.props.getUserDetails(data);
+    }
+    
   onLogoutClick = (e) => {
     e.preventDefault();
     // logout logic
@@ -40,9 +52,15 @@ class Navigationbar extends Component {
     let uid = localStorage.getItem("uid");
     if (uid) {
         displayName = localStorage.getItem("displayName");
-        usertype = localStorage.getItem("usertype");
+       // usertype = localStorage.getItem("usertype");
 
     }
+
+    if(Object.keys(this.props.accountState.user).length>0){
+      const user=this.props.accountState.user;
+      usertype = user.usertype;
+    }
+      
  
 
     var logoutButton, menuButtons, searchButton;
@@ -139,6 +157,20 @@ class Navigationbar extends Component {
         </Nav>
         </Nav>
         </div>
+      )
+    }
+    else if (usertype === "pilot") {
+      menuButtons = (
+        <div className="collapse navbar-collapse navbar-right" id="navbarNav">
+          <Nav className="mr-auto">
+            <Nav.Item>
+              <h5 className="text-center text-bold font-">Hi {displayName}</h5>
+            </Nav.Item>
+          </Nav>
+          <Nav className="mr-auto-right mr-sm-2">
+          <Nav.Link href="/main/home"><h5>Home</h5></Nav.Link>
+        </Nav>
+        </div>
       );
     }
 
@@ -156,4 +188,10 @@ class Navigationbar extends Component {
   }
 }
 
-export default Navigationbar;
+
+const mapStateToProps = (state) => ({
+  accountState: state.accountState,
+  errors: state.errorState,
+});
+
+export default connect(mapStateToProps,{getUserDetails})(Navigationbar);

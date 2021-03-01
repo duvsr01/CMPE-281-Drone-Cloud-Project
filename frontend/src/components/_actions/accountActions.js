@@ -2,11 +2,13 @@ import {
     SET_LOADING,
     GET_ERRORS,
     UPDATE_ACCOUNT,
-    GET_USER_DETAILS
+    GET_USER_DETAILS,
+    UPDATE_PROFILE
   } from "./types";
   import axios from "axios";
   import swal from "sweetalert";
   import { properties } from "../../properties";
+import { Redirect } from "react-router-dom";
 
   const backendurl = properties.backendhost;
 
@@ -36,6 +38,28 @@ import {
           }) 
         })
   }
+
+  // Update Profile
+  export const updateProfile = (data) => (dispatch) => {
+    console.log("update profile action api");
+  dispatch(setLoading());
+  axios
+    .post(backendurl + "users/updateProfile",data)
+    .then((response) => {
+      dispatch({
+        type: UPDATE_PROFILE,
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data,
+      });
+    });
+    dispatch(getUserDetails());
+};
+
 
   // Update Address Details
   export const updateAccount = (data) => (dispatch) => {

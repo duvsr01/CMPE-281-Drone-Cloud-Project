@@ -58,6 +58,8 @@ class Login extends Component {
             console.log(response.data);
             localStorage.setItem("usertype", response.data.usertype);
             this.setState({ isSignedIn: true });
+          
+
           })
           .catch((error) => {
             console.log(error);

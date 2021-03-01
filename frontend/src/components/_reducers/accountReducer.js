@@ -2,6 +2,7 @@ import {
   GET_USER_DETAILS,
     SET_LOADING,
     UPDATE_ACCOUNT,
+    UPDATE_PROFILE
   } from "../_actions/types";
   
   const initialState = {
@@ -22,7 +23,13 @@ import {
         return{
           ...state,
           user:action.payload
-        }
+        };
+        case UPDATE_PROFILE:
+          return {
+            ...state,
+            responseStatus: action.payload,
+            loading: false,
+          }; 
       case UPDATE_ACCOUNT:
         return {
           ...state,

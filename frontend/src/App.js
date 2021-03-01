@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css"; // To include React bootstrap's desig
 import "font-awesome/css/font-awesome.css"; // To include font anwesome's design.     https://fontawesome.com/how-to-use/on-the-web/setup/using-package-managers
 import firebase from "firebase";
 import Main from "./components/Main/Main";
+import UserDetailsForm from "./components/appEntry/UserDetailsForm";
 import "./App.css";
 
 
@@ -28,6 +29,7 @@ class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={LandingPage} />
+              <Route path="/userDetailsForm" component={UserDetailsForm} />
               <Route  path="/main" component={Main} />
             </Switch>
           </BrowserRouter>
